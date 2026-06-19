@@ -7,7 +7,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, BookOpen, Newspaper, Users, Mail, Grape, Wine, Menu, X, ChevronDown,
 };
 
-export function Navigation() {
+export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' | 'about' | 'events' | 'research'; onNavigate?: (href: string) => void }) {
   // Null check: if config is empty, render nothing
   if (!navigationConfig.brandName) return null;
 
@@ -34,9 +34,13 @@ export function Navigation() {
   }, [isMobileMenuOpen]);
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (onNavigate) {
+      onNavigate(href);
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
     setIsMobileMenuOpen(false);
     setActiveDropdown(null);
@@ -89,7 +93,14 @@ export function Navigation() {
               >
                 <button
                   onClick={() => scrollToSection(link.href)}
-                  className="flex items-center gap-1 text-sm text-white/80 hover:text-gold-400 transition-colors duration-300 py-2"
+                  className={`flex items-center gap-1 text-sm transition-colors duration-300 py-2 ${
+                    (link.name === 'Tentang Kami' && currentPage === 'about') ||
+                    (link.name === 'Beranda' && currentPage === 'home') ||
+                    (link.name === 'Kegiatan' && currentPage === 'events') ||
+                    (link.name === 'Riset' && currentPage === 'research')
+                      ? 'text-gold-400 font-semibold'
+                      : 'text-white/80 hover:text-gold-400'
+                  }`}
                   role="menuitem"
                   aria-haspopup={link.dropdown ? 'true' : undefined}
                   aria-expanded={link.dropdown ? activeDropdown === link.name : undefined}
@@ -181,7 +192,13 @@ export function Navigation() {
                     <div className="flex items-center justify-between w-full border-b border-white/10">
                       <button
                         onClick={() => scrollToSection(link.href)}
-                        className="flex items-center gap-3 py-4 text-lg text-white hover:text-gold-400 transition-colors flex-1 text-left"
+                        className={`flex items-center gap-3 py-4 text-lg transition-colors flex-1 text-left ${
+                          (link.name === 'Tentang Kami' && currentPage === 'about') ||
+                          (link.name === 'Kegiatan' && currentPage === 'events') ||
+                          (link.name === 'Riset' && currentPage === 'research')
+                            ? 'text-gold-400 font-semibold'
+                            : 'text-white hover:text-gold-400'
+                        }`}
                         role="menuitem"
                       >
                         {IconComponent && <IconComponent className="w-5 h-5 text-gold-500" />}
@@ -219,7 +236,14 @@ export function Navigation() {
                 ) : (
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className="flex items-center gap-3 w-full py-4 text-lg text-white border-b border-white/10 hover:text-gold-400 transition-colors"
+                    className={`flex items-center gap-3 w-full py-4 text-lg border-b border-white/10 transition-colors ${
+                      (link.name === 'Beranda' && currentPage === 'home') ||
+                      (link.name === 'Tentang Kami' && currentPage === 'about') ||
+                      (link.name === 'Kegiatan' && currentPage === 'events') ||
+                      (link.name === 'Riset' && currentPage === 'research')
+                        ? 'text-gold-400 font-semibold'
+                        : 'text-white hover:text-gold-400'
+                    }`}
                     role="menuitem"
                   >
                     {IconComponent && <IconComponent className="w-5 h-5 text-gold-500" />}

@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Wine, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, CheckCircle } from 'lucide-react';
+import { Wine, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, CheckCircle, Linkedin, Music, MessageCircle } from 'lucide-react';
 import { footerConfig } from '../config';
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Wine, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp,
+  Wine, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, Linkedin, Music, MessageCircle,
 };
 
-export function Footer() {
+export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) {
   // Null check: if config is empty, render nothing
   if (!footerConfig.brandName) return null;
 
@@ -15,13 +15,21 @@ export function Footer() {
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (onNavigate) {
+      onNavigate('#hero');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (onNavigate) {
+      onNavigate(href);
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 

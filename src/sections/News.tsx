@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { ArrowRight, Calendar, Star, Quote } from 'lucide-react';
+import { useEffect, useRef, useState, useMemo } from 'react';
+import { ArrowRight, Calendar, Star, Quote, Search, X } from 'lucide-react';
 import { newsConfig } from '../config';
 
 export function News() {
@@ -7,6 +7,36 @@ export function News() {
   if (!newsConfig.mainTitle) return null;
 
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [showAllModal, setShowAllModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Semua');
+
+  useEffect(() => {
+    // block scroll when modal is open
+    if (showAllModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [showAllModal]);
+
+  const categories = useMemo(() => {
+    const cats = new Set<string>();
+    newsConfig.articles.forEach(art => {
+      if (art.category) cats.add(art.category);
+    });
+    return ['Semua', ...Array.from(cats)];
+  }, []);
+
+  const filteredArticles = useMemo(() => {
+    return newsConfig.articles.filter(art => {
+      const matchesSearch = art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            art.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory === 'Semua' || art.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchQuery, selectedCategory]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -49,17 +79,21 @@ export function News() {
             </h2>
           </div>
           {newsConfig.viewAllText && (
-            <a href={newsConfig.viewAllUrl || "#"} className="btn-dark rounded-sm flex items-center gap-2 group w-fit" aria-label={newsConfig.viewAllText}>
+            <button
+              onClick={() => setShowAllModal(true)}
+              className="btn-dark rounded-sm flex items-center gap-2 group w-fit cursor-pointer"
+              aria-label={newsConfig.viewAllText}
+            >
               {newsConfig.viewAllText}
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
+            </button>
           )}
         </div>
 
         {/* News Grid */}
         {newsConfig.articles.length > 0 && (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {newsConfig.articles.map((item, index) => (
+            {newsConfig.articles.slice(0, 4).map((item, index) => (
               <article
                 key={item.id}
                 className="fade-up group cursor-pointer"
@@ -238,6 +272,143 @@ export function News() {
           </div>
         )}
       </div>
+
+      {/* All News Modal */}
+      {showAllModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/95 backdrop-blur-xl flex flex-col animate-fade-in text-left">
+          {/* Header */}
+          <div className="border-b border-white/10 bg-[#141414]/95 sticky top-0 z-10 px-4 md:px-8 py-6 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <span className="font-script text-3xl text-gold-400 block mb-1">KSPM FEB UIKA</span>
+                <h2 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Semua Berita & Update Terkini</h2>
+              </div>
+              
+              <div className="flex items-center gap-4 flex-wrap">
+                {/* Search Input */}
+                <div className="relative min-w-[260px]">
+                  <Search className="w-4 h-4 text-white/50 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Cari berita..."
+                    className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Close Button */}
+                <button
+                  onClick={() => {
+                    setShowAllModal(false);
+                    setSearchQuery('');
+                    setSelectedCategory('Semua');
+                  }}
+                  className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 text-white transition-colors cursor-pointer"
+                  aria-label="Tutup"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Category Pills */}
+            <div className="max-w-7xl mx-auto flex gap-2 overflow-x-auto mt-6 pb-2 scrollbar-none">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap cursor-pointer ${
+                    selectedCategory === cat
+                      ? 'bg-gold-500 text-black font-semibold'
+                      : 'bg-white/5 hover:bg-white/10 text-white/80'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Modal Content */}
+          <div className="flex-1 max-w-7xl mx-auto px-4 md:px-8 py-10 w-full">
+            {filteredArticles.length > 0 ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredArticles.map((item) => (
+                  <article
+                    key={item.id}
+                    className="group cursor-pointer flex flex-col bg-white/5 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold-500/30"
+                  >
+                    <a
+                      href={item.url || "#"}
+                      target={item.url?.startsWith('http') ? '_blank' : undefined}
+                      rel={item.url?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      className="flex flex-col h-full"
+                    >
+                      {/* Image */}
+                      <div className="relative aspect-[16/10] overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute top-4 left-4">
+                          <span className="px-3 py-1 bg-gold-500/90 text-white text-xs rounded-sm">
+                            {item.category}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center gap-2 text-white/50 text-xs mb-3">
+                            <Calendar className="w-3.5 h-3.5" />
+                            <span>{item.date}</span>
+                          </div>
+                          <h3 className="font-serif text-lg text-white mb-3 group-hover:text-gold-400 transition-colors line-clamp-2">
+                            {item.title}
+                          </h3>
+                          <p className="text-white/70 text-sm leading-relaxed mb-6 line-clamp-3">
+                            {item.excerpt}
+                          </p>
+                        </div>
+                        <span className="inline-flex items-center gap-2 text-gold-500 text-sm font-medium mt-auto group-hover:gap-3 transition-all duration-300">
+                          {newsConfig.readMoreText || "Baca Selengkapnya"}
+                          <ArrowRight className="w-4 h-4" />
+                        </span>
+                      </div>
+                    </a>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20">
+                <p className="text-white/60 text-lg">Tidak ada berita yang cocok dengan pencarian atau kategori ini.</p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedCategory('Semua');
+                  }}
+                  className="mt-4 text-gold-500 hover:text-gold-400 text-sm underline underline-offset-4 cursor-pointer"
+                >
+                  Reset Filter
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

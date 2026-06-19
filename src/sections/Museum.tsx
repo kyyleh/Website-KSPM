@@ -121,7 +121,7 @@ export function Museum() {
 
             {/* Horizontal Timeline */}
             {museumConfig.timeline.length > 0 && (
-              <div className="fade-up mt-8" style={{ transitionDelay: '0.25s' }}>
+              <div id="history" className="fade-up mt-8" style={{ transitionDelay: '0.25s' }}>
                 <div className="relative">
                   {/* Horizontal line */}
                   <div className="absolute top-3 left-0 right-0 h-px bg-gold-500/30" />
@@ -148,7 +148,7 @@ export function Museum() {
                       src={museumConfig.founderPhoto}
                       alt={museumConfig.founderPhotoAlt}
                       loading="lazy"
-                      className="w-full h-full object-cover sepia"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 )}
@@ -173,7 +173,7 @@ export function Museum() {
 
           {/* Right Image */}
           <div className="slide-in-right relative" style={{ transitionDelay: '0.15s' }}>
-            <div className="relative aspect-[4/5] rounded-lg overflow-hidden">
+            <div className="relative aspect-[3/2] rounded-lg overflow-hidden border border-white/10">
               {museumConfig.tabs.map((tab) => (
                 <div
                   key={tab.id}
@@ -187,7 +187,7 @@ export function Museum() {
                     src={tab.image}
                     alt={`${tab.name} - ${museumConfig.mainTitle}`}
                     loading="lazy"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain bg-[#181818]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
                 </div>

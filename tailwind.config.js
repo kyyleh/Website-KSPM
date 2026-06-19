@@ -38,17 +38,17 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Brand colors
+        // Brand colors — warm amber gold (higher contrast)
         gold: {
-          900: '#2a2211',
-          800: '#544322',
-          700: '#7e6533',
-          600: '#a88644',
-          500: '#d2a855',
-          400: '#dbb977',
-          300: '#e4cb99',
-          200: '#eddcbb',
-          100: '#f6eedd',
+          900: '#1e1709',
+          800: '#3c2f12',
+          700: '#5a471b',
+          600: '#7a6024',
+          500: '#c9922a',
+          400: '#e0ae52',
+          300: '#ecc97a',
+          200: '#f5dfa4',
+          100: '#faf0d3',
         },
         wine: {
           900: '#070707',
@@ -73,9 +73,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        serif: ['Cormorant Garamond', 'serif'],
-        sans: ['Poppins', 'sans-serif'],
-        script: ['Qwitcher Grypen', 'cursive'],
+        serif: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        script: ['Dancing Script', 'cursive'],
       },
       fontSize: {
         'display': ['5.5rem', { lineHeight: '1.1' }],

@@ -41,34 +41,37 @@ export function ContactForm() {
     return () => observer.disconnect();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    try {
-      const response = await fetch(contactFormConfig.formEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          visitDate: formData.visitDate,
-          visitors: formData.visitors,
-          message: formData.message,
-        }),
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        setFormData({ name: '', email: '', phone: '', visitDate: '', visitors: '2', message: '' });
-      } else {
-        setStatus('error');
-      }
-    } catch {
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.phone || !formData.visitDate) {
       setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+      return;
     }
 
+    setIsSubmitting(true);
+
+    // Format the Email message with form details
+    const emailTo = 'kspm@uika-bogor.ac.id';
+    const emailSubject = `Pesan Kunjungan Website KSPM - ${formData.name}`;
+    const emailBody = `Halo KSPM FEB UIKA Bogor, saya ingin mengirimkan pesan/kunjungan:
+- Nama: ${formData.name}
+- Nomor Telepon: ${formData.phone}
+- Email: ${formData.email}
+- Tanggal Kunjungan: ${formData.visitDate}
+- Jumlah Pengunjung: ${formData.visitors}
+- Pesan: ${formData.message || '-'}`;
+
+    const mailtoUrl = `mailto:${emailTo}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+    // Open default mail client
+    window.location.href = mailtoUrl;
+
+    // Show success state on form
+    setStatus('success');
+    setFormData({ name: '', email: '', phone: '', visitDate: '', visitors: '2', message: '' });
     setIsSubmitting(false);
     setTimeout(() => setStatus('idle'), 5000);
   };

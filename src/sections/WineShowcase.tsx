@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { Wine, Sparkles, Thermometer, Clock, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Wine, Sparkles, Clock, ArrowRight, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
 import { wineShowcaseConfig } from '../config';
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Wine, Sparkles, Thermometer, Clock,
+  Wine, Sparkles, Clock, BookOpen,
 };
 
 export function WineShowcase() {
@@ -101,21 +101,21 @@ export function WineShowcase() {
             <p className="text-white/85 leading-relaxed mb-4">{wine.description}</p>
             <p className="text-white/65 leading-relaxed text-sm mb-8">{wine.tastingNotes}</p>
 
-            {/* Tasting Notes */}
+            {/* Program Details */}
             <div className="flex gap-6 mb-8">
               <div>
-                <div className="font-serif text-2xl text-gold-500">{wine.alcohol}</div>
-                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">ABV</div>
+                <div className="font-serif text-xl text-gold-500">{wine.alcohol}</div>
+                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Level</div>
               </div>
               <div className="w-px bg-white/10" />
               <div>
-                <div className="font-serif text-2xl text-gold-500">{wine.temperature}</div>
-                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Temp</div>
+                <div className="font-serif text-xl text-gold-500">{wine.temperature}</div>
+                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Format</div>
               </div>
               <div className="w-px bg-white/10" />
               <div>
-                <div className="font-serif text-2xl text-gold-500">{wine.aging}</div>
-                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Aging</div>
+                <div className="font-serif text-xl text-gold-500">{wine.aging}</div>
+                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Jadwal</div>
               </div>
             </div>
 
@@ -126,9 +126,9 @@ export function WineShowcase() {
                 if (element) element.scrollIntoView({ behavior: 'smooth' });
               }}
               className="btn-primary rounded-sm flex items-center gap-2 group"
-              aria-label={wineShowcaseConfig.mainTitle}
+              aria-label="Pelajari program KSPM"
             >
-              {wineShowcaseConfig.mainTitle}
+              Pelajari Program
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </div>
