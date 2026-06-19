@@ -13,6 +13,7 @@ import { ContactForm } from './sections/ContactForm';
 import { Footer } from './sections/Footer';
 import { Preloader } from './components/Preloader';
 import { ScrollToTop } from './components/ScrollToTop';
+import { WhatsAppButton } from './components/WhatsAppButton';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -106,6 +107,7 @@ function App() {
 
         <Footer onNavigate={handlePageChange} />
         <ScrollToTop />
+        <WhatsAppButton />
       </div>
     </>
   );

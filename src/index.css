@@ -392,3 +392,8 @@
 /* Keep near-full white as is */
 .text-white\/90 { color: #f0f0f0 !important; }
 
+/* Mobile menu blur overlay */
+.mobile-menu-blur {
+  background-color: #141414 !important;
+}
+

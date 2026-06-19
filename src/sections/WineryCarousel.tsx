@@ -102,7 +102,7 @@ export function WineryCarousel() {
                     src={slide.image}
                     alt={`${slide.title} - ${slide.description}`}
                     loading="lazy"
-                    className={`w-full h-full object-cover ${index === currentSlide ? 'kenburns' : ''}`}
+                    className={`w-full h-full object-contain bg-[#181818] ${index === currentSlide ? 'kenburns' : ''}`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>

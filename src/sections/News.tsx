@@ -192,9 +192,20 @@ export function News() {
                   <p className="text-white/80 leading-relaxed mb-6 italic">
                     "{t.text}"
                   </p>
-                  <div>
-                    <p className="text-white font-medium text-sm">{t.name}</p>
-                    <p className="text-white/50 text-xs">{t.role}</p>
+                  <div className="flex items-center gap-4">
+                    {t.image ? (
+                      <div className="w-10 h-10 rounded-full overflow-hidden border border-gold-500/30 flex-shrink-0">
+                        <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 font-semibold text-sm flex-shrink-0">
+                        {t.name.charAt(0)}
+                      </div>
+                    )}
+                    <div className="text-left">
+                      <p className="text-white font-medium text-sm">{t.name}</p>
+                      <p className="text-white/50 text-xs">{t.role}</p>
+                    </div>
                   </div>
                 </div>
               ))}

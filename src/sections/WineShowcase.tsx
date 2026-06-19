@@ -70,9 +70,9 @@ export function WineShowcase() {
             <button
               key={w.id}
               onClick={() => setActiveWine(i)}
-              className={`px-6 py-3 rounded-sm text-sm transition-all duration-300 ${
+              className={`px-6 py-3 rounded-sm text-sm transition-all duration-300 cursor-pointer ${
                 i === activeWine
-                  ? 'bg-gold-500 text-white'
+                  ? 'bg-gold-500 text-white font-semibold'
                   : 'bg-white/5 text-white/70 hover:bg-white/10 border border-white/10'
               }`}
             >
@@ -81,132 +81,209 @@ export function WineShowcase() {
           ))}
         </div>
 
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
-          {/* Left: Wine Info */}
-          <div className="slide-in-left lg:col-span-2 order-2 lg:order-1">
-            {/* Year + Name */}
-            <div className="mb-8">
-              <div className="flex items-baseline gap-4 mb-3">
-                <span className="font-serif text-6xl lg:text-7xl text-gold-500/30 leading-none">{wine.year}</span>
-                <div>
-                  <h2 className="font-serif text-h3 text-white leading-tight">{wine.name}</h2>
-                  <span className="font-script text-xl text-gold-400">{wine.subtitle}</span>
+        {/* Main Content (2-Column Layout) */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column: Info & Features Grid */}
+          <div className="slide-in-left lg:col-span-7 flex flex-col gap-10">
+            {/* Active Program Info */}
+            <div className="bg-white/5 border border-white/10 rounded-lg p-8 text-left">
+              {/* Year + Name */}
+              <div className="mb-6">
+                <div className="flex items-baseline gap-4 mb-2">
+                  <span className="font-serif text-5xl lg:text-6xl text-gold-500/20 leading-none">{wine.year}</span>
+                  <div>
+                    <h3 className="font-serif text-2xl lg:text-3xl text-white leading-tight">{wine.name}</h3>
+                    <span className="font-script text-lg text-gold-400">{wine.subtitle}</span>
+                  </div>
+                </div>
+                <div className="w-16 h-px bg-gold-500 mt-2" />
+              </div>
+
+              {/* Mobile Image (Visible only on mobile/tablet) */}
+              <div className="block lg:hidden w-full my-6">
+                <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border border-white/10 shadow-lg bg-[#181818]">
+                  {/* Glow */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className={`w-48 h-48 ${wine.glowColor} rounded-full blur-3xl opacity-30 transition-colors duration-700`} />
+                  </div>
+                  {/* Images */}
+                  {wines.map((w, i) => (
+                    <div
+                      key={w.id}
+                      className={`absolute inset-0 transition-all duration-700 ease-out ${
+                        i === activeWine
+                          ? 'opacity-100 scale-100 translate-x-0'
+                          : i < activeWine
+                            ? 'opacity-0 scale-95 -translate-x-8 pointer-events-none'
+                            : 'opacity-0 scale-95 translate-x-8 pointer-events-none'
+                      }`}
+                    >
+                      <img
+                        src={w.image}
+                        alt={`${w.name} - ${w.subtitle}`}
+                        className="w-full h-full object-contain bg-[#181818]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mobile Switcher Controls */}
+                <div className="flex items-center justify-center gap-6 mt-4">
+                  <button
+                    onClick={prevWine}
+                    className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-gold-500 hover:border-gold-500 hover:text-black transition-all duration-300 cursor-pointer"
+                    aria-label="Sebelumnya"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <span className="text-xs text-white/50 font-serif tabular-nums tracking-widest">
+                    {activeWine + 1} / {wines.length}
+                  </span>
+                  <button
+                    onClick={nextWine}
+                    className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-gold-500 hover:border-gold-500 hover:text-black transition-all duration-300 cursor-pointer"
+                    aria-label="Selanjutnya"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-              <div className="w-16 h-px bg-gold-500 mt-4" />
+
+              {/* Description */}
+              <p className="text-white/75 text-sm lg:text-base leading-relaxed mb-6">
+                {wine.description}
+              </p>
+
+              {/* Tasting Notes */}
+              {wine.tastingNotes && (
+                <div className="mb-8">
+                  <span className="text-xs text-white/45 uppercase tracking-wider block mb-2">Fokus Materi</span>
+                  <div className="flex flex-wrap gap-2">
+                    {wine.tastingNotes.split(',').map((note) => (
+                      <span key={note} className="px-3 py-1 bg-white/5 rounded-full text-xs text-gold-400 border border-white/5">
+                        {note.trim()}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Details table */}
+              <div className="grid grid-cols-3 gap-4 py-4 border-t border-white/10 mb-6 text-left">
+                <div>
+                  <div className="font-serif text-lg text-gold-500">{wine.alcohol}</div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider mt-1">Level</div>
+                </div>
+                <div className="w-px bg-white/10 self-stretch" />
+                <div>
+                  <div className="font-serif text-lg text-gold-500">{wine.temperature}</div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider mt-1">Format</div>
+                </div>
+                <div className="w-px bg-white/10 self-stretch" />
+                <div>
+                  <div className="font-serif text-lg text-gold-500">{wine.aging}</div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider mt-1">Jadwal</div>
+                </div>
+              </div>
+
+              {/* CTA */}
+              <button
+                onClick={() => {
+                  const element = document.querySelector('#contact');
+                  if (element) element.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn-primary rounded-sm flex items-center gap-2 group w-fit cursor-pointer"
+                aria-label="Pelajari program KSPM"
+              >
+                Pelajari Program
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
             </div>
 
-            {/* Description */}
-            <p className="text-white/85 leading-relaxed mb-4">{wine.description}</p>
-            <p className="text-white/65 leading-relaxed text-sm mb-8">{wine.tastingNotes}</p>
-
-            {/* Program Details */}
-            <div className="flex gap-6 mb-8">
-              <div>
-                <div className="font-serif text-xl text-gold-500">{wine.alcohol}</div>
-                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Level</div>
-              </div>
-              <div className="w-px bg-white/10" />
-              <div>
-                <div className="font-serif text-xl text-gold-500">{wine.temperature}</div>
-                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Format</div>
-              </div>
-              <div className="w-px bg-white/10" />
-              <div>
-                <div className="font-serif text-xl text-gold-500">{wine.aging}</div>
-                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Jadwal</div>
+            {/* General Features Grid (2x2) */}
+            <div>
+              <h4 className="font-serif text-xl text-white mb-6 text-left">Materi Pembelajaran Utama</h4>
+              <div className="grid md:grid-cols-2 gap-6 text-left">
+                {features.map((feature) => {
+                  const IconComponent = iconMap[feature.icon] || BookOpen;
+                  return (
+                    <div key={feature.title} className="flex items-start gap-4 group bg-white/[0.02] border border-white/5 hover:border-gold-500/20 p-5 rounded-lg transition-colors">
+                      <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 group-hover:border-gold-500/30 transition-colors">
+                        <IconComponent className="w-5 h-5 text-gold-500" />
+                      </div>
+                      <div>
+                        <h5 className="font-serif text-base text-white mb-1">{feature.title}</h5>
+                        <p className="text-xs text-white/60 leading-relaxed">{feature.description}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-
-            {/* CTA */}
-            <button
-              onClick={() => {
-                const element = document.querySelector('#contact');
-                if (element) element.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="btn-primary rounded-sm flex items-center gap-2 group"
-              aria-label="Pelajari program KSPM"
-            >
-              Pelajari Program
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
           </div>
 
-          {/* Center: Wine Bottle */}
-          <div className="lg:col-span-1 order-1 lg:order-2 flex justify-center">
-            <div className="relative" style={{ width: '220px', height: '520px' }}>
-              {/* Glow */}
-              <div className={`absolute inset-0 flex items-center justify-center pointer-events-none`}>
-                <div className={`w-48 h-48 ${wine.glowColor} rounded-full blur-3xl transition-colors duration-700`} />
+          {/* Right Column: Large Photo & Switcher & Quote */}
+          <div className="slide-in-right lg:col-span-5 flex flex-col gap-8 w-full">
+            {/* Large Image Container (Desktop only) */}
+            <div className="hidden lg:block relative aspect-[4/3] w-full rounded-lg overflow-hidden border border-white/10 shadow-2xl bg-[#181818]">
+              {/* Glow background accent */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className={`w-72 h-72 ${wine.glowColor} rounded-full blur-3xl opacity-30 transition-colors duration-700`} />
               </div>
 
-              {/* Bottles */}
+              {/* Images mapping */}
               {wines.map((w, i) => (
-                <img
+                <div
                   key={w.id}
-                  src={w.image}
-                  alt={`${w.name} - ${w.subtitle} ${w.year}`}
-                  loading={i === 0 ? undefined : 'lazy'}
-                  style={w.filter ? { filter: w.filter } : undefined}
-                  className={`absolute inset-0 w-full h-full object-contain z-10 drop-shadow-2xl transition-all duration-700 ${
+                  className={`absolute inset-0 transition-all duration-700 ease-out ${
                     i === activeWine
-                      ? 'opacity-100 scale-100 translate-y-0'
+                      ? 'opacity-100 scale-100 translate-x-0'
                       : i < activeWine
-                        ? 'opacity-0 scale-90 -translate-y-6 pointer-events-none'
-                        : 'opacity-0 scale-90 translate-y-6 pointer-events-none'
+                        ? 'opacity-0 scale-95 -translate-x-8 pointer-events-none'
+                        : 'opacity-0 scale-95 translate-x-8 pointer-events-none'
                   }`}
-                />
+                >
+                  <img
+                    src={w.image}
+                    alt={`${w.name} - ${w.subtitle}`}
+                    loading={i === 0 ? undefined : 'lazy'}
+                    className="w-full h-full object-contain bg-[#181818]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+                </div>
               ))}
 
-              {/* Switcher Arrows */}
-              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 z-20">
-                <button
-                  onClick={prevWine}
-                  className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-gold-500 hover:border-gold-500 transition-all duration-300"
-                  aria-label="Previous wine"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <span className="text-sm text-white/50 font-serif tabular-nums whitespace-nowrap">
-                  {activeWine + 1} / {wines.length}
-                </span>
-                <button
-                  onClick={nextWine}
-                  className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-gold-500 hover:border-gold-500 transition-all duration-300"
-                  aria-label="Next wine"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+              {/* Bottom Badge for index */}
+              <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded border border-white/10 text-xs text-gold-400 font-serif">
+                {wine.year}
               </div>
             </div>
-          </div>
 
-          {/* Right: Features + Quote */}
-          <div className="slide-in-right lg:col-span-2 order-3">
-            <div className="space-y-6">
-              {features.map((feature) => {
-                const IconComponent = iconMap[feature.icon] || Wine;
-                return (
-                  <div
-                    key={feature.title}
-                    className="flex items-start gap-4 group"
-                  >
-                    <div className="w-12 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 group-hover:border-gold-500/30 transition-colors">
-                      <IconComponent className="w-5 h-5 text-gold-500" />
-                    </div>
-                    <div>
-                      <h3 className="font-serif text-lg text-white mb-1">{feature.title}</h3>
-                      <p className="text-sm text-white/65 leading-relaxed">{feature.description}</p>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Switcher Controls (Desktop only) */}
+            <div className="hidden lg:flex items-center justify-center gap-6">
+              <button
+                onClick={prevWine}
+                className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-gold-500 hover:border-gold-500 hover:text-black transition-all duration-300 cursor-pointer"
+                aria-label="Sebelumnya"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <span className="text-sm text-white/50 font-serif tabular-nums tracking-widest">
+                {activeWine + 1} / {wines.length}
+              </span>
+              <button
+                onClick={nextWine}
+                className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-gold-500 hover:border-gold-500 hover:text-black transition-all duration-300 cursor-pointer"
+                aria-label="Selanjutnya"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
 
-            {/* Quote */}
+            {/* Quote block */}
             {quote.text && (
-              <div className="mt-10 p-6 bg-white/[0.03] rounded-lg border-l-2 border-gold-500/50">
+              <div className="p-6 bg-white/[0.03] rounded-lg border-l-2 border-gold-500/50 text-left mt-2">
                 {quote.prefix && <p className="font-script text-2xl text-gold-400 mb-2">{quote.prefix}</p>}
                 <p className="text-white/70 text-sm italic leading-relaxed">
                   "{quote.text}"

@@ -51,9 +51,11 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-wine-800/95 backdrop-blur-md py-3'
-          : 'bg-transparent py-5'
+        isMobileMenuOpen
+          ? 'bg-[#141414] py-3'
+          : isScrolled
+            ? 'bg-wine-800/95 backdrop-blur-md py-3'
+            : 'bg-transparent py-5'
       }`}
       role="navigation"
       aria-label="Main navigation"
@@ -69,14 +71,14 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
             <img 
               src={navigationConfig.brandLogo} 
               alt={`${navigationConfig.brandName} Logo`} 
-              className="h-16 w-auto transition-transform duration-300 group-hover:scale-110" 
+              className="h-12 sm:h-16 w-auto transition-transform duration-300 group-hover:scale-110" 
             />
           ) : (
             <Wine className="w-8 h-8 text-gold-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />
           )}
-          <div className="flex flex-col">
-            <span className="font-serif text-3xl md:text-3xl text-white tracking-wide">{navigationConfig.brandName}</span>
-            <span className="text-xs md:text-sm text-gold-400 tracking-widest uppercase mt-0.5">{navigationConfig.tagline}</span>
+          <div className="flex flex-col text-left">
+            <span className="font-serif text-2xl sm:text-3xl text-white tracking-wide">{navigationConfig.brandName}</span>
+            <span className="text-[9px] sm:text-xs text-gold-400 tracking-wider sm:tracking-widest uppercase mt-0.5">{navigationConfig.tagline}</span>
           </div>
         </button>
 
@@ -170,7 +172,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden fixed inset-0 top-[72px] bg-wine-900/98 backdrop-blur-lg transition-all duration-500 ${
+        className={`lg:hidden fixed inset-0 top-[72px] mobile-menu-blur transition-all duration-500 ${
           isMobileMenuOpen
             ? 'opacity-100 visible'
             : 'opacity-0 invisible pointer-events-none'
@@ -217,7 +219,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                     </div>
                     <div
                       className={`overflow-hidden transition-all duration-500 ${
-                        activeDropdown === link.name ? 'max-h-40' : 'max-h-0'
+                        activeDropdown === link.name ? 'max-h-60' : 'max-h-0'
                       }`}
                       role="menu"
                     >

@@ -443,12 +443,12 @@ export const museumConfig: MuseumConfig = {
   yearBadge: "2019",
   yearBadgeLabel: "Berdiri Sejak",
   quote: {
-    prefix: "Jule",
+    prefix: "Motto",
     text: "Learn, Invest, Grow. Belajar untuk berinvestasi, berinvestasi untuk tumbuh.",
     attribution: "KSPM FEB UIKA Bogor",
   },
-  founderPhotoAlt: "Founder KSPM FEB UIKA Bogor",
-  founderPhoto: "/images/about-founder.jpg",
+  founderPhotoAlt: "Logo KSPM FEB UIKA Bogor",
+  founderPhoto: "/images/kspm-logo.png",
 };
 
 // -----------------------------------------------------------------------------
@@ -552,6 +552,7 @@ export interface Testimonial {
   role: string;
   text: string;
   rating: number;
+  image?: string;
 }
 
 export interface StoryQuote {
@@ -667,18 +668,21 @@ export const newsConfig: NewsConfig = {
       role: "Mahasiswa Perdagangan Internasional 2022",
       text: "KSPM FEB UIKA mengubah cara pandang saya tentang investasi. Dari awalnya tidak mengerti apa-apa, sekarang saya bisa menganalisis saham dengan fundamental yang kuat.",
       rating: 5,
+      image: "/images/rizkyllah.jpg",
     },
     {
       name: "Agung Supriatna",
       role: "Mahasiswa Pebankan dan Keuangan Digital 2025",
       text: "Program Kursus Pasar Modal sangat komprehensif. Mentor-mentornya berpengalaman dan materinya aplikatif. Sangat recommended untuk pemula!",
       rating: 5,
+      image: "/images/agung-supriatna.png",
     },
     {
       name: "Andi Nadya",
       role: "Research Team",
       text: "Bergabung dengan tim riset KSPM memberikan saya pengalaman berharga dalam menganalisis pasar dan menyusun laporan keuangan yang profesional.",
       rating: 4,
+      image: "/images/andi-nadya.jpg",
     },
   ],
   storyScriptText: "Perjalanan Kami",
@@ -742,11 +746,13 @@ export interface ContactFormConfig {
   form: ContactFormFields;
   privacyNotice: string;
   formEndpoint: string;
+  whatsappLink: string;
 }
 
 export const contactFormConfig: ContactFormConfig = {
   scriptText: "Hubungi Kami",
   subtitle: "GET IN TOUCH",
+  whatsappLink: "https://wa.me/6289514455380",
   mainTitle: "Mari Berkolaborasi",
   introText: "Punya pertanyaan tentang KSPM atau ingin berkolaborasi? Jangan ragu untuk menghubungi kami. Tim kami siap membantu Anda.",
   contactInfoTitle: "Informasi Kontak",
