@@ -20,7 +20,7 @@ const facultyProdiMap: Record<string, string[]> = {
   "Fakultas Ekonomi dan Bisnis (FEB)": [
     "Manajemen",
     "Akuntansi",
-    "Ekonomi Syariah",
+    "Perdagangan Internasional",
     "Bisnis Digital",
     "D4 Perbankan dan Keuangan Digital"
   ],
