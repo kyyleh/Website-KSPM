@@ -1,17 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
-import { History, Award, BookOpen } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { History, Award, BookOpen, Target } from 'lucide-react';
 import { museumConfig } from '../config';
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  History, Award, BookOpen,
+  History, Award, BookOpen, Target,
 };
 
-export function Museum() {
+export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) {
   // Null check: if config is empty, render nothing
   if (!museumConfig.mainTitle) return null;
 
-  const [activeTab, setActiveTab] = useState(museumConfig.tabs[0]?.id || '');
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,8 +31,6 @@ export function Museum() {
     return () => observer.disconnect();
   }, []);
 
-  const activeTabData = museumConfig.tabs.find(tab => tab.id === activeTab);
-
   return (
     <section
       id="about"
@@ -41,109 +38,37 @@ export function Museum() {
       className="section-padding relative overflow-hidden"
     >
       {/* Background Accent */}
-      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-gold-500/5 to-transparent" />
+      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-gold-500/5 to-transparent pointer-events-none" />
 
       <div className="container-custom relative">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Left Content */}
-          <div>
+        {/* Intro Grid (Header + Sejarah + Founder Quote & Main Image) */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start mb-20">
+          
+          {/* Left Column: Header, Intro, Founder Quote */}
+          <div className="lg:col-span-7 space-y-8 slide-in-left">
             {/* Section Header */}
-            <div className="slide-in-left mb-10">
-              <span className="font-script text-5xl md:text-6xl text-gold-400 block mb-2">{museumConfig.scriptText}</span>
-              <span className="text-gold-500 text-xs uppercase tracking-[0.2em] mb-4 block">
+            <div>
+              <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{museumConfig.scriptText}</span>
+              <span className="text-gold-gradient text-xs uppercase tracking-[0.2em] mb-4 block">
                 {museumConfig.subtitle}
               </span>
-              <h2 className="font-serif text-h1 text-white has-bar">
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-h2 text-neutral-900 has-bar">
                 {museumConfig.mainTitle}
               </h2>
             </div>
 
             {/* Introduction */}
             {museumConfig.introText && (
-              <p className="fade-up text-white/75 leading-relaxed mb-10" style={{ transitionDelay: '0.1s' }}>
+              <p className="text-neutral-600 leading-relaxed text-base">
                 {museumConfig.introText}
               </p>
             )}
 
-            {/* Tabs */}
-            {museumConfig.tabs.length > 0 && (
-              <div className="fade-up flex flex-wrap gap-2 mb-8" style={{ transitionDelay: '0.15s' }}>
-                {museumConfig.tabs.map((tab) => {
-                  const IconComponent = iconMap[tab.icon];
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      aria-pressed={activeTab === tab.id}
-                      className={`flex items-center gap-2 px-4 py-2.5 rounded-sm text-sm transition-all duration-300 ${
-                        activeTab === tab.id
-                          ? 'bg-gold-500 text-white'
-                          : 'bg-white/5 text-white/70 hover:bg-white/10 border border-white/10'
-                      }`}
-                    >
-                      {IconComponent && <IconComponent className="w-4 h-4" />}
-                      {tab.name}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Tab Content */}
-            <div className="fade-up" style={{ transitionDelay: '0.2s' }}>
-              {activeTabData && (
-                <div className="p-6 bg-white/5 rounded-lg border border-white/10 transition-all duration-300">
-                  <h3 className="font-serif text-h5 text-white mb-4">
-                    {activeTabData.content.title}
-                  </h3>
-                  {Array.isArray(activeTabData.content.description) ? (
-                    <div className="text-white/75 leading-relaxed mb-4 flex flex-col gap-2">
-                      {activeTabData.content.description.map((line, i) => (
-                        <p key={i}>{line}</p>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-white/75 leading-relaxed mb-4">
-                      {activeTabData.content.description}
-                    </p>
-                  )}
-                  {activeTabData.content.highlight && (
-                    <div className="flex items-center gap-3 text-gold-500">
-                      <div className="w-8 h-px bg-gold-500" />
-                      <span className="text-sm font-medium">
-                        {activeTabData.content.highlight}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Horizontal Timeline */}
-            {museumConfig.timeline.length > 0 && (
-              <div id="history" className="fade-up mt-8" style={{ transitionDelay: '0.25s' }}>
-                <div className="relative">
-                  {/* Horizontal line */}
-                  <div className="absolute top-3 left-0 right-0 h-px bg-gold-500/30" />
-                  {/* Timeline points */}
-                  <div className="flex justify-between overflow-x-auto gap-2">
-                    {museumConfig.timeline.map((event) => (
-                      <div key={event.year} className="relative flex flex-col items-center flex-shrink-0 min-w-[70px]">
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#141414] border-2 border-gold-500 z-10" />
-                        <span className="font-serif text-sm text-gold-500 mt-2">{event.year}</span>
-                        <span className="text-[11px] text-white/60 mt-0.5 text-center whitespace-nowrap">{event.event}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Founder Photo & Quote */}
+            {/* Founder Quote */}
             {museumConfig.quote.text && (
-              <div className="fade-up mt-8 flex items-center gap-6" style={{ transitionDelay: '0.3s' }}>
+              <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-4 sm:gap-6 p-6 bg-white/85 backdrop-blur-sm rounded-2xl border border-neutral-200/50 shadow-premium">
                 {museumConfig.founderPhoto && (
-                  <div className="w-24 h-24 rounded-lg overflow-hidden border-2 border-gold-500/30 shadow-lg flex-shrink-0">
+                  <div className="w-20 h-20 rounded-xl overflow-hidden border border-gold-300 shadow-premium flex-shrink-0">
                     <img
                       src={museumConfig.founderPhoto}
                       alt={museumConfig.founderPhotoAlt}
@@ -154,15 +79,15 @@ export function Museum() {
                 )}
                 <div>
                   {museumConfig.quote.prefix && (
-                    <p className="font-script text-2xl text-gold-400 mb-1">
+                    <p className="font-script text-xl text-gold-gradient mb-1">
                       &ldquo;{museumConfig.quote.prefix}&rdquo;
                     </p>
                   )}
-                  <p className="text-white/70 text-sm italic">
+                  <p className="text-neutral-600 text-sm italic">
                     "{museumConfig.quote.text}"
                   </p>
                   {museumConfig.quote.attribution && (
-                    <p className="text-gold-500 text-xs mt-2">
+                    <p className="text-gold-600 text-xs mt-1.5 font-medium text-center sm:text-left">
                       — {museumConfig.quote.attribution}
                     </p>
                   )}
@@ -171,52 +96,45 @@ export function Museum() {
             )}
           </div>
 
-          {/* Right Image */}
-          <div className="slide-in-right relative" style={{ transitionDelay: '0.15s' }}>
-            <div className="relative aspect-[3/2] rounded-lg overflow-hidden border border-white/10">
-              {museumConfig.tabs.map((tab) => (
-                <div
-                  key={tab.id}
-                  className={`absolute inset-0 transition-all duration-500 ${
-                    activeTab === tab.id
-                      ? 'opacity-100 scale-100'
-                      : 'opacity-0 scale-105'
-                  }`}
-                >
-                  <img
-                    src={tab.image}
-                    alt={`${tab.name} - ${museumConfig.mainTitle}`}
-                    loading="lazy"
-                    className="w-full h-full object-contain bg-[#181818]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-                </div>
-              ))}
+          {/* Right Column: Featured image + year badge + opening hours */}
+          <div className="lg:col-span-5 slide-in-right relative">
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-neutral-200/60 shadow-premium bg-white">
+              {/* Main showcase photo (use first tab's image as default) */}
+              <img
+                src={museumConfig.tabs[0]?.image || "/images/about-vision.jpg"}
+                alt={museumConfig.mainTitle}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
 
               {/* Year Badge */}
               {museumConfig.yearBadge && (
-                <div className="absolute top-6 right-6 w-24 h-24 rounded-full bg-black/40 backdrop-blur-sm border border-gold-500/40 flex items-center justify-center">
+                <div className="absolute top-6 right-6 w-20 h-20 rounded-full bg-white/95 backdrop-blur-sm border border-gold-400/40 shadow-gold-soft flex items-center justify-center transition-all duration-300 hover:shadow-gold-glow hover:scale-105">
                   <div className="text-center">
-                    <div className="font-serif text-2xl text-gold-400">{museumConfig.yearBadge}</div>
-                    <div className="text-[10px] text-white/70 uppercase tracking-wider">{museumConfig.yearBadgeLabel}</div>
+                    <div className="font-serif text-xl text-gold-gradient font-bold">{museumConfig.yearBadge}</div>
+                    <div className="text-[9px] text-neutral-700 uppercase tracking-wider font-semibold">{museumConfig.yearBadgeLabel}</div>
                   </div>
                 </div>
               )}
 
-              {/* Bottom Info */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+              {/* Bottom Info Card */}
+              <div className="absolute bottom-0 left-0 right-0 p-5 bg-white/95 backdrop-blur-md border-t border-neutral-200/60 shadow-premium">
                 <div className="flex items-center justify-between">
                   <div>
-                    {museumConfig.openingHoursLabel && <p className="text-gold-400 text-sm">{museumConfig.openingHoursLabel}</p>}
-                    {museumConfig.openingHours && <p className="text-white text-lg">{museumConfig.openingHours}</p>}
+                    {museumConfig.openingHoursLabel && <p className="text-[#7a6024] text-[10px] uppercase tracking-wider mb-0.5 font-medium">{museumConfig.openingHoursLabel}</p>}
+                    {museumConfig.openingHours && <p className="text-[#1c1515] font-serif text-base font-bold">{museumConfig.openingHours}</p>}
                   </div>
                   {museumConfig.ctaButtonText && (
                     <button
                       onClick={() => {
-                        const element = document.querySelector('#contact');
-                        if (element) element.scrollIntoView({ behavior: 'smooth' });
+                        if (onNavigate) {
+                          onNavigate('#contact');
+                        } else {
+                          const element = document.querySelector('#contact');
+                          if (element) element.scrollIntoView({ behavior: 'smooth' });
+                        }
                       }}
-                      className="btn-primary rounded-sm text-sm px-6"
+                      className="btn-primary rounded-sm text-xs px-5 py-2 cursor-pointer shadow-sm"
                       aria-label={museumConfig.ctaButtonText}
                     >
                       {museumConfig.ctaButtonText}
@@ -225,9 +143,103 @@ export function Museum() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
+
+        {/* Horizontal Timeline (spanning full width below the intro row) */}
+        {museumConfig.timeline.length > 0 && (
+          <div id="history" className="fade-up border-t border-neutral-200/60 pt-10 pb-16">
+            <h3 className="font-serif text-xl text-neutral-800 font-semibold mb-8 text-center uppercase tracking-wider">Garis Waktu Perjalanan</h3>
+            <div className="relative">
+              {/* Horizontal line */}
+              <div className="absolute top-3 left-0 right-0 h-px bg-gold-500/30" />
+              {/* Timeline points */}
+              <div className="flex justify-between overflow-x-auto gap-4 scrollbar-none pb-4">
+                {museumConfig.timeline.map((event) => (
+                  <div key={event.year} className="relative flex flex-col items-center flex-shrink-0 min-w-[100px] text-center">
+                    <div className="w-3 h-3 rounded-full bg-[#f0ede6] border-2 border-gold-500 z-10 shadow-sm" />
+                    <span className="font-serif text-sm text-gold-600 mt-2 font-bold">{event.year}</span>
+                    <span className="text-[11px] text-neutral-600 mt-1 max-w-[120px] font-medium leading-tight">{event.event}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Pillars / Core Items Stack (Visi, Misi, Nilai Kami, Pencapaian) */}
+        <div className="space-y-12 md:space-y-16 border-t border-neutral-200/60 pt-16">
+          <div className="fade-up text-center mb-10">
+            <span className="font-script text-2xl md:text-4xl text-gold-gradient block mb-1">Pilar Organisasi</span>
+            <h3 className="font-serif text-2xl md:text-3xl text-neutral-900 font-semibold uppercase tracking-wide">Visi, Misi, Nilai & Pencapaian</h3>
+            <div className="w-16 h-0.5 bg-gold-gradient mx-auto mt-3" />
+          </div>
+
+          <div className="space-y-10 md:space-y-12">
+            {museumConfig.tabs.map((tab, index) => {
+              const isEven = index % 2 === 0;
+              const IconComponent = iconMap[tab.icon];
+              return (
+                <div
+                  key={tab.id}
+                  className="fade-up bg-white/95 backdrop-blur-sm border border-neutral-200/60 rounded-2xl overflow-hidden shadow-premium hover:shadow-gold-soft hover:-translate-y-1 transition-all duration-500"
+                >
+                  <div className="grid md:grid-cols-12 items-stretch">
+                    {/* Image */}
+                    <div className={`relative w-full md:col-span-5 overflow-hidden md:min-h-0 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
+                      <img
+                        src={tab.image}
+                        alt={tab.name}
+                        loading="lazy"
+                        className="relative z-10 w-full h-auto object-cover object-center hover:scale-105 transition-transform duration-700 md:absolute md:inset-0 md:h-full"
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div className={`p-6 md:p-8 lg:p-10 md:col-span-7 flex flex-col justify-start ${isEven ? 'md:order-2' : 'md:order-1'}`}>
+                      {/* Icon & Title */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center flex-shrink-0">
+                          {IconComponent && <IconComponent className="w-5 h-5 text-gold-600" />}
+                        </div>
+                        <h4 className="font-serif text-xl md:text-2xl text-neutral-900 font-bold uppercase tracking-wide">
+                          {tab.content.title}
+                        </h4>
+                      </div>
+
+                      {/* Description */}
+                      {Array.isArray(tab.content.description) ? (
+                        <div className="text-neutral-600 text-sm md:text-base leading-relaxed mb-6 flex flex-col gap-2.5">
+                          {tab.content.description.map((line, i) => (
+                            <p key={i} className="flex items-start gap-2">
+                              <span className="text-gold-500 flex-shrink-0 mt-1">&bull;</span>
+                              <span>{line.replace(/^•\s*/, '')}</span>
+                            </p>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-neutral-600 text-sm md:text-base leading-relaxed mb-6">
+                          {tab.content.description}
+                        </p>
+                      )}
+
+                      {/* Highlight */}
+                      {tab.content.highlight && (
+                        <div className="flex items-center gap-3 text-gold-600">
+                          <div className="w-8 h-px bg-gold-500" />
+                          <span className="text-xs md:text-sm font-semibold uppercase tracking-wider">
+                            {tab.content.highlight}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
     </section>
   );

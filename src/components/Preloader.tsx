@@ -22,7 +22,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] bg-[#0a0a0a] flex flex-col items-center justify-center transition-opacity duration-600 ${
+      className={`fixed inset-0 z-[9999] bg-[#f0ede6] flex flex-col items-center justify-center transition-opacity duration-600 ${
         phase === 'fading' ? 'opacity-0' : 'opacity-100'
       }`}
     >
@@ -32,7 +32,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
           <img 
             src={preloaderConfig.brandLogo} 
             alt="Logo" 
-            className="h-24 w-auto" 
+            className="h-40 w-auto" 
           />
         ) : (
           <Wine className="w-12 h-12 text-gold-500" />
@@ -41,21 +41,21 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
 
       {/* Brand Name */}
       <div className="preloader-text text-center" style={{ animationDelay: '0.2s' }}>
-        <h1 className="font-serif text-3xl md:text-4xl text-white tracking-wide mb-2">
+        <h1 className="font-serif text-3xl md:text-4xl text-[#1c1515] tracking-wide mb-2">
           {preloaderConfig.brandName}
         </h1>
-        <p className="font-script text-2xl text-gold-400">{preloaderConfig.brandSubname}</p>
+        <p className="font-script text-2xl text-[#7a6024]">{preloaderConfig.brandSubname}</p>
       </div>
 
       {/* Loading Line */}
-      <div className="mt-8 w-48 h-px bg-white/10 overflow-hidden">
+      <div className="mt-8 w-48 h-px bg-neutral-200 overflow-hidden">
         <div className="preloader-line h-full bg-gradient-to-r from-gold-500/50 via-gold-500 to-gold-500/50" />
       </div>
 
       {/* Year */}
       {preloaderConfig.yearText && (
         <p
-          className="preloader-text mt-4 text-xs text-white/40 uppercase tracking-[0.3em]"
+          className="preloader-text mt-4 text-xs text-neutral-500 uppercase tracking-[0.3em]"
           style={{ animationDelay: '0.4s' }}
         >
           {preloaderConfig.yearText}

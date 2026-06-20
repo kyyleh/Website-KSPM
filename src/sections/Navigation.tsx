@@ -7,7 +7,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, BookOpen, Newspaper, Users, Mail, Grape, Wine, Menu, X, ChevronDown,
 };
 
-export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' | 'about' | 'events' | 'research'; onNavigate?: (href: string) => void }) {
+export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' | 'about' | 'events' | 'research' | 'register'; onNavigate?: (href: string) => void }) {
   // Null check: if config is empty, render nothing
   if (!navigationConfig.brandName) return null;
 
@@ -52,9 +52,9 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isMobileMenuOpen
-          ? 'bg-[#141414] py-3'
+          ? 'bg-[#f0ede6] py-3'
           : isScrolled
-            ? 'bg-wine-800/95 backdrop-blur-md py-3'
+            ? 'bg-[#f0ede6]/95 backdrop-blur-md py-3 shadow-premium border-b border-gold-500/10'
             : 'bg-transparent py-5'
       }`}
       role="navigation"
@@ -77,8 +77,8 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
             <Wine className="w-8 h-8 text-gold-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />
           )}
           <div className="flex flex-col text-left">
-            <span className="font-serif text-2xl sm:text-3xl text-white tracking-wide">{navigationConfig.brandName}</span>
-            <span className="text-[9px] sm:text-xs text-gold-400 tracking-wider sm:tracking-widest uppercase mt-0.5">{navigationConfig.tagline}</span>
+            <span className="font-serif text-2xl sm:text-3xl text-neutral-900 tracking-wide">{navigationConfig.brandName}</span>
+            <span className="text-[9px] sm:text-xs text-gold-gradient tracking-wider sm:tracking-widest uppercase mt-0.5">{navigationConfig.tagline}</span>
           </div>
         </button>
 
@@ -100,8 +100,8 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                     (link.name === 'Beranda' && currentPage === 'home') ||
                     (link.name === 'Kegiatan' && currentPage === 'events') ||
                     (link.name === 'Riset' && currentPage === 'research')
-                      ? 'text-gold-400 font-semibold'
-                      : 'text-white/80 hover:text-gold-400'
+                      ? 'text-gold-600 font-semibold'
+                      : 'text-neutral-800 hover:text-gold-600'
                   }`}
                   role="menuitem"
                   aria-haspopup={link.dropdown ? 'true' : undefined}
@@ -125,12 +125,12 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                     }`}
                     role="menu"
                   >
-                    <div className="bg-wine-800/95 backdrop-blur-md rounded-md overflow-hidden min-w-[180px] border border-white/10">
+                    <div className="bg-white/95 backdrop-blur-md rounded-xl overflow-hidden min-w-[180px] border border-neutral-200/60 shadow-premium py-1">
                       {link.dropdown.map((item) => (
                         <button
                           key={item.name}
                           onClick={() => scrollToSection(item.href)}
-                          className="block w-full text-left px-4 py-3 text-sm text-white/80 hover:bg-gold-500/20 hover:text-gold-400 transition-colors"
+                          className="block w-full text-left px-4 py-3 text-sm text-neutral-700 hover:bg-gold-500/10 hover:text-gold-600 transition-colors"
                           role="menuitem"
                         >
                           {item.name}
@@ -147,7 +147,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
         {/* CTA Button */}
         {navigationConfig.ctaButtonText && (
           <button
-            onClick={() => scrollToSection('#contact')}
+            onClick={() => scrollToSection('#register')}
             className="hidden lg:block btn-primary rounded"
             aria-label={navigationConfig.ctaButtonText}
           >
@@ -157,7 +157,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
 
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden p-2 text-white"
+          className="lg:hidden p-2 text-neutral-800"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMobileMenuOpen}
@@ -191,15 +191,15 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
               >
                 {link.dropdown ? (
                   <div>
-                    <div className="flex items-center justify-between w-full border-b border-white/10">
+                    <div className="flex items-center justify-between w-full border-b border-neutral-200/60">
                       <button
-                        onClick={() => scrollToSection(link.href)}
+                        onClick={() => setActiveDropdown(activeDropdown === link.name ? null : link.name)}
                         className={`flex items-center gap-3 py-4 text-lg transition-colors flex-1 text-left ${
                           (link.name === 'Tentang Kami' && currentPage === 'about') ||
                           (link.name === 'Kegiatan' && currentPage === 'events') ||
                           (link.name === 'Riset' && currentPage === 'research')
-                            ? 'text-gold-400 font-semibold'
-                            : 'text-white hover:text-gold-400'
+                            ? 'text-gold-600 font-semibold'
+                            : 'text-neutral-800 hover:text-gold-600'
                         }`}
                         role="menuitem"
                       >
@@ -208,7 +208,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                       </button>
                       <button
                         onClick={() => setActiveDropdown(activeDropdown === link.name ? null : link.name)}
-                        className="p-4 text-white hover:text-gold-400 transition-colors"
+                        className="p-4 text-neutral-800 hover:text-gold-600 transition-colors"
                         aria-expanded={activeDropdown === link.name}
                         aria-label={`Toggle ${link.name} dropdown`}
                       >
@@ -227,7 +227,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                         <button
                           key={item.name}
                           onClick={() => scrollToSection(item.href)}
-                          className="block w-full text-left pl-12 py-3 text-white/70 hover:text-gold-400"
+                          className="block w-full text-left pl-12 py-3 text-neutral-600 hover:text-gold-600"
                           role="menuitem"
                         >
                           {item.name}
@@ -238,13 +238,13 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                 ) : (
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className={`flex items-center gap-3 w-full py-4 text-lg border-b border-white/10 transition-colors ${
+                    className={`flex items-center gap-3 w-full py-4 text-lg border-b border-neutral-200/60 transition-colors ${
                       (link.name === 'Beranda' && currentPage === 'home') ||
                       (link.name === 'Tentang Kami' && currentPage === 'about') ||
                       (link.name === 'Kegiatan' && currentPage === 'events') ||
                       (link.name === 'Riset' && currentPage === 'research')
-                        ? 'text-gold-400 font-semibold'
-                        : 'text-white hover:text-gold-400'
+                        ? 'text-gold-600 font-semibold'
+                        : 'text-neutral-800 hover:text-gold-600'
                     }`}
                     role="menuitem"
                   >
@@ -258,7 +258,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
 
           {navigationConfig.ctaButtonText && (
             <button
-              onClick={() => scrollToSection('#contact')}
+              onClick={() => scrollToSection('#register')}
               className="btn-primary rounded mt-6 text-center"
               role="menuitem"
             >

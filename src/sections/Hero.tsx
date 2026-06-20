@@ -76,14 +76,14 @@ export function Hero({ isReady }: { isReady: boolean }) {
             className="w-full h-full object-cover scale-105"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f0ede6]/90 via-[#f0ede6]/85 to-[#f0ede6]" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 container-custom text-center py-32 lg:py-40">
         {/* Script accent */}
         <div className={`transition-all duration-1000 ease-out ${phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          <span className="font-script text-5xl md:text-6xl lg:text-7xl text-gold-400">
+          <span className="font-script text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-gold-gradient">
             {heroConfig.scriptText}
           </span>
         </div>
@@ -92,7 +92,7 @@ export function Hero({ isReady }: { isReady: boolean }) {
         <div className={`mx-auto my-6 h-px bg-gold-500/50 transition-all duration-1000 ease-out ${phase >= 2 ? 'w-24 opacity-100' : 'w-0 opacity-0'}`} style={{ transitionDelay: '0.2s' }} />
 
         {/* Main Title */}
-        <h1 className={`font-serif text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] text-white leading-[1.05] tracking-wide transition-all duration-1000 ease-out ${phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '0.3s' }}>
+        <h1 className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] text-[#1c1515] leading-[1.05] tracking-wide transition-all duration-1000 ease-out ${phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '0.3s' }}>
           {heroConfig.mainTitle}
         </h1>
 
@@ -115,22 +115,32 @@ export function Hero({ isReady }: { isReady: boolean }) {
       {heroConfig.stats.length > 0 && (
         <div className={`absolute bottom-20 left-0 right-0 z-10 transition-all duration-1000 ease-out ${phase >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <div className="container-custom">
-            <div className="grid gap-8 max-w-3xl mx-auto" style={{ gridTemplateColumns: `repeat(${heroConfig.stats.length}, minmax(0, 1fr))` }}>
-              {heroConfig.stats.map((stat, index) => (
-                <div key={index} className={`text-center ${index > 0 && index < heroConfig.stats.length ? 'border-l border-white/20' : ''}`}>
-                  <div className="font-serif text-3xl md:text-4xl text-gold-500 mb-2 tabular-nums">
-                    {counts[index]}{stat.suffix}
+            <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-md py-6 px-4 md:px-8 rounded-xl shadow-premium border border-white/50 hover:shadow-gold-soft transition-all duration-500">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                {heroConfig.stats.map((stat, index) => (
+                  <div 
+                    key={index} 
+                    className={`text-center px-2 ${
+                      index === 0 ? '' : 
+                      index === 1 ? 'border-l border-neutral-200/60' : 
+                      index === 2 ? 'md:border-l border-neutral-200/0 md:border-l-neutral-200/60' : 
+                      'border-l border-neutral-200/60'
+                    }`}
+                  >
+                    <div className="font-serif text-2xl md:text-4xl text-gold-gradient mb-1 md:mb-2 tabular-nums font-semibold">
+                      {counts[index]}{stat.suffix}
+                    </div>
+                    <div className="text-[10px] md:text-sm text-neutral-600 uppercase tracking-wider font-medium">{stat.label}</div>
                   </div>
-                  <div className="text-xs md:text-sm text-white/70 uppercase tracking-wider">{stat.label}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       )}
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#141414] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f0ede6] to-transparent" />
 
       {/* Side decorative */}
       {heroConfig.decorativeText && (

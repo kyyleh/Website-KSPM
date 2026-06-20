@@ -381,8 +381,8 @@ export const museumConfig: MuseumConfig = {
   timeline: [
     { year: "2019", event: "KSPM FEB UIKA Bogor resmi berdiri" },
     { year: "2020", event: "Program KPM pertama diluncurkan" },
-    { year: "2021", event: "Kerjasama dengan OJK dan BEI" },
-    { year: "2023", event: "Peluncuran riset weekly dan CME" },
+    { year: "2021", event: "Kerja sama dengan OJK dan BEI" },
+    { year: "2023", event: "Peluncuran riset weekly" },
     { year: "2025", event: "500+ anggota aktif tercapai" },
     { year: "2026", event: "Ekspansi program nasional" },
   ],
@@ -408,7 +408,7 @@ export const museumConfig: MuseumConfig = {
         description: [
           "• Membentuk generasi yang berwawasan keilmuan, terampil, dan ahli dalam pasar modal",
           "• Menumbuhkan rasa tanggung jawab serta komitmen anggota dalam berorganisasi",
-          "• Mengedukasi dan mensosialisasikan pengetahuan mengenai pasar modal",
+          "• Mengedukasi dan menyosialisasikan pengetahuan mengenai pasar modal",
           "• Menyelenggarakan kegiatan-kegiatan terkait pasar modal"
         ],
         highlight: "Terampil • Komitmen • Organisasi",
@@ -432,7 +432,7 @@ export const museumConfig: MuseumConfig = {
       image: "/images/about-achievements.jpg",
       content: {
         title: "Berkontribusi untuk Pasar Modal Indonesia",
-        description: "Telah meluluskan ratusan alumni yang aktif di industri pasar modal, menerbitkan puluhan riset, dan menjalin kerjasama dengan berbagai lembaga keuangan.",
+        description: "Telah meluluskan ratusan alumni yang aktif di industri pasar modal, menerbitkan puluhan riset, dan menjalin kerja sama dengan berbagai lembaga keuangan.",
         highlight: "500+ Alumni • 50+ Riset • 20+ Partnership",
       },
     },
@@ -480,7 +480,7 @@ export const organizationConfig: OrganizationConfig = {
     image: "/images/pembina.png",
     children: [
       {
-        name: "Dewan Kehormatan",
+        name: "Steering Committee",
         role: "",
         image: "/images/dewan-kehormatan.jpg",
         children: [
@@ -672,7 +672,7 @@ export const newsConfig: NewsConfig = {
     },
     {
       name: "Agung Supriatna",
-      role: "Mahasiswa Pebankan dan Keuangan Digital 2025",
+      role: "Mahasiswa Perbankan dan Keuangan Digital 2025",
       text: "Program Kursus Pasar Modal sangat komprehensif. Mentor-mentornya berpengalaman dan materinya aplikatif. Sangat recommended untuk pemula!",
       rating: 5,
       image: "/images/agung-supriatna.png",
