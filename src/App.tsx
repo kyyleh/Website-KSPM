@@ -23,9 +23,19 @@ import {
   getMappedContact
 } from './lib/strapi';
 
+// Admin Panel (lazy check via URL)
+import { AdminLogin } from './pages/admin/AdminLogin';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { isLoggedIn, verifyToken } from './pages/admin/lib/adminApi';
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'events' | 'research' | 'register'>('home');
+
+  // Admin state
+  const [isAdminRoute, setIsAdminRoute] = useState(false);
+  const [isAdminAuthed, setIsAdminAuthed] = useState(false);
+  const [adminChecking, setAdminChecking] = useState(true);
 
   // Backend state data
   const [heroData, setHeroData] = useState<any>(undefined);
@@ -34,7 +44,34 @@ function App() {
   const [researchData, setResearchData] = useState<any>(undefined);
   const [contactData, setContactData] = useState<any>(undefined);
 
+  // Check if we're on the /admin route
   useEffect(() => {
+    const checkRoute = () => {
+      const isAdmin = window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin');
+      setIsAdminRoute(isAdmin);
+    };
+    checkRoute();
+    window.addEventListener('popstate', checkRoute);
+    return () => window.removeEventListener('popstate', checkRoute);
+  }, []);
+
+  // Verify admin token if on admin route
+  useEffect(() => {
+    if (!isAdminRoute) {
+      setAdminChecking(false);
+      return;
+    }
+    (async () => {
+      if (isLoggedIn()) {
+        const valid = await verifyToken();
+        setIsAdminAuthed(valid);
+      }
+      setAdminChecking(false);
+    })();
+  }, [isAdminRoute]);
+
+  useEffect(() => {
+    if (isAdminRoute) return; // Skip data fetch for admin route
     // Fetch all backend configs concurrently
     Promise.all([
       getMappedHero().then(res => res && setHeroData(res)),
@@ -43,9 +80,9 @@ function App() {
       getMappedResearch().then(res => res && setResearchData(res)),
       getMappedContact().then(res => res && setContactData(res))
     ]).catch(err => {
-      console.error("Error loading data from Strapi backend:", err);
+      console.error("Error loading data from backend:", err);
     });
-  }, []);
+  }, [isAdminRoute]);
 
   const handlePreloaderComplete = useCallback(() => {
     setIsLoading(false);
@@ -89,6 +126,24 @@ function App() {
     }
   }, []);
 
+  // ── Admin Panel Rendering ──
+  if (isAdminRoute) {
+    if (adminChecking) {
+      return (
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+          <div className="animate-spin w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full" />
+        </div>
+      );
+    }
+
+    if (!isAdminAuthed) {
+      return <AdminLogin onLoginSuccess={() => setIsAdminAuthed(true)} />;
+    }
+
+    return <AdminDashboard />;
+  }
+
+  // ── Public Site Rendering ──
   return (
     <>
       {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
