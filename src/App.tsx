@@ -37,6 +37,17 @@ function App() {
   const [isAdminAuthed, setIsAdminAuthed] = useState(false);
   const [adminChecking, setAdminChecking] = useState(true);
 
+  // Clear admin token and redirect to home on page refresh/reload if logged in
+  useEffect(() => {
+    const token = localStorage.getItem('kspm_admin_token');
+    if (token) {
+      localStorage.removeItem('kspm_admin_token');
+      if (window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin')) {
+        window.location.href = '/';
+      }
+    }
+  }, []);
+
   // Backend state data
   const [heroData, setHeroData] = useState<any>(undefined);
   const [aboutData, setAboutData] = useState<any>(undefined);
