@@ -8,7 +8,7 @@ export function FooterEditor() {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
   const [showAddSocialModal, setShowAddSocialModal] = useState(false);
-  const [newSocial, setNewSocial] = useState({ icon: '', label: '', href: '' });
+  const [newSocial, setNewSocial] = useState({ icon: 'Instagram', label: '', href: '' });
 
   useEffect(() => {
     (async () => {
@@ -109,7 +109,7 @@ export function FooterEditor() {
           <h2 className="text-white font-semibold">Social Links ({data.socialLinks?.length || 0})</h2>
           <button
             onClick={() => {
-              setNewSocial({ icon: '', label: '', href: '' });
+              setNewSocial({ icon: 'Instagram', label: '', href: '' });
               setShowAddSocialModal(true);
             }}
             className="flex items-center gap-1 text-amber-400 hover:text-amber-300 text-sm"
@@ -127,7 +127,15 @@ export function FooterEditor() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div>
                 <label className="block text-slate-400 text-xs mb-1">Icon (Instagram, Linkedin, Youtube, etc.)</label>
-                <input type="text" value={link.icon || ''} onChange={e => updateSocialLink(i, 'icon', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm" />
+                <select value={link.icon || ''} onChange={e => updateSocialLink(i, 'icon', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm">
+                  <option value="Instagram">Instagram</option>
+                  <option value="Linkedin">Linkedin</option>
+                  <option value="Youtube">Youtube</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Twitter">Twitter</option>
+                  <option value="Globe">Globe</option>
+                  <option value="Mail">Mail</option>
+                </select>
               </div>
               <div>
                 <label className="block text-slate-400 text-xs mb-1">Label</label>
@@ -149,13 +157,19 @@ export function FooterEditor() {
             <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">Icon (Instagram, Linkedin, Youtube, Facebook, etc.)</label>
-                <input
-                  type="text"
+                <select
                   value={newSocial.icon}
                   onChange={(e) => setNewSocial({ ...newSocial, icon: e.target.value })}
-                  placeholder="Misal: Instagram"
                   className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
-                />
+                >
+                  <option value="Instagram">Instagram</option>
+                  <option value="Linkedin">Linkedin</option>
+                  <option value="Youtube">Youtube</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Twitter">Twitter</option>
+                  <option value="Globe">Globe</option>
+                  <option value="Mail">Mail</option>
+                </select>
               </div>
               <div>
                 <label className="block text-xs text-slate-400 mb-1">Label</label>

@@ -8,7 +8,7 @@ export function ContactEditor() {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
   const [showAddContactModal, setShowAddContactModal] = useState(false);
-  const [newContact, setNewContact] = useState({ icon: 'Info', label: '', value: '', subtext: '' });
+  const [newContact, setNewContact] = useState({ icon: 'MapPin', label: '', value: '', subtext: '' });
 
   useEffect(() => {
     (async () => {
@@ -105,7 +105,7 @@ export function ContactEditor() {
           <h2 className="text-white font-semibold">Info Kontak ({data.contactInfo?.length || 0})</h2>
           <button
             onClick={() => {
-              setNewContact({ icon: 'Info', label: '', value: '', subtext: '' });
+              setNewContact({ icon: 'MapPin', label: '', value: '', subtext: '' });
               setShowAddContactModal(true);
             }}
             className="flex items-center gap-1 text-amber-400 hover:text-amber-300 text-sm"
@@ -123,7 +123,12 @@ export function ContactEditor() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
                 <label className="block text-slate-400 text-xs mb-1">Icon (MapPin, Phone, Mail, Clock)</label>
-                <input type="text" value={item.icon || ''} onChange={e => updateContactInfo(i, 'icon', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm" />
+                <select value={item.icon || ''} onChange={e => updateContactInfo(i, 'icon', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm">
+                  <option value="MapPin">MapPin</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Mail">Mail</option>
+                  <option value="Clock">Clock</option>
+                </select>
               </div>
               <div>
                 <label className="block text-slate-400 text-xs mb-1">Label</label>
@@ -151,13 +156,16 @@ export function ContactEditor() {
             <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">Icon (MapPin, Phone, Mail, Clock)</label>
-                <input
-                  type="text"
+                <select
                   value={newContact.icon}
                   onChange={(e) => setNewContact({ ...newContact, icon: e.target.value })}
-                  placeholder="Misal: MapPin"
                   className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
-                />
+                >
+                  <option value="MapPin">MapPin</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Mail">Mail</option>
+                  <option value="Clock">Clock</option>
+                </select>
               </div>
               <div>
                 <label className="block text-xs text-slate-400 mb-1">Label</label>

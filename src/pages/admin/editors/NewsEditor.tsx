@@ -9,7 +9,7 @@ export function NewsEditor() {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
   const [showAddArticleModal, setShowAddArticleModal] = useState(false);
-  const [newArticle, setNewArticle] = useState({ title: '', category: '', excerpt: '', date: '', image: '', url: '' });
+  const [newArticle, setNewArticle] = useState({ title: '', category: 'Market Analysis', excerpt: '', date: '', image: '', url: '' });
   const [showAddTestimonialModal, setShowAddTestimonialModal] = useState(false);
   const [newTestimonial, setNewTestimonial] = useState({ name: '', role: '', text: '', rating: 5, image: '' });
 
@@ -112,7 +112,7 @@ export function NewsEditor() {
           <h2 className="text-white font-semibold">Artikel ({data.articles?.length || 0})</h2>
           <button
             onClick={() => {
-              setNewArticle({ title: '', category: '', excerpt: '', date: '', image: '', url: '' });
+              setNewArticle({ title: '', category: 'Market Analysis', excerpt: '', date: '', image: '', url: '' });
               setShowAddArticleModal(true);
             }}
             className="flex items-center gap-1 text-amber-400 hover:text-amber-300 text-sm"
@@ -134,7 +134,12 @@ export function NewsEditor() {
               </div>
               <div>
                 <label className="block text-slate-400 text-xs mb-1">Kategori</label>
-                <input type="text" value={article.category || ''} onChange={e => updateArticle(i, 'category', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm" />
+                <select value={article.category || ''} onChange={e => updateArticle(i, 'category', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm">
+                  <option value="Market Analysis">Market Analysis</option>
+                  <option value="Regulation">Regulation</option>
+                  <option value="Education">Education</option>
+                  <option value="Video Review">Video Review</option>
+                </select>
               </div>
             </div>
             <div>
@@ -240,13 +245,16 @@ export function NewsEditor() {
                 </div>
                 <div>
                   <label className="block text-xs text-slate-400 mb-1">Kategori</label>
-                  <input
-                    type="text"
+                  <select
                     value={newArticle.category}
                     onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
-                    placeholder="Misal: Finansial, Kegiatan"
                     className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
-                  />
+                  >
+                    <option value="Market Analysis">Market Analysis</option>
+                    <option value="Regulation">Regulation</option>
+                    <option value="Education">Education</option>
+                    <option value="Video Review">Video Review</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-xs text-slate-400 mb-1">Tanggal</label>
