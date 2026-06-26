@@ -121,7 +121,7 @@ export function getMessages() {
 }
 
 export function markMessageRead(id: string) {
-  return adminFetch(`/api/messages/${id}/read`, { method: 'PATCH' });
+  return adminFetch(`/api/messages/${id}`, { method: 'PUT' });
 }
 
 export function deleteMessage(id: string) {

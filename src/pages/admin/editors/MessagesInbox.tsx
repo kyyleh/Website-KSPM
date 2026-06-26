@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getMessages, deleteMessage } from '../lib/adminApi';
+import { getMessages, deleteMessage, markMessageRead } from '../lib/adminApi';
 import { Mail, Trash2, RefreshCw, Loader2, Eye } from 'lucide-react';
 
 interface Message {
@@ -21,7 +21,8 @@ export function MessagesInbox() {
     setLoading(true);
     try {
       const res = await getMessages();
-      setMessages((res as any).data || res || []);
+      const msgList = Array.isArray(res) ? res : ((res as any).messages || (res as any).data || []);
+      setMessages(msgList);
     } catch {
       setMessages([]);
     }
@@ -29,6 +30,13 @@ export function MessagesInbox() {
   };
 
   useEffect(() => { fetchMessages(); }, []);
+
+  const handleMarkAsRead = async (id: number) => {
+    try {
+      await markMessageRead(String(id));
+      setMessages(prev => prev.map(m => m.id === id ? { ...m, is_read: true } : m));
+    } catch { /* ignore */ }
+  };
 
   const handleDelete = async (id: number) => {
     if (!confirm('Hapus pesan ini?')) return;
@@ -76,7 +84,12 @@ export function MessagesInbox() {
             messages.map(msg => (
               <div
                 key={msg.id}
-                onClick={() => setSelected(msg)}
+                onClick={() => {
+                  setSelected(msg);
+                  if (!msg.is_read) {
+                    handleMarkAsRead(msg.id);
+                  }
+                }}
                 className={`bg-slate-800 border rounded-xl p-4 cursor-pointer transition-all hover:border-amber-500/50 ${
                   selected?.id === msg.id ? 'border-amber-500' : 'border-slate-700'
                 } ${!msg.is_read ? 'border-l-4 border-l-amber-400' : ''}`}

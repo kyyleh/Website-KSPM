@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Send, CheckCircle, User, BookOpen, Hash, Calendar, Phone, Mail, FileText, MessageCircle, GraduationCap } from 'lucide-react';
+import { submitContactForm } from '../lib/strapi';
 
 const facultyProdiMap: Record<string, string[]> = {
   "Fakultas Keguruan dan Ilmu Pendidikan (FKIP)": [
@@ -96,6 +97,21 @@ export function RegisterForm({ onNavigate }: { onNavigate?: (href: string) => vo
     setStatus('submitting');
     
     try {
+      // First try to submit to Strapi backend
+      try {
+        await submitContactForm({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: `[Pendaftaran Anggota Baru]\nNIM: ${formData.nim}\nFakultas: ${formData.faculty}\nProdi/Jurusan: ${formData.major}\nSemester: ${formData.semester}\nAlasan Bergabung: ${formData.reason}\nKeahlian/Minat: ${formData.skills}`,
+        });
+        setStatus('success');
+        return;
+      } catch (err) {
+        console.warn("Strapi/Backend submission failed, falling back to Web3Forms:", err);
+      }
+
+      // Fallback to Web3Forms
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {

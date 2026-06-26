@@ -32,7 +32,7 @@ export function AdminDashboard() {
       // Fetch message stats
       try {
         const res = await getMessages();
-        const msgs = (res as any).data || res || [];
+        const msgs = Array.isArray(res) ? res : ((res as any).messages || (res as any).data || []);
         setStats({
           totalMessages: msgs.length,
           unreadMessages: msgs.filter((m: any) => !m.is_read).length,
