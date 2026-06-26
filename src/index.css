@@ -328,7 +328,8 @@
 
   /* Premium Design Utilities */
   .text-gold-gradient {
-    background: linear-gradient(135deg, #d2a855 0%, #7a6024 100%);
+    /* Improved accessibility contrast: darker shades to stand out against light backgrounds */
+    background: linear-gradient(135deg, var(--gold-500) 0%, var(--gold-700) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

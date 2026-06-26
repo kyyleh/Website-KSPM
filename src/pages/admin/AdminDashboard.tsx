@@ -18,6 +18,7 @@ export function AdminDashboard() {
   const [adminName] = useState('Admin');
   const [stats, setStats] = useState({ totalMessages: 0, unreadMessages: 0 });
   const [loading, setLoading] = useState(true);
+  const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -47,15 +48,25 @@ export function AdminDashboard() {
     window.location.reload();
   };
 
+  const handleSectionChange = (newSection: AdminSection) => {
+    if (isDirty) {
+      if (!window.confirm("Anda memiliki perubahan yang belum disimpan. Yakin ingin pindah halaman?")) {
+        return;
+      }
+    }
+    setIsDirty(false);
+    setSection(newSection);
+  };
+
   const renderEditor = () => {
     switch (section) {
-      case 'hero': return <HeroEditor />;
-      case 'about': return <AboutEditor />;
-      case 'events': return <EventsEditor />;
-      case 'research': return <ResearchEditor />;
-      case 'news': return <NewsEditor />;
-      case 'contact': return <ContactEditor />;
-      case 'footer': return <FooterEditor />;
+      case 'hero': return <HeroEditor setIsDirty={setIsDirty} />;
+      case 'about': return <AboutEditor setIsDirty={setIsDirty} />;
+      case 'events': return <EventsEditor setIsDirty={setIsDirty} />;
+      case 'research': return <ResearchEditor setIsDirty={setIsDirty} />;
+      case 'news': return <NewsEditor setIsDirty={setIsDirty} />;
+      case 'contact': return <ContactEditor setIsDirty={setIsDirty} />;
+      case 'footer': return <FooterEditor setIsDirty={setIsDirty} />;
       case 'messages': return <MessagesInbox />;
       default: return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -138,7 +149,7 @@ export function AdminDashboard() {
   return (
     <AdminLayout
       activeSection={section}
-      onSectionChange={(s) => setSection(s as AdminSection)}
+      onSectionChange={(s) => handleSectionChange(s as AdminSection)}
       adminName={adminName}
       onLogout={handleLogout}
       unreadCount={stats.unreadMessages}

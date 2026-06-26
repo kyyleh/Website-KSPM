@@ -64,11 +64,11 @@ export async function adminFetch<T = any>(
 // ---------------------------------------------------------------------------
 // Auth endpoints
 // ---------------------------------------------------------------------------
-export async function login(email: string, password: string) {
+export async function login(userId: string, password: string) {
   const res = await fetch('/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ userId, password }),
   });
 
   if (!res.ok) {
@@ -136,8 +136,8 @@ export async function uploadToCloudinary(file: File): Promise<string> {
   const sigData = await adminFetch<{
     signature: string;
     timestamp: number;
-    cloudName: string;
-    apiKey: string;
+    cloud_name: string;
+    api_key: string;
     folder: string;
   }>('/api/upload/signature');
 
@@ -146,11 +146,11 @@ export async function uploadToCloudinary(file: File): Promise<string> {
   formData.append('file', file);
   formData.append('signature', sigData.signature);
   formData.append('timestamp', String(sigData.timestamp));
-  formData.append('api_key', sigData.apiKey);
+  formData.append('api_key', sigData.api_key);
   formData.append('folder', sigData.folder);
 
   const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${sigData.cloudName}/image/upload`,
+    `https://api.cloudinary.com/v1_1/${sigData.cloud_name}/image/upload`,
     { method: 'POST', body: formData }
   );
 

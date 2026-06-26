@@ -159,9 +159,9 @@ export function Museum({ onNavigate, data }: { onNavigate?: (href: string) => vo
               {/* Horizontal line */}
               <div className="absolute top-3 left-0 right-0 h-px bg-gold-500/30" />
               {/* Timeline points */}
-              <div className="flex justify-between overflow-x-auto gap-4 scrollbar-none pb-4">
+              <div className="flex justify-between overflow-x-auto gap-4 scrollbar-none pb-4 snap-x snap-mandatory">
                 {activeConfig.timeline.map((event) => (
-                  <div key={event.year} className="relative flex flex-col items-center flex-shrink-0 min-w-[100px] text-center">
+                  <div key={event.year} className="relative flex flex-col items-center flex-shrink-0 min-w-[100px] text-center snap-center">
                     <div className="w-3 h-3 rounded-full bg-[#f0ede6] border-2 border-gold-500 z-10 shadow-sm" />
                     <span className="font-serif text-sm text-gold-600 mt-2 font-bold">{event.year}</span>
                     <span className="text-[11px] text-neutral-600 mt-1 max-w-[120px] font-medium leading-tight">{event.event}</span>
@@ -187,8 +187,10 @@ export function Museum({ onNavigate, data }: { onNavigate?: (href: string) => vo
               return (
                 <div
                   key={tab.id}
-                  className="fade-up bg-white/95 backdrop-blur-sm border border-neutral-200/60 rounded-2xl overflow-hidden shadow-premium hover:shadow-gold-soft hover:-translate-y-1 transition-all duration-500"
+                  className="fade-up group relative bg-white/95 backdrop-blur-sm border border-neutral-200/60 rounded-2xl overflow-hidden shadow-premium hover:shadow-[0_20px_40px_-15px_rgba(201,146,42,0.2)] hover:-translate-y-2 transition-all duration-500 cursor-default"
                 >
+                  {/* Subtle inner glow on hover (Desktop) */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-gold-500/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20" />
                   <div className="grid md:grid-cols-12 items-stretch">
                     {/* Image */}
                     <div className={`relative w-full md:col-span-5 overflow-hidden md:min-h-0 ${isEven ? 'md:order-1' : 'md:order-2'}`}>

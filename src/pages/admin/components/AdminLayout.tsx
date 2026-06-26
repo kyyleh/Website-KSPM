@@ -111,7 +111,7 @@ export function AdminLayout({
                   setSidebarOpen(false);
                 }}
                 className={`
-                  w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 group
+                  w-full flex items-center gap-3 px-4 py-3.5 lg:px-3 lg:py-2.5 rounded-xl text-[14px] lg:text-[13px] font-medium transition-all duration-300 group
                   ${isActive
                     ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
                     : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
@@ -145,7 +145,7 @@ export function AdminLayout({
             </div>
             <button
               onClick={onLogout}
-              className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+              className="p-3 lg:p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
               title="Logout"
             >
               <LogOut size={16} />
@@ -159,10 +159,10 @@ export function AdminLayout({
         {/* Top bar */}
         <header className="h-16 flex items-center gap-4 px-4 lg:px-8 border-b border-white/5 bg-slate-950/60 backdrop-blur-2xl shrink-0 z-10 sticky top-0">
           <button
-            className="lg:hidden p-2 hover:bg-slate-800 rounded-lg"
+            className="lg:hidden p-2.5 hover:bg-slate-800 rounded-xl"
             onClick={() => setSidebarOpen(true)}
           >
-            <Menu size={20} />
+            <Menu size={24} />
           </button>
           <div className="flex-1">
             <h2 className="text-sm font-semibold capitalize">

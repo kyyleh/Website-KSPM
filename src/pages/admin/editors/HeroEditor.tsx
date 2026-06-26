@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Save, Plus, Trash2, Loader2, Code, Eye, CheckCircle, AlertCircle } from 'lucide-react';
+import { Save, Plus, Trash2, Loader2, Code, Eye, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react';
 import { getContent, saveContent } from '../lib/adminApi';
 import { heroConfig, type HeroConfig } from '../../../config';
 import { ImageUploader } from '../components/ImageUploader';
 
-export function HeroEditor() {
+export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
   const [data, setData] = useState<HeroConfig>({ ...heroConfig });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -33,7 +33,8 @@ export function HeroEditor() {
     setSaving(true);
     try {
       await saveContent('hero', data);
-      showToast('success', 'Hero section berhasil disimpan!');
+      setIsDirty?.(false);
+      showToast('success', 'Berhasil disimpan! Perubahan sudah tayang di website.');
     } catch (err: any) {
       showToast('error', err.message || 'Gagal menyimpan');
     } finally {
@@ -42,16 +43,19 @@ export function HeroEditor() {
   };
 
   const updateField = <K extends keyof HeroConfig>(key: K, value: HeroConfig[K]) => {
+    setIsDirty?.(true);
     setData((prev) => ({ ...prev, [key]: value }));
   };
 
   const updateStat = (index: number, field: string, value: any) => {
+    setIsDirty?.(true);
     const updated = [...data.stats];
     updated[index] = { ...updated[index], [field]: value };
     setData((prev) => ({ ...prev, stats: updated }));
   };
 
   const addStat = () => {
+    setIsDirty?.(true);
     setData((prev) => ({
       ...prev,
       stats: [...prev.stats, { value: 0, suffix: '', label: '' }],
@@ -59,6 +63,7 @@ export function HeroEditor() {
   };
 
   const removeStat = (index: number) => {
+    setIsDirty?.(true);
     setData((prev) => ({ ...prev, stats: prev.stats.filter((_, i) => i !== index) }));
   };
 
@@ -85,23 +90,26 @@ export function HeroEditor() {
       )}
 
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold">Hero Section</h2>
-          <p className="text-sm text-slate-400 mt-1">Edit konten hero / beranda utama</p>
+          <h2 className="text-xl font-bold">Hero Section (Beranda)</h2>
+          <p className="text-sm text-slate-400 mt-1">Edit konten utama yang pertama kali dilihat pengunjung</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setShowJson(!showJson)}
-            className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 transition-colors"
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 md:flex-none flex justify-center items-center gap-2 px-3 py-2.5 md:py-2 text-sm bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 transition-colors text-slate-300"
+            title="Buka website di tab baru untuk melihat perubahan"
           >
-            {showJson ? <Eye size={16} /> : <Code size={16} />}
-            {showJson ? 'Form' : 'JSON'}
-          </button>
+            <ExternalLink size={16} />
+            Lihat Web
+          </a>
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-slate-900 font-semibold text-sm rounded-lg hover:bg-amber-400 transition-colors disabled:opacity-60"
+            className="flex-1 md:flex-none flex justify-center items-center gap-2 px-4 py-2.5 md:py-2 bg-amber-500 text-slate-900 font-semibold text-sm rounded-lg hover:bg-amber-400 transition-colors disabled:opacity-60"
           >
             {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
             Simpan
@@ -121,7 +129,9 @@ export function HeroEditor() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Script Text</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2" title="Teks kecil di atas judul utama">
+                  Teks Skrip (Kecil) <span className="text-slate-500 text-xs font-normal cursor-help">❔</span>
+                </label>
                 <input
                   type="text"
                   value={data.scriptText}
@@ -130,7 +140,9 @@ export function HeroEditor() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Decorative Text</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2" title="Teks dekoratif pudar di latar belakang">
+                  Teks Dekorasi <span className="text-slate-500 text-xs font-normal cursor-help">❔</span>
+                </label>
                 <input
                   type="text"
                   value={data.decorativeText}
@@ -141,7 +153,9 @@ export function HeroEditor() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Main Title</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2" title="Judul paling besar di halaman utama">
+                Judul Utama <span className="text-slate-500 text-xs font-normal cursor-help">❔</span>
+              </label>
               <textarea
                 value={data.mainTitle}
                 onChange={(e) => updateField('mainTitle', e.target.value)}
@@ -153,7 +167,9 @@ export function HeroEditor() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">CTA Button Text</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2" title="Teks yang muncul di tombol">
+                  Teks Tombol Aksi <span className="text-slate-500 text-xs font-normal cursor-help">❔</span>
+                </label>
                 <input
                   type="text"
                   value={data.ctaButtonText}
@@ -162,12 +178,14 @@ export function HeroEditor() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">CTA Target</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2" title="Tujuan saat tombol diklik. Gunakan # untuk bagian halaman (misal: #about), atau https:// untuk tautan luar">
+                  Tujuan Link Tombol <span className="text-slate-500 text-xs font-normal cursor-help">❔</span>
+                </label>
                 <input
                   type="text"
                   value={data.ctaTarget}
                   onChange={(e) => updateField('ctaTarget', e.target.value)}
-                  placeholder="#about"
+                  placeholder="Misal: #about atau https://..."
                   className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50"
                 />
               </div>
@@ -176,7 +194,7 @@ export function HeroEditor() {
 
           {/* Background image */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-            <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wider mb-4">Background Image</h3>
+            <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wider mb-4">Gambar Latar Belakang</h3>
             <ImageUploader
               value={data.backgroundImage}
               onChange={(url) => updateField('backgroundImage', url)}
@@ -233,6 +251,15 @@ export function HeroEditor() {
                 </button>
               </div>
             ))}
+          </div>
+
+          <div className="pt-8 border-t border-slate-800 flex justify-center">
+            <button
+              onClick={() => setShowJson(!showJson)}
+              className="text-xs text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              Mode Developer (JSON)
+            </button>
           </div>
         </div>
       )}

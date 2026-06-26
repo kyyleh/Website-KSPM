@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X, ChevronDown, Wine, Home, BookOpen, Newspaper, Users, Mail, Grape } from 'lucide-react';
 import { navigationConfig } from '../config';
 
@@ -14,10 +14,21 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isHidden, setIsHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 100);
+      
+      // Smart sticky logic: hide on scroll down (if passed 300px), show on scroll up
+      if (currentScrollY > lastScrollY.current && currentScrollY > 300) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+      lastScrollY.current = currentScrollY;
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -52,10 +63,12 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isMobileMenuOpen
-          ? 'bg-[#f0ede6] py-3'
-          : isScrolled
-            ? 'bg-[#f0ede6]/95 backdrop-blur-md py-3 shadow-premium border-b border-gold-500/10'
-            : 'bg-[#f0ede6] py-5 shadow-sm border-b border-gold-500/5'
+          ? 'bg-[#f0ede6] py-3 translate-y-0'
+          : isHidden
+            ? '-translate-y-full'
+            : isScrolled
+              ? 'bg-[#f0ede6]/95 backdrop-blur-md py-3 shadow-premium border-b border-gold-500/10 translate-y-0'
+              : 'bg-[#f0ede6] py-5 shadow-sm border-b border-gold-500/5 translate-y-0'
       }`}
       role="navigation"
       aria-label="Main navigation"
@@ -115,27 +128,43 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                   )}
                 </button>
 
-                {/* Dropdown Menu */}
+                {/* Dropdown Menu (Mega Menu Style) */}
                 {link.dropdown && (
                   <div
-                    className={`absolute top-full left-0 pt-2 transition-all duration-300 ${
+                    className={`absolute top-full left-1/2 -translate-x-1/2 pt-4 transition-all duration-300 ${
                       activeDropdown === link.name
                         ? 'opacity-100 visible translate-y-0'
                         : 'opacity-0 invisible -translate-y-2'
                     }`}
                     role="menu"
                   >
-                    <div className="bg-white/95 backdrop-blur-md rounded-xl overflow-hidden min-w-[180px] border border-neutral-200/60 shadow-premium py-1">
-                      {link.dropdown.map((item) => (
-                        <button
-                          key={item.name}
-                          onClick={() => scrollToSection(item.href)}
-                          className="block w-full text-left px-4 py-3 text-sm text-neutral-700 hover:bg-gold-500/10 hover:text-gold-600 transition-colors"
-                          role="menuitem"
-                        >
-                          {item.name}
-                        </button>
-                      ))}
+                    <div className="bg-white/95 backdrop-blur-xl rounded-2xl overflow-hidden min-w-[320px] border border-gold-500/10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] p-3 relative">
+                      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-gold-400 to-gold-600" />
+                      <div className="px-3 pt-3 pb-2 mb-2 border-b border-neutral-100 flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-gold-600 uppercase tracking-widest">
+                          Menu {link.name}
+                        </span>
+                      </div>
+                      <div className="grid gap-1">
+                        {link.dropdown.map((item) => (
+                          <button
+                            key={item.name}
+                            onClick={() => scrollToSection(item.href)}
+                            className="group flex items-center gap-3 w-full text-left px-3 py-3 rounded-xl transition-all duration-300 hover:bg-gold-50/80"
+                            role="menuitem"
+                          >
+                            <div className="w-10 h-10 rounded-lg bg-gold-50 flex items-center justify-center border border-gold-100 group-hover:border-gold-300 group-hover:bg-gold-100 transition-colors shadow-sm">
+                              <span className="text-gold-500 font-serif font-bold text-lg leading-none transform group-hover:scale-110 transition-transform">{item.name.charAt(0)}</span>
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-neutral-800 group-hover:text-gold-700 transition-colors">
+                                {item.name}
+                              </div>
+                              <div className="text-[11px] text-neutral-500 mt-0.5">Lihat selengkapnya</div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}

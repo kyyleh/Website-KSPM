@@ -13,6 +13,10 @@ const API_BASE = import.meta.env.VITE_API_URL || '';
 export function getMediaUrl(url: string | null | undefined): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) {
+    // Cloudinary optimization: automatically serve WebP/AVIF and optimize quality
+    if (url.includes('res.cloudinary.com') && !url.includes('f_auto')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto/');
+    }
     return url;
   }
   if (url.startsWith('/')) {

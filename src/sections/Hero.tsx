@@ -71,9 +71,9 @@ export function Hero({ isReady, data }: { isReady: boolean; data?: typeof heroCo
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background with subtle Ken Burns */}
+      {/* Background with subtle Ken Burns (disabled on mobile) */}
       <div className={`absolute inset-0 transition-opacity duration-[1.5s] ease-out ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="absolute inset-0 hero-kenburns">
+        <div className="absolute inset-0 lg:hero-kenburns">
           <img
             src={getMediaUrl(activeConfig.backgroundImage)}
             alt={activeConfig.mainTitle}

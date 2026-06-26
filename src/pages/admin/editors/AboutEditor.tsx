@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save, Plus, Trash2, Loader2, Code, Eye, CheckCircle, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Save, Plus, Trash2, Loader2, Code, Eye, CheckCircle, AlertCircle, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { getContent, saveContent } from '../lib/adminApi';
 import { museumConfig, organizationConfig } from '../../../config';
 
@@ -8,7 +8,7 @@ interface AboutData {
   organization: typeof organizationConfig;
 }
 
-export function AboutEditor() {
+export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
   const [data, setData] = useState<AboutData>({
     museum: { ...museumConfig },
     organization: { ...organizationConfig },
@@ -46,7 +46,8 @@ export function AboutEditor() {
     setSaving(true);
     try {
       await saveContent('about', data);
-      showToast('success', 'About section berhasil disimpan!');
+      setIsDirty?.(false);
+      showToast('success', 'Berhasil disimpan! Perubahan sudah tayang di website.');
     } catch (err: any) {
       showToast('error', err.message || 'Gagal menyimpan');
     } finally {
@@ -58,6 +59,7 @@ export function AboutEditor() {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
 
   const updateMuseum = (field: string, value: any) => {
+    setIsDirty?.(true);
     setData((prev) => ({ ...prev, museum: { ...prev.museum, [field]: value } }));
   };
 
@@ -90,6 +92,7 @@ export function AboutEditor() {
   };
 
   const updateOrg = (field: string, value: any) => {
+    setIsDirty?.(true);
     setData((prev) => ({ ...prev, organization: { ...prev.organization, [field]: value } }));
   };
 
@@ -121,17 +124,23 @@ export function AboutEditor() {
       )}
 
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold">Tentang Kami</h2>
-          <p className="text-sm text-slate-400 mt-1">Edit konten tentang, timeline, visi misi, dan organisasi</p>
+          <p className="text-sm text-slate-400 mt-1">Edit konten tentang, sejarah (timeline), visi misi, dan organisasi</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={() => setShowJson(!showJson)} className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 transition-colors">
-            {showJson ? <Eye size={16} /> : <Code size={16} />}
-            {showJson ? 'Form' : 'JSON'}
-          </button>
-          <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-slate-900 font-semibold text-sm rounded-lg hover:bg-amber-400 transition-colors disabled:opacity-60">
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <a
+            href="/#about"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 md:flex-none flex justify-center items-center gap-2 px-3 py-2.5 md:py-2 text-sm bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 transition-colors text-slate-300"
+            title="Buka website di tab baru untuk melihat perubahan"
+          >
+            <ExternalLink size={16} />
+            Lihat Web
+          </a>
+          <button onClick={handleSave} disabled={saving} className="flex-1 md:flex-none flex justify-center items-center gap-2 px-4 py-2.5 md:py-2 bg-amber-500 text-slate-900 font-semibold text-sm rounded-lg hover:bg-amber-400 transition-colors disabled:opacity-60">
             {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
             Simpan
           </button>
@@ -151,20 +160,20 @@ export function AboutEditor() {
               <div className="pb-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-1">Script Text</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-1" title="Teks kecil di atas judul utama">Teks Skrip (Kecil) <span className="text-slate-500 text-xs font-normal cursor-help">❔</span></label>
                     <input type="text" value={data.museum.scriptText} onChange={(e) => updateMuseum('scriptText', e.target.value)} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-amber-500/50" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-1">Subtitle</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-1" title="Sub-judul">Sub-Judul <span className="text-slate-500 text-xs font-normal cursor-help">❔</span></label>
                     <input type="text" value={data.museum.subtitle} onChange={(e) => updateMuseum('subtitle', e.target.value)} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-amber-500/50" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Main Title</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1" title="Judul utama sesi ini">Judul Utama <span className="text-slate-500 text-xs font-normal cursor-help">❔</span></label>
                   <input type="text" value={data.museum.mainTitle} onChange={(e) => updateMuseum('mainTitle', e.target.value)} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-amber-500/50" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Intro Text</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1" title="Teks paragraf pengantar">Teks Pengantar <span className="text-slate-500 text-xs font-normal cursor-help">❔</span></label>
                   <textarea value={data.museum.introText} onChange={(e) => updateMuseum('introText', e.target.value)} rows={4} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white resize-none focus:outline-none focus:ring-1 focus:ring-amber-500/50" />
                 </div>
               </div>
@@ -250,11 +259,20 @@ export function AboutEditor() {
                   <textarea value={data.organization.description} onChange={(e) => updateOrg('description', e.target.value)} rows={3} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white resize-none focus:outline-none focus:ring-1 focus:ring-amber-500/50" />
                 </div>
                 <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700/50">
-                  <p className="text-xs text-slate-400 mb-2">Struktur organisasi disimpan sebagai JSON tree. Edit di mode JSON untuk perubahan mendalam.</p>
+                  <p className="text-xs text-slate-400 mb-2">Struktur organisasi disimpan sebagai format pohon JSON. Buka mode Developer untuk mengedit secara mendalam.</p>
                   <pre className="text-xs text-slate-500 overflow-auto max-h-40">{JSON.stringify(data.organization.structure, null, 2)}</pre>
                 </div>
               </div>
             )}
+          </div>
+
+          <div className="pt-8 border-t border-slate-800 flex justify-center">
+            <button
+              onClick={() => setShowJson(!showJson)}
+              className="text-xs text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              Mode Developer (JSON)
+            </button>
           </div>
         </div>
       )}

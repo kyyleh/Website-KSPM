@@ -9,7 +9,7 @@ interface ImageUploaderProps {
   className?: string;
 }
 
-export function ImageUploader({ value, onChange, label = 'Image', className = '' }: ImageUploaderProps) {
+export function ImageUploader({ value, onChange, label = 'Gambar', className = '' }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState('');
@@ -17,11 +17,11 @@ export function ImageUploader({ value, onChange, label = 'Image', className = ''
 
   const handleUpload = useCallback(async (file: File) => {
     if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+      setError('Pilih file berformat gambar');
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
-      setError('File size must be less than 10MB');
+      setError('Ukuran file maksimal 10MB');
       return;
     }
 
@@ -31,7 +31,7 @@ export function ImageUploader({ value, onChange, label = 'Image', className = ''
       const url = await uploadToCloudinary(file);
       onChange(url);
     } catch (err: any) {
-      setError(err.message || 'Upload failed');
+      setError(err.message || 'Gagal mengunggah gambar');
     } finally {
       setUploading(false);
     }
@@ -88,7 +88,7 @@ export function ImageUploader({ value, onChange, label = 'Image', className = ''
         {uploading ? (
           <>
             <Loader2 size={24} className="text-amber-400 animate-spin" />
-            <span className="text-sm text-slate-400">Uploading…</span>
+            <span className="text-sm text-slate-400">Mengunggah…</span>
           </>
         ) : (
           <>
@@ -97,9 +97,14 @@ export function ImageUploader({ value, onChange, label = 'Image', className = ''
             ) : (
               <ImageIcon size={24} className="text-slate-400" />
             )}
-            <span className="text-sm text-slate-400">
-              {value ? 'Replace image' : 'Drop image here or click to browse'}
+            <span className="text-sm text-slate-400 text-center px-4">
+              {value ? 'Ganti gambar' : 'Tarik & lepas gambar di sini, atau klik untuk menelusuri'}
             </span>
+            {!value && (
+              <span className="text-[11px] text-slate-500 text-center mt-1">
+                Maksimal ukuran file: 10MB. Rekomendasi format: JPG, PNG, WEBP.
+              </span>
+            )}
           </>
         )}
         <input
@@ -117,7 +122,7 @@ export function ImageUploader({ value, onChange, label = 'Image', className = ''
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Or paste image URL…"
+          placeholder="Atau tempel (paste) URL gambar di sini…"
           className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50"
         />
       </div>
