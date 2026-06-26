@@ -1,0 +1,17 @@
+# Strapi Cache and Build directories
+.tmp
+.cache
+build
+dist
+.strapi
+
+# Dependencies
+node_modules
+
+# Environment variables
+.env
+
+# Runtime databases
+*.db
+*.db-journal
+*.sqlite
