@@ -60,7 +60,8 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
   const navLinks = navigationConfig.navLinks;
 
   return (
-    <nav
+    <>
+      <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isMobileMenuOpen
           ? 'bg-[#f0ede6] py-3 translate-y-0'
@@ -198,12 +199,13 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
           )}
         </button>
       </div>
+    </nav>
 
-      {/* Mobile Menu */}
-      <div
-        className={`lg:hidden fixed inset-0 top-[72px] mobile-menu-blur transition-all duration-500 overflow-y-auto ${
-          isMobileMenuOpen
-            ? 'opacity-100 visible'
+    {/* Mobile Menu */}
+    <div
+      className={`lg:hidden fixed inset-0 top-[72px] z-45 mobile-menu-blur transition-opacity duration-500 overflow-y-auto ${
+        isMobileMenuOpen
+          ? 'opacity-100 visible'
             : 'opacity-0 invisible pointer-events-none'
         }`}
         role="menu"
@@ -296,6 +298,6 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
           )}
         </div>
       </div>
-    </nav>
+    </>
   );
 }
