@@ -33,7 +33,7 @@ async function fetchContent<T>(section: string): Promise<T | null> {
     const response = await fetch(`${API_BASE}/api/content/${section}`);
     if (!response.ok) return null;
     const json = await response.json();
-    return json.data as T;
+    return json.content as T;
   } catch (error) {
     console.warn(`Failed to fetch ${section} from backend, using config fallback`, error);
     return null;
@@ -75,8 +75,8 @@ export async function getMappedAbout(): Promise<any | null> {
   if (!aboutData) return null;
 
   return {
-    aboutConfig: aboutData.aboutConfig || aboutData,
-    orgConfig: aboutData.orgConfig || undefined,
+    aboutConfig: aboutData.museum || aboutData.aboutConfig || aboutData,
+    orgConfig: aboutData.organization || aboutData.orgConfig || undefined,
   };
 }
 

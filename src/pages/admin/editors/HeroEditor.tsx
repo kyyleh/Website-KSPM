@@ -10,12 +10,14 @@ export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [showJson, setShowJson] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newStat, setNewStat] = useState({ value: 0, suffix: '', label: '' });
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await getContent<HeroConfig>('hero');
-        if (res && Object.keys(res).length > 0) setData(res);
+        const res = await getContent<any>('hero');
+        if (res && res.content) setData(res.content);
       } catch {
         // use fallback defaults
       } finally {
@@ -54,12 +56,17 @@ export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
     setData((prev) => ({ ...prev, stats: updated }));
   };
 
-  const addStat = () => {
+  const handleConfirmAddStat = () => {
+    if (!newStat.label) {
+      alert('Label statistik harus diisi!');
+      return;
+    }
     setIsDirty?.(true);
     setData((prev) => ({
       ...prev,
-      stats: [...prev.stats, { value: 0, suffix: '', label: '' }],
+      stats: [...prev.stats, { ...newStat }],
     }));
+    setShowAddModal(false);
   };
 
   const removeStat = (index: number) => {
@@ -206,8 +213,11 @@ export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wider">Statistik</h3>
-              <button
-                onClick={addStat}
+               <button
+                onClick={() => {
+                  setNewStat({ value: 0, suffix: '', label: '' });
+                  setShowAddModal(true);
+                }}
                 className="flex items-center gap-1 px-3 py-1.5 text-xs bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 <Plus size={14} /> Tambah
@@ -260,6 +270,60 @@ export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
             >
               Mode Developer (JSON)
             </button>
+          </div>
+        </div>
+      )}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-lg font-bold text-white">Tambah Statistik</h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Value (Angka)</label>
+                <input
+                  type="number"
+                  value={newStat.value}
+                  onChange={(e) => setNewStat({ ...newStat, value: Number(e.target.value) })}
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Suffix (Akhiran, misal: +, %)</label>
+                <input
+                  type="text"
+                  value={newStat.suffix}
+                  onChange={(e) => setNewStat({ ...newStat, suffix: e.target.value })}
+                  placeholder="Misal: + atau %"
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Label (Deskripsi)</label>
+                <input
+                  type="text"
+                  value={newStat.label}
+                  onChange={(e) => setNewStat({ ...newStat, label: e.target.value })}
+                  placeholder="Misal: Anggota Aktif"
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => setShowAddModal(false)}
+                className="px-4 py-2 text-sm bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmAddStat}
+                className="px-4 py-2 text-sm bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-lg transition-colors"
+              >
+                Tambah
+              </button>
+            </div>
           </div>
         </div>
       )}

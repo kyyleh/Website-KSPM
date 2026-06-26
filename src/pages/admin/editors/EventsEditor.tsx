@@ -10,13 +10,15 @@ export function EventsEditor() {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [showJson, setShowJson] = useState(false);
+  const [showAddSlideModal, setShowAddSlideModal] = useState(false);
+  const [newSlide, setNewSlide] = useState<CarouselSlide>({ image: '', title: '', subtitle: '', area: '', unit: '', description: '' });
   const [expandedSlide, setExpandedSlide] = useState<number | null>(0);
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await getContent<WineryCarouselConfig>('events');
-        if (res && Object.keys(res).length > 0) setData(res);
+        const res = await getContent<any>('events');
+        if (res && res.content) setData(res.content);
       } catch {
         // use fallback defaults
       } finally {
@@ -48,9 +50,13 @@ export function EventsEditor() {
     setData((prev) => ({ ...prev, slides: updated }));
   };
 
-  const addSlide = () => {
-    const newSlide: CarouselSlide = { image: '', title: '', subtitle: '', area: '', unit: '', description: '' };
-    setData((prev) => ({ ...prev, slides: [...prev.slides, newSlide] }));
+  const handleConfirmAddSlide = () => {
+    if (!newSlide.title) {
+      alert('Judul slide harus diisi!');
+      return;
+    }
+    setData((prev) => ({ ...prev, slides: [...prev.slides, { ...newSlide }] }));
+    setShowAddSlideModal(false);
     setExpandedSlide(data.slides.length);
   };
 
@@ -134,7 +140,13 @@ export function EventsEditor() {
               <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wider">
                 Slides ({data.slides.length})
               </h3>
-              <button onClick={addSlide} className="flex items-center gap-1 px-3 py-1.5 text-xs bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 transition-colors">
+               <button
+                onClick={() => {
+                  setNewSlide({ image: '', title: '', subtitle: '', area: '', unit: '', description: '' });
+                  setShowAddSlideModal(true);
+                }}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 transition-colors"
+              >
                 <Plus size={14} /> Tambah Slide
               </button>
             </div>
@@ -201,6 +213,92 @@ export function EventsEditor() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      )}
+      {showAddSlideModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-lg font-bold text-white">Tambah Slide Kegiatan</h3>
+            
+            <div className="space-y-4">
+              <ImageUploader
+                value={newSlide.image}
+                onChange={(url) => setNewSlide({ ...newSlide, image: url })}
+                label="Gambar Kegiatan"
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs text-slate-400 mb-1">Judul (Title)</label>
+                  <input
+                    type="text"
+                    value={newSlide.title}
+                    onChange={(e) => setNewSlide({ ...newSlide, title: e.target.value })}
+                    placeholder="Misal: Investalk 2026"
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-slate-400 mb-1">Sub-Judul (Subtitle)</label>
+                  <input
+                    type="text"
+                    value={newSlide.subtitle}
+                    onChange={(e) => setNewSlide({ ...newSlide, subtitle: e.target.value })}
+                    placeholder="Misal: Seminar Nasional"
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-slate-400 mb-1">Area / Stat</label>
+                  <input
+                    type="text"
+                    value={newSlide.area}
+                    onChange={(e) => setNewSlide({ ...newSlide, area: e.target.value })}
+                    placeholder="Misal: 200"
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-slate-400 mb-1">Unit</label>
+                  <input
+                    type="text"
+                    value={newSlide.unit}
+                    onChange={(e) => setNewSlide({ ...newSlide, unit: e.target.value })}
+                    placeholder="Misal: + Peserta"
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Deskripsi</label>
+                <textarea
+                  value={newSlide.description}
+                  onChange={(e) => setNewSlide({ ...newSlide, description: e.target.value })}
+                  rows={3}
+                  placeholder="Deskripsi kegiatan..."
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500 resize-none"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => setShowAddSlideModal(false)}
+                className="px-4 py-2 text-sm bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmAddSlide}
+                className="px-4 py-2 text-sm bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-lg transition-colors"
+              >
+                Tambah
+              </button>
+            </div>
           </div>
         </div>
       )}

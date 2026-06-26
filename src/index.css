@@ -442,3 +442,129 @@
   background-color: #f0ede6 !important;
 }
 
+/* =============================================================================
+   Admin Theme Overrides - High-End Warm Light Theme for Non-Tech Users
+   ============================================================================= */
+
+/* Main layout wrapper */
+.admin-theme-main {
+  color: #1c1515 !important;
+}
+
+/* Section cards and containers */
+.admin-theme-main .bg-slate-900,
+.admin-theme-main .bg-slate-800 {
+  background-color: #ffffff !important;
+  border-color: #eae6dd !important;
+  box-shadow: 0 4px 20px rgba(28, 21, 21, 0.02), 0 1px 2px rgba(28, 21, 21, 0.03) !important;
+  color: #1c1515 !important;
+}
+
+/* Card headers, list items and secondary blocks */
+.admin-theme-main .bg-slate-800\/50,
+.admin-theme-main .bg-slate-700\/50 {
+  background-color: #faf9f6 !important;
+  border-color: #eae6dd !important;
+}
+
+.admin-theme-main .border-slate-800,
+.admin-theme-main .border-slate-700,
+.admin-theme-main .border-slate-700\/50,
+.admin-theme-main .border-white\/10,
+.admin-theme-main .border-white\/5 {
+  border-color: #eae6dd !important;
+}
+
+/* Form fields (Inputs, Textareas, Selects) */
+.admin-theme-main input,
+.admin-theme-main textarea,
+.admin-theme-main select {
+  background-color: #faf9f5 !important;
+  border: 1px solid #d2cbbe !important;
+  color: #1c1515 !important;
+}
+
+.admin-theme-main input:focus,
+.admin-theme-main textarea:focus,
+.admin-theme-main select:focus {
+  background-color: #ffffff !important;
+  border-color: #a67e2a !important;
+  box-shadow: 0 0 0 3px rgba(166, 126, 42, 0.12) !important;
+}
+
+.admin-theme-main input::placeholder,
+.admin-theme-main textarea::placeholder {
+  color: #a39c93 !important;
+}
+
+/* Overriding text colors */
+.admin-theme-main .text-white {
+  color: #1c1515 !important;
+}
+
+.admin-theme-main .text-slate-200,
+.admin-theme-main .text-slate-300 {
+  color: #4a4545 !important;
+}
+
+.admin-theme-main .text-slate-400 {
+  color: #6e685f !important;
+}
+
+.admin-theme-main .text-slate-500 {
+  color: #958e85 !important;
+}
+
+.admin-theme-main .text-amber-400,
+.admin-theme-main .text-\[\#d9a334\],
+.admin-theme-main .text-amber-500 {
+  color: #a67e2a !important;
+}
+
+/* Modals overlays & wrappers */
+.admin-theme-main .fixed.inset-0.bg-black\/60 {
+  background-color: rgba(28, 21, 21, 0.4) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Developer JSON / Pre blocks */
+.admin-theme-main pre {
+  background-color: #181212 !important;
+  border-color: #2a2222 !important;
+  color: #e5dfd5 !important;
+}
+
+/* Custom ImageUploader overrides */
+.admin-theme-main .border-dashed.border-slate-600 {
+  border-color: #d2cbbe !important;
+  background-color: #faf9f5 !important;
+}
+
+.admin-theme-main .border-dashed.border-slate-600:hover {
+  border-color: #a67e2a !important;
+}
+
+/* Button overrides for save button style */
+.admin-theme-main .bg-amber-500 {
+  background: linear-gradient(90deg, #dcae44 0%, #b88c2b 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.admin-theme-main .bg-amber-500:hover {
+  filter: brightness(1.05) !important;
+}
+
+.admin-theme-main .bg-amber-500 svg {
+  color: #ffffff !important;
+}
+
+/* Custom red color corrections for trash icons */
+.admin-theme-main .text-red-400 {
+  color: #dc2626 !important;
+}
+
+.admin-theme-main .text-red-400:hover {
+  color: #b91c1c !important;
+}
+

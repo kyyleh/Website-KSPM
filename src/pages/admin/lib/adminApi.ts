@@ -109,7 +109,7 @@ export function getContent<T = any>(section: string) {
 export function saveContent<T = any>(section: string, data: T) {
   return adminFetch(`/api/content/${section}`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ content: data }),
   });
 }
 

@@ -7,12 +7,14 @@ export function FooterEditor() {
   const [data, setData] = useState<any>(null);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
+  const [showAddSocialModal, setShowAddSocialModal] = useState(false);
+  const [newSocial, setNewSocial] = useState({ icon: '', label: '', href: '' });
 
   useEffect(() => {
     (async () => {
       try {
         const res = await getContent('footer');
-        setData(res.data || footerConfig);
+        setData(res.content || footerConfig);
       } catch {
         setData(footerConfig);
       }
@@ -45,8 +47,13 @@ export function FooterEditor() {
     setData({ ...data, socialLinks });
   };
 
-  const addSocialLink = () => {
-    setData({ ...data, socialLinks: [...data.socialLinks, { icon: '', label: '', href: '' }] });
+  const handleConfirmAddSocial = () => {
+    if (!newSocial.label || !newSocial.href) {
+      alert('Label dan URL social link harus diisi!');
+      return;
+    }
+    setData({ ...data, socialLinks: [...data.socialLinks, { ...newSocial }] });
+    setShowAddSocialModal(false);
   };
 
   const removeSocialLink = (index: number) => {
@@ -100,7 +107,15 @@ export function FooterEditor() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-white font-semibold">Social Links ({data.socialLinks?.length || 0})</h2>
-          <button onClick={addSocialLink} className="flex items-center gap-1 text-amber-400 hover:text-amber-300 text-sm"><Plus className="w-4 h-4" /> Tambah</button>
+          <button
+            onClick={() => {
+              setNewSocial({ icon: '', label: '', href: '' });
+              setShowAddSocialModal(true);
+            }}
+            className="flex items-center gap-1 text-amber-400 hover:text-amber-300 text-sm"
+          >
+            <Plus className="w-4 h-4" /> Tambah
+          </button>
         </div>
 
         {data.socialLinks?.map((link: any, i: number) => (
@@ -126,6 +141,63 @@ export function FooterEditor() {
           </div>
         ))}
       </div>
+      {showAddSocialModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-lg font-bold text-white">Tambah Social Link</h3>
+            
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Icon (Instagram, Linkedin, Youtube, Facebook, etc.)</label>
+                <input
+                  type="text"
+                  value={newSocial.icon}
+                  onChange={(e) => setNewSocial({ ...newSocial, icon: e.target.value })}
+                  placeholder="Misal: Instagram"
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Label</label>
+                <input
+                  type="text"
+                  value={newSocial.label}
+                  onChange={(e) => setNewSocial({ ...newSocial, label: e.target.value })}
+                  placeholder="Misal: Instagram KSPM"
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">URL (Tautan)</label>
+                <input
+                  type="text"
+                  value={newSocial.href}
+                  onChange={(e) => setNewSocial({ ...newSocial, href: e.target.value })}
+                  placeholder="Misal: https://instagram.com/kspm_uika"
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => setShowAddSocialModal(false)}
+                className="px-4 py-2 text-sm bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmAddSocial}
+                className="px-4 py-2 text-sm bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-lg transition-colors"
+              >
+                Tambah
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
