@@ -19,10 +19,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { email, password } = req.body as { email?: string; password?: string };
+    const { email: reqEmail, userId, password } = req.body as { email?: string; userId?: string; password?: string };
+    const email = userId || reqEmail;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required.' });
+      return res.status(400).json({ error: 'User ID dan password harus diisi.' });
     }
 
     // Hardcoded credentials check
@@ -51,7 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
 
     if (rows.length === 0) {
-      return res.status(401).json({ error: 'Invalid email or password.' });
+      return res.status(401).json({ error: 'User ID atau password tidak valid.' });
     }
 
     const admin = rows[0];
@@ -59,7 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Verify password
     const hashedInput = hashPassword(password);
     if (hashedInput !== admin.password) {
-      return res.status(401).json({ error: 'Invalid email or password.' });
+      return res.status(401).json({ error: 'User ID atau password tidak valid.' });
     }
 
     // Create token
