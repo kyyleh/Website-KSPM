@@ -439,7 +439,9 @@
 
 /* Mobile menu blur overlay */
 .mobile-menu-blur {
-  background-color: #f0ede6 !important;
+  background-color: rgba(240, 237, 230, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
 }
 
 /* =============================================================================

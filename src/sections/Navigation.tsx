@@ -201,7 +201,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden fixed inset-0 top-[72px] mobile-menu-blur transition-all duration-500 ${
+        className={`lg:hidden fixed inset-0 top-[72px] mobile-menu-blur transition-all duration-500 overflow-y-auto ${
           isMobileMenuOpen
             ? 'opacity-100 visible'
             : 'opacity-0 invisible pointer-events-none'
@@ -209,7 +209,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
         role="menu"
         aria-hidden={!isMobileMenuOpen}
       >
-        <div className="container-custom py-8 flex flex-col gap-2">
+        <div className="container-custom pt-8 pb-20 flex flex-col gap-2">
           {navLinks.map((link, index) => {
             const IconComponent = iconMap[link.icon];
             return (
