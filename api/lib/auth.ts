@@ -75,9 +75,25 @@ export function verifyToken(token: string): TokenPayload | null {
  * Returns the decoded payload or null.
  */
 export function getAuthFromRequest(req: VercelRequest): TokenPayload | null {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) return null;
-  const token = authHeader.slice(7);
+  let token = req.cookies?.kspm_admin_token;
+
+  if (!token && req.headers.cookie) {
+    const cookies = req.headers.cookie.split(';').reduce((acc: any, c) => {
+      const [key, val] = c.trim().split('=');
+      if (key) acc[key] = val;
+      return acc;
+    }, {});
+    token = cookies.kspm_admin_token;
+  }
+
+  if (!token) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.slice(7);
+    }
+  }
+
+  if (!token) return null;
   return verifyToken(token);
 }
 

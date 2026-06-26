@@ -43,6 +43,11 @@ export function AdminDashboard() {
   }, [section]);
 
   const handleLogout = () => {
+    if (isDirty) {
+      if (!window.confirm("Anda memiliki perubahan yang belum disimpan. Yakin ingin keluar (logout)?")) {
+        return;
+      }
+    }
     logout();
     window.location.hash = '';
     window.location.reload();
@@ -62,11 +67,11 @@ export function AdminDashboard() {
     switch (section) {
       case 'hero': return <HeroEditor setIsDirty={setIsDirty} />;
       case 'about': return <AboutEditor setIsDirty={setIsDirty} />;
-      case 'events': return <EventsEditor />;
-      case 'research': return <ResearchEditor />;
-      case 'news': return <NewsEditor />;
-      case 'contact': return <ContactEditor />;
-      case 'footer': return <FooterEditor />;
+      case 'events': return <EventsEditor setIsDirty={setIsDirty} />;
+      case 'research': return <ResearchEditor setIsDirty={setIsDirty} />;
+      case 'news': return <NewsEditor setIsDirty={setIsDirty} />;
+      case 'contact': return <ContactEditor setIsDirty={setIsDirty} />;
+      case 'footer': return <FooterEditor setIsDirty={setIsDirty} />;
       case 'messages': return <MessagesInbox />;
       default: return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">

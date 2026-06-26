@@ -26,7 +26,8 @@ import {
 // Admin Panel (lazy check via URL)
 import { AdminLogin } from './pages/admin/AdminLogin';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { isLoggedIn, verifyToken } from './pages/admin/lib/adminApi';
+import { isLoggedIn, verifyToken, logout } from './pages/admin/lib/adminApi';
+import { Toaster } from 'sonner';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,11 +38,15 @@ function App() {
   const [isAdminAuthed, setIsAdminAuthed] = useState(false);
   const [adminChecking, setAdminChecking] = useState(true);
 
-  // Clear admin token and redirect to home on page refresh/reload if logged in
+  // Clear admin session and redirect to home on page refresh/reload if logged in
   useEffect(() => {
-    const token = localStorage.getItem('kspm_admin_token');
-    if (token) {
+    const loggedIn = localStorage.getItem('kspm_logged_in');
+    const oldToken = localStorage.getItem('kspm_admin_token');
+    if (oldToken) {
       localStorage.removeItem('kspm_admin_token');
+    }
+    if (loggedIn) {
+      logout();
       if (window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin')) {
         window.location.href = '/';
       }
@@ -157,6 +162,7 @@ function App() {
   // ── Public Site Rendering ──
   return (
     <>
+      <Toaster richColors position="top-right" />
       {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
 
       <div className={`min-h-screen bg-[#f0ede6] ${isLoading ? 'overflow-hidden max-h-screen' : ''}`}>

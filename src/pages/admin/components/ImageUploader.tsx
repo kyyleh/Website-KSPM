@@ -52,12 +52,12 @@ export function ImageUploader({ value, onChange, label = 'Gambar', className = '
   return (
     <div className={className}>
       {label && (
-        <label className="block text-sm font-medium text-slate-300 mb-2">{label}</label>
+        <label className="block text-sm font-medium text-neutral-700 mb-2">{label}</label>
       )}
 
       {/* Preview */}
       {value && (
-        <div className="relative mb-3 rounded-lg overflow-hidden border border-slate-700 group">
+        <div className="relative mb-3 rounded-lg overflow-hidden border border-[#eae6dd] group">
           <img
             src={value}
             alt="Preview"
@@ -81,27 +81,27 @@ export function ImageUploader({ value, onChange, label = 'Gambar', className = '
         onClick={() => inputRef.current?.click()}
         className={`
           relative flex flex-col items-center justify-center gap-2 p-6 rounded-lg border-2 border-dashed cursor-pointer transition-colors
-          ${dragOver ? 'border-amber-400 bg-amber-400/5' : 'border-slate-600 hover:border-slate-500 bg-slate-800/50'}
+          ${dragOver ? 'border-[#a67e2a] bg-amber-500/[0.03]' : 'border-[#d2cbbe] hover:border-[#a67e2a] bg-[#faf9f5] hover:bg-white'}
           ${uploading ? 'pointer-events-none opacity-60' : ''}
         `}
       >
         {uploading ? (
           <>
-            <Loader2 size={24} className="text-amber-400 animate-spin" />
-            <span className="text-sm text-slate-400">Mengunggah…</span>
+            <Loader2 size={24} className="text-[#a67e2a] animate-spin" />
+            <span className="text-sm text-neutral-500">Mengunggah…</span>
           </>
         ) : (
           <>
             {value ? (
-              <Upload size={24} className="text-slate-400" />
+              <Upload size={24} className="text-neutral-400" />
             ) : (
-              <ImageIcon size={24} className="text-slate-400" />
+              <ImageIcon size={24} className="text-[#a67e2a]/60" />
             )}
-            <span className="text-sm text-slate-400 text-center px-4">
+            <span className="text-sm text-neutral-500 text-center px-4">
               {value ? 'Ganti gambar' : 'Tarik & lepas gambar di sini, atau klik untuk menelusuri'}
             </span>
             {!value && (
-              <span className="text-[11px] text-slate-500 text-center mt-1">
+              <span className="text-[11px] text-neutral-400 text-center mt-1">
                 Maksimal ukuran file: 10MB. Rekomendasi format: JPG, PNG, WEBP.
               </span>
             )}
@@ -116,10 +116,8 @@ export function ImageUploader({ value, onChange, label = 'Gambar', className = '
         />
       </div>
 
-
-
       {error && (
-        <p className="mt-1 text-xs text-red-400">{error}</p>
+        <p className="mt-1 text-xs text-red-600">{error}</p>
       )}
     </div>
   );

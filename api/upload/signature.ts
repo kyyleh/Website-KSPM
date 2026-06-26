@@ -27,9 +27,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const timestamp = Math.floor(Date.now() / 1000);
     const folder = 'kspm';
+    const allowedFormats = 'png,jpg,jpeg,webp';
 
     // Build the string to sign (parameters in alphabetical order)
-    const paramsToSign = `folder=${folder}&timestamp=${timestamp}`;
+    const paramsToSign = `allowed_formats=${allowedFormats}&folder=${folder}&timestamp=${timestamp}`;
     const signature = crypto
       .createHash('sha1')
       .update(paramsToSign + apiSecret)
@@ -41,6 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       cloud_name: cloudName,
       api_key: apiKey,
       folder,
+      allowed_formats: allowedFormats,
     });
   } catch (error) {
     console.error('Signature generation error:', error);

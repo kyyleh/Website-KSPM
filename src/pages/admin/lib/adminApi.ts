@@ -2,25 +2,13 @@
 // Admin API Helper — Token management & authenticated fetch
 // =============================================================================
 
-const TOKEN_KEY = 'kspm_admin_token';
+const LOGGED_IN_KEY = 'kspm_logged_in';
 
 // ---------------------------------------------------------------------------
-// Token helpers
+// Auth helpers
 // ---------------------------------------------------------------------------
-export function getToken(): string | null {
-  return localStorage.getItem(TOKEN_KEY);
-}
-
-export function setToken(token: string): void {
-  localStorage.setItem(TOKEN_KEY, token);
-}
-
-export function clearToken(): void {
-  localStorage.removeItem(TOKEN_KEY);
-}
-
 export function isLoggedIn(): boolean {
-  return !!getToken();
+  return localStorage.getItem(LOGGED_IN_KEY) === 'true';
 }
 
 // ---------------------------------------------------------------------------
@@ -30,23 +18,19 @@ export async function adminFetch<T = any>(
   url: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const token = getToken();
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),
   };
 
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
   const response = await fetch(url, {
     ...options,
+    credentials: 'same-origin',
     headers,
   });
 
   if (response.status === 401) {
-    clearToken();
+    localStorage.removeItem(LOGGED_IN_KEY);
     window.location.hash = '#/admin/login';
     throw new Error('Unauthorized — session expired');
   }
@@ -77,26 +61,30 @@ export async function login(userId: string, password: string) {
   }
 
   const data = await res.json();
-  setToken(data.token);
+  localStorage.setItem(LOGGED_IN_KEY, 'true');
   return data;
 }
 
 export async function verifyToken(): Promise<boolean> {
-  const token = getToken();
-  if (!token) return false;
-
   try {
-    const res = await fetch('/api/auth/verify', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return res.ok;
+    const res = await fetch('/api/auth/verify', { credentials: 'same-origin' });
+    if (!res.ok) {
+      localStorage.removeItem(LOGGED_IN_KEY);
+      return false;
+    }
+    return true;
   } catch {
     return false;
   }
 }
 
-export function logout() {
-  clearToken();
+export async function logout(): Promise<void> {
+  localStorage.removeItem(LOGGED_IN_KEY);
+  try {
+    await fetch('/api/auth/logout', { method: 'POST' });
+  } catch {
+    // ignore
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -106,6 +94,9 @@ export function getContent<T = any>(section: string) {
   return adminFetch<T>(`/api/content/${section}`);
 }
 
+// ---------------------------------------------------------------------------
+// Content Save
+// ---------------------------------------------------------------------------
 export function saveContent<T = any>(section: string, data: T) {
   return adminFetch(`/api/content/${section}`, {
     method: 'PUT',
@@ -139,6 +130,7 @@ export async function uploadToCloudinary(file: File): Promise<string> {
     cloud_name: string;
     api_key: string;
     folder: string;
+    allowed_formats?: string;
   }>('/api/upload/signature');
 
   // 2) Upload directly to Cloudinary
@@ -148,6 +140,9 @@ export async function uploadToCloudinary(file: File): Promise<string> {
   formData.append('timestamp', String(sigData.timestamp));
   formData.append('api_key', sigData.api_key);
   formData.append('folder', sigData.folder);
+  if (sigData.allowed_formats) {
+    formData.append('allowed_formats', sigData.allowed_formats);
+  }
 
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${sigData.cloud_name}/image/upload`,
