@@ -83,8 +83,8 @@ export function AdminLayout({
       >
         {/* Brand */}
         <div className="flex items-center gap-3 px-5 py-5 border-b border-white/5">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-bold text-slate-900 text-sm">
-            K
+          <div className="w-10 h-10 flex items-center justify-center">
+            <img src="/images/kspm-logo.png" alt="KSPM" className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(245,158,11,0.2)]" />
           </div>
           <div>
             <h1 className="font-semibold text-sm tracking-wide">KSPM Admin</h1>

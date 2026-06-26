@@ -25,7 +25,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Email and password are required.' });
     }
 
-    // Look up admin by email
+    // Hardcoded credentials check
+    if (email === 'KSPM' && password === 'UIKA') {
+      const token = createToken({ id: 998, email: 'KSPM' });
+      return res.status(200).json({
+        success: true,
+        token,
+        admin: { id: 998, email: 'KSPM', name: 'Admin KSPM' },
+      });
+    }
+
+    if (email === 'Admin' && password === 'Asep') {
+      const token = createToken({ id: 999, email: 'Admin' });
+      return res.status(200).json({
+        success: true,
+        token,
+        admin: { id: 999, email: 'Admin', name: 'Admin Asep' },
+      });
+    }
+
+    // Look up admin by email (User ID)
     const rows = await query<AdminRow[]>(
       'SELECT id, email, password, name FROM admins WHERE email = ?',
       [email],

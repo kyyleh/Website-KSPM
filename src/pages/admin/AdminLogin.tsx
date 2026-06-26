@@ -56,8 +56,8 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
       <div className="relative w-full max-w-[420px] animate-in fade-in slide-in-from-bottom-8 duration-1000">
         {/* Brand header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 mb-6 shadow-[0_0_50px_rgba(245,158,11,0.4)] border-4 border-slate-900 ring-2 ring-amber-500/30">
-            <span className="text-3xl font-extrabold text-slate-900 tracking-tighter">KSPM</span>
+          <div className="inline-flex items-center justify-center w-24 h-24 mb-6">
+            <img src="/images/kspm-logo.png" alt="KSPM Logo" className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(245,158,11,0.3)]" />
           </div>
           <h1 className="text-4xl font-bold text-white tracking-tight mb-2">Admin Portal</h1>
           <p className="text-sm text-amber-400/80 font-medium tracking-wide uppercase">Content Management System</p>
