@@ -58,43 +58,68 @@ export function AdminDashboard() {
       case 'footer': return <FooterEditor />;
       case 'messages': return <MessagesInbox />;
       default: return (
-        <div className="space-y-6">
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div>
-            <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-            <p className="text-slate-400 mt-1">Selamat datang di panel admin KSPM FEB UIKA Bogor</p>
+            <h1 className="text-3xl font-bold text-white tracking-tight">Dashboard</h1>
+            <p className="text-slate-400 mt-2 text-[15px]">Selamat datang kembali di panel admin KSPM FEB UIKA Bogor.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <MessageSquare className="w-5 h-5 text-amber-400" />
-                <span className="text-slate-400 text-sm">Total Pesan</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-2xl p-6 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 hover:border-white/10 transition-all duration-300 group">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-amber-500/10 rounded-xl group-hover:scale-110 group-hover:bg-amber-500/20 transition-all duration-300">
+                  <MessageSquare className="w-6 h-6 text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" />
+                </div>
+                <span className="text-slate-400 font-medium text-[15px]">Total Pesan</span>
               </div>
-              <p className="text-3xl font-bold text-white">{stats.totalMessages}</p>
+              <p className="text-4xl font-bold text-white tracking-tight">{stats.totalMessages}</p>
             </div>
-            <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <AlertCircle className="w-5 h-5 text-red-400" />
-                <span className="text-slate-400 text-sm">Belum Dibaca</span>
+            
+            <div className="bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-2xl p-6 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 hover:border-white/10 transition-all duration-300 group">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-red-500/10 rounded-xl group-hover:scale-110 group-hover:bg-red-500/20 transition-all duration-300">
+                  <AlertCircle className="w-6 h-6 text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.5)]" />
+                </div>
+                <span className="text-slate-400 font-medium text-[15px]">Belum Dibaca</span>
               </div>
-              <p className="text-3xl font-bold text-white">{stats.unreadMessages}</p>
+              <p className="text-4xl font-bold text-white tracking-tight">{stats.unreadMessages}</p>
             </div>
-            <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <LayoutDashboard className="w-5 h-5 text-emerald-400" />
-                <span className="text-slate-400 text-sm">Sections</span>
+
+            <div className="bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-2xl p-6 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 hover:border-white/10 transition-all duration-300 group">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-emerald-500/10 rounded-xl group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all duration-300">
+                  <LayoutDashboard className="w-6 h-6 text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                </div>
+                <span className="text-slate-400 font-medium text-[15px]">Total Section</span>
               </div>
-              <p className="text-3xl font-bold text-white">8</p>
+              <p className="text-4xl font-bold text-white tracking-tight">8</p>
             </div>
           </div>
 
-          <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
-            <h2 className="text-lg font-semibold text-white mb-3">Panduan Cepat</h2>
-            <ul className="space-y-2 text-slate-300 text-sm">
-              <li>• Pilih menu di sidebar kiri untuk mengedit konten tiap halaman</li>
-              <li>• Klik <strong>Simpan</strong> setelah selesai mengedit</li>
-              <li>• Upload gambar langsung ke Cloudinary melalui editor</li>
-              <li>• Cek <strong>Pesan Masuk</strong> untuk melihat pesan dari form kontak</li>
+          <div className="bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-2xl p-8 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
+              <LayoutDashboard className="w-32 h-32 text-amber-400" />
+            </div>
+            <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+              Panduan Cepat
+            </h2>
+            <ul className="space-y-3 text-slate-300 text-[15px] leading-relaxed">
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500 mt-1">•</span>
+                <span>Pilih menu di sidebar kiri untuk mengedit konten tiap halaman.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500 mt-1">•</span>
+                <span>Klik <strong className="text-white">Simpan</strong> setelah selesai mengedit untuk menerapkan perubahan ke website.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500 mt-1">•</span>
+                <span>Upload gambar langsung ke sistem melalui editor yang tersedia.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500 mt-1">•</span>
+                <span>Cek menu <strong className="text-white">Pesan Masuk</strong> secara berkala untuk memantau pesan dari pengunjung.</span>
+              </li>
             </ul>
           </div>
         </div>
