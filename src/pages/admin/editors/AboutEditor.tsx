@@ -1,17 +1,111 @@
 import { useState, useEffect } from 'react';
-import { Save, Plus, Trash2, Loader2, CheckCircle, AlertCircle, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+import { Save, Plus, Trash2, Loader2, CheckCircle, AlertCircle, ChevronDown, ChevronUp, ExternalLink, ArrowUp, ArrowDown, Pencil } from 'lucide-react';
 import { getContent, saveContent } from '../lib/adminApi';
 import { museumConfig, organizationConfig } from '../../../config';
+import { getMediaUrl } from '../../../lib/strapi';
+import { ImageUploader } from '../components/ImageUploader';
+
+interface OrgMember {
+  id: string;
+  name: string;
+  role: string;
+  category: string;
+  image?: string;
+}
 
 interface AboutData {
   museum: typeof museumConfig;
-  organization: typeof organizationConfig;
+  organization: Omit<typeof organizationConfig, 'structure'> & {
+    structure: OrgMember[];
+  };
+}
+
+function flattenOrgStructure(structure: any): OrgMember[] {
+  if (Array.isArray(structure)) {
+    return structure.map((m, i) => ({
+      id: m.id || `member-${i}-${Date.now()}`,
+      name: m.name || '',
+      role: m.role || '',
+      category: m.category || 'DEPARTEMEN',
+      image: m.image || '',
+    }));
+  }
+
+  const list: OrgMember[] = [];
+  if (!structure) return list;
+
+  const root = structure;
+  list.push({
+    id: `member-pembina-${Date.now()}`,
+    name: root.name || '',
+    role: root.role || '',
+    category: 'PEMBINA',
+    image: root.image || '',
+  });
+
+  const dewanKehormatanNode = root.children?.[0];
+  if (dewanKehormatanNode) {
+    list.push({
+      id: `member-sc-${Date.now()}`,
+      name: dewanKehormatanNode.name || '',
+      role: dewanKehormatanNode.role || '',
+      category: 'STEERING COMMITTEE',
+      image: dewanKehormatanNode.image || '',
+    });
+
+    const ketuaUmumNode = dewanKehormatanNode.children?.[0];
+    if (ketuaUmumNode) {
+      list.push({
+        id: `member-ketua-${Date.now()}`,
+        name: ketuaUmumNode.name || '',
+        role: ketuaUmumNode.role || '',
+        category: 'KETUA UMUM',
+        image: ketuaUmumNode.image || '',
+      });
+
+      const children = ketuaUmumNode.children || [];
+      const sekBendNodes = children.filter((c: any) => c.name !== '_departments_');
+      const deptBridgeNode = children.find((c: any) => c.name === '_departments_');
+      const departmentNodes = deptBridgeNode?.children || [];
+
+      sekBendNodes.forEach((node: any, idx: number) => {
+        list.push({
+          id: `member-sekbend-${idx}-${Date.now()}`,
+          name: node.name || '',
+          role: node.role || '',
+          category: node.name.includes('Sekretaris') ? 'SEKRETARIS' : 'BENDAHARA',
+          image: node.image || '',
+        });
+      });
+
+      departmentNodes.forEach((node: any, idx: number) => {
+        list.push({
+          id: `member-dept-${idx}-${Date.now()}`,
+          name: node.name || '',
+          role: node.role || '',
+          category: 'DEPARTEMEN',
+          image: node.image || '',
+        });
+      });
+    }
+  }
+
+  return list;
 }
 
 export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
-  const [data, setData] = useState<AboutData>({
-    museum: { ...museumConfig },
-    organization: { ...organizationConfig },
+  const [data, setData] = useState<AboutData>(() => {
+    const defaultData = {
+      museum: { ...museumConfig },
+      organization: { ...organizationConfig },
+    };
+    return {
+      museum: defaultData.museum,
+      organization: {
+        ...defaultData.organization,
+        structure: flattenOrgStructure(defaultData.organization.structure)
+      }
+    };
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -19,6 +113,15 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
   const [showJson, setShowJson] = useState(false);
   const [showAddTimelineModal, setShowAddTimelineModal] = useState(false);
   const [newTimeline, setNewTimeline] = useState({ year: '', event: '' });
+  const [showAddEditMemberModal, setShowAddEditMemberModal] = useState(false);
+  const [editingMemberIndex, setEditingMemberIndex] = useState<number | null>(null);
+  const [memberForm, setMemberForm] = useState<OrgMember>({
+    id: '',
+    name: '',
+    role: '',
+    category: 'DEPARTEMEN',
+    image: ''
+  });
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     general: true,
     timeline: false,
@@ -30,7 +133,13 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
     (async () => {
       try {
         const res = await getContent<any>('about');
-        if (res && res.content) setData(res.content);
+        if (res && res.content) {
+          const content = res.content;
+          if (content.organization) {
+            content.organization.structure = flattenOrgStructure(content.organization.structure);
+          }
+          setData(content);
+        }
       } catch {
         // use fallback defaults
       } finally {
@@ -101,6 +210,64 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
   const updateOrg = (field: string, value: any) => {
     setIsDirty?.(true);
     setData((prev) => ({ ...prev, organization: { ...prev.organization, [field]: value } }));
+  };
+
+  const handleOpenAddMember = () => {
+    setMemberForm({
+      id: `member-${Date.now()}`,
+      name: '',
+      role: '',
+      category: 'DEPARTEMEN',
+      image: ''
+    });
+    setEditingMemberIndex(null);
+    setShowAddEditMemberModal(true);
+  };
+
+  const handleOpenEditMember = (index: number) => {
+    setMemberForm({ ...data.organization.structure[index] });
+    setEditingMemberIndex(index);
+    setShowAddEditMemberModal(true);
+  };
+
+  const handleSaveMember = () => {
+    if (!memberForm.name) {
+      alert('Nama pengurus harus diisi!');
+      return;
+    }
+    setIsDirty?.(true);
+    const updatedStructure = [...(data.organization.structure as any)];
+    if (editingMemberIndex !== null) {
+      updatedStructure[editingMemberIndex] = memberForm;
+    } else {
+      updatedStructure.push(memberForm);
+    }
+    updateOrg('structure', updatedStructure);
+    setShowAddEditMemberModal(false);
+  };
+
+  const handleDeleteMember = (index: number) => {
+    if (!confirm('Hapus pengurus ini?')) return;
+    setIsDirty?.(true);
+    const updatedStructure = (data.organization.structure as any).filter((_: any, i: number) => i !== index);
+    updateOrg('structure', updatedStructure);
+  };
+
+  const handleMoveMember = (index: number, direction: 'up' | 'down') => {
+    const list = [...(data.organization.structure as any)];
+    if (direction === 'up' && index > 0) {
+      const temp = list[index];
+      list[index] = list[index - 1];
+      list[index - 1] = temp;
+    } else if (direction === 'down' && index < list.length - 1) {
+      const temp = list[index];
+      list[index] = list[index + 1];
+      list[index + 1] = temp;
+    } else {
+      return;
+    }
+    setIsDirty?.(true);
+    updateOrg('structure', list);
   };
 
   if (loading) {
@@ -271,9 +438,83 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
                   <label className="block text-sm font-medium text-slate-300 mb-1">Description</label>
                   <textarea value={data.organization.description} onChange={(e) => updateOrg('description', e.target.value)} rows={3} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white resize-none focus:outline-none focus:ring-1 focus:ring-amber-500/50" />
                 </div>
-                <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700/50">
-                  <p className="text-xs text-slate-400 mb-2">Struktur organisasi disimpan sebagai format pohon JSON. Buka mode Developer untuk mengedit secara mendalam.</p>
-                  <pre className="text-xs text-slate-500 overflow-auto max-h-40">{JSON.stringify(data.organization.structure, null, 2)}</pre>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-700/50 pb-2">
+                    <span className="text-sm font-semibold text-white">Daftar Pengurus ({data.organization.structure?.length || 0})</span>
+                    <button
+                      type="button"
+                      onClick={handleOpenAddMember}
+                      className="flex items-center gap-1 text-amber-400 hover:text-amber-300 text-xs font-semibold"
+                    >
+                      <Plus size={14} /> Tambah Pengurus Baru
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                    {data.organization.structure?.length === 0 ? (
+                      <div className="text-center py-6 text-slate-500 text-sm">Belum ada data pengurus.</div>
+                    ) : (
+                      data.organization.structure.map((item, idx) => (
+                        <div key={item.id || idx} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-slate-700/50 gap-4">
+                          <div className="flex items-center gap-3 min-w-0">
+                            {/* Thumbnail image */}
+                            <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-700 flex-shrink-0 border border-slate-600">
+                              {item.image ? (
+                                <img src={getMediaUrl(item.image)} alt={item.name} className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-xs font-bold text-amber-400">K</div>
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-white font-medium text-sm truncate">{item.name}</div>
+                              <div className="text-xs text-slate-400 truncate">
+                                <span className="bg-amber-400/10 text-amber-400 px-1.5 py-0.5 rounded text-[10px] uppercase font-semibold mr-1.5">
+                                  {item.category}
+                                </span>
+                                {item.role ? `${item.role}` : ''}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 flex-shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => handleMoveMember(idx, 'up')}
+                              disabled={idx === 0}
+                              className="p-1.5 text-slate-400 hover:text-white disabled:opacity-30"
+                              title="Pindahkan Ke Atas"
+                            >
+                              <ArrowUp size={14} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleMoveMember(idx, 'down')}
+                              disabled={idx === (data.organization.structure?.length || 0) - 1}
+                              className="p-1.5 text-slate-400 hover:text-white disabled:opacity-30"
+                              title="Pindahkan Ke Bawah"
+                            >
+                              <ArrowDown size={14} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleOpenEditMember(idx)}
+                              className="p-1.5 text-amber-400 hover:text-amber-300"
+                              title="Edit Detail"
+                            >
+                              <Pencil size={14} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteMember(idx)}
+                              className="p-1.5 text-slate-500 hover:text-red-400"
+                              title="Hapus"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -329,6 +570,76 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
                 className="px-4 py-2 text-sm bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-lg transition-colors"
               >
                 Tambah
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showAddEditMemberModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-lg font-bold text-white">
+              {editingMemberIndex !== null ? 'Edit Pengurus' : 'Tambah Pengurus'}
+            </h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Nama Pengurus</label>
+                <input
+                  type="text"
+                  value={memberForm.name}
+                  onChange={(e) => setMemberForm({ ...memberForm, name: e.target.value })}
+                  placeholder="Nama Lengkap & Gelar..."
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Jabatan / Detail Peran</label>
+                <input
+                  type="text"
+                  value={memberForm.role}
+                  onChange={(e) => setMemberForm({ ...memberForm, role: e.target.value })}
+                  placeholder="Misal: Leader, Riset, Administrasi..."
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Kategori Jabatan</label>
+                <select
+                  value={memberForm.category}
+                  onChange={(e) => setMemberForm({ ...memberForm, category: e.target.value })}
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                >
+                  <option value="PEMBINA">PEMBINA</option>
+                  <option value="STEERING COMMITTEE">STEERING COMMITTEE</option>
+                  <option value="KETUA UMUM">KETUA UMUM</option>
+                  <option value="SEKRETARIS">SEKRETARIS</option>
+                  <option value="BENDAHARA">BENDAHARA</option>
+                  <option value="DEPARTEMEN">DEPARTEMEN</option>
+                </select>
+              </div>
+              <div>
+                <ImageUploader
+                  value={memberForm.image || ''}
+                  onChange={(url) => setMemberForm({ ...memberForm, image: url })}
+                  label="Foto Anggota"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => setShowAddEditMemberModal(false)}
+                className="px-4 py-2 text-sm bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveMember}
+                className="px-4 py-2 text-sm bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-lg transition-colors"
+              >
+                Simpan
               </button>
             </div>
           </div>

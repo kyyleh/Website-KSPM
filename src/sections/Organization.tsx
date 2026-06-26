@@ -95,28 +95,40 @@ export function Organization({ data }: { data?: typeof organizationConfig }) {
     };
   }, [activeMember]);
 
-  const root = activeConfig.structure;
-  const pembinaNode = root;
-  const dewanKehormatanNode = root.children?.[0];
-  const ketuaUmumNode = dewanKehormatanNode?.children?.[0];
-  const sekBendNodes = ketuaUmumNode?.children?.filter(c => c.name !== '_departments_') ?? [];
-  const deptBridgeNode = ketuaUmumNode?.children?.find(c => c.name === '_departments_');
-  const departmentNodes = deptBridgeNode?.children ?? [];
+  let members: { node: OrgNode; category: string }[] = [];
 
-  // Flatten the organization structure into a sequential list
-  const members = [
-    { node: pembinaNode, category: "PEMBINA" },
-    { node: dewanKehormatanNode, category: "STEERING COMMITTEE" },
-    { node: ketuaUmumNode, category: "KETUA UMUM" },
-    ...sekBendNodes.map(node => ({
-      node,
-      category: node.name.includes("Sekretaris") ? "SEKRETARIS" : "BENDAHARA"
-    })),
-    ...departmentNodes.map(node => ({
-      node,
-      category: "DEPARTEMEN"
-    }))
-  ].filter((m): m is { node: OrgNode; category: string } => !!m.node);
+  if (Array.isArray(activeConfig.structure)) {
+    members = activeConfig.structure.map((m: any) => ({
+      node: {
+        name: m.name,
+        role: m.role || '',
+        image: m.image
+      },
+      category: m.category
+    }));
+  } else if (activeConfig.structure) {
+    const root = activeConfig.structure;
+    const pembinaNode = root;
+    const dewanKehormatanNode = root.children?.[0];
+    const ketuaUmumNode = dewanKehormatanNode?.children?.[0];
+    const sekBendNodes = ketuaUmumNode?.children?.filter(c => c.name !== '_departments_') ?? [];
+    const deptBridgeNode = ketuaUmumNode?.children?.find(c => c.name === '_departments_');
+    const departmentNodes = deptBridgeNode?.children ?? [];
+
+    members = [
+      { node: pembinaNode, category: "PEMBINA" },
+      { node: dewanKehormatanNode, category: "STEERING COMMITTEE" },
+      { node: ketuaUmumNode, category: "KETUA UMUM" },
+      ...sekBendNodes.map(node => ({
+        node,
+        category: node.name.includes("Sekretaris") ? "SEKRETARIS" : "BENDAHARA"
+      })),
+      ...departmentNodes.map(node => ({
+        node,
+        category: "DEPARTEMEN"
+      }))
+    ].filter((m): m is { node: OrgNode; category: string } => !!m.node);
+  }
 
   return (
     <section
