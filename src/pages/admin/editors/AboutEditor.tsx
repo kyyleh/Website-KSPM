@@ -532,9 +532,9 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
       )}
       {showAddTimelineModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
             <h3 className="text-lg font-bold text-white">Tambah Timeline</h3>
-            <div className="space-y-3">
+            <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">Tahun</label>
                 <input
@@ -578,11 +578,11 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
 
       {showAddEditMemberModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
             <h3 className="text-lg font-bold text-white">
               {editingMemberIndex !== null ? 'Edit Pengurus' : 'Tambah Pengurus'}
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">Nama Pengurus</label>
                 <input

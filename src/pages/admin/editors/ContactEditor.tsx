@@ -145,10 +145,10 @@ export function ContactEditor() {
       </div>
       {showAddContactModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
             <h3 className="text-lg font-bold text-white">Tambah Info Kontak</h3>
             
-            <div className="space-y-3">
+            <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">Icon (MapPin, Phone, Mail, Clock)</label>
                 <input

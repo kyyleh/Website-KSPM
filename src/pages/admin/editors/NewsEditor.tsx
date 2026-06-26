@@ -220,7 +220,7 @@ export function NewsEditor() {
           <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
             <h3 className="text-lg font-bold text-white">Tambah Artikel Baru</h3>
             
-            <div className="space-y-4">
+            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
               <ImageUploader
                 value={newArticle.image}
                 onChange={(url) => setNewArticle({ ...newArticle, image: url })}
@@ -307,7 +307,7 @@ export function NewsEditor() {
           <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
             <h3 className="text-lg font-bold text-white">Tambah Testimoni Baru</h3>
             
-            <div className="space-y-4">
+            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
               <ImageUploader
                 value={newTestimonial.image}
                 onChange={(url) => setNewTestimonial({ ...newTestimonial, image: url })}
