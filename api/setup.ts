@@ -47,10 +47,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     `);
 
     // Insert default admin user (ignore if already exists)
-    const hashedPassword = hashPassword('admin123');
+    const hashedPassword = hashPassword('Admin');
     await query<ResultSetHeader>(
       `INSERT IGNORE INTO admins (email, password, name) VALUES (?, ?, ?)`,
-      ['admin@kspm.com', hashedPassword, 'Admin KSPM'],
+      ['Admin', hashedPassword, 'Admin KSPM'],
     );
 
     return res.status(200).json({
