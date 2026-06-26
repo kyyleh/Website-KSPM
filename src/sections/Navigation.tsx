@@ -55,7 +55,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
           ? 'bg-[#f0ede6] py-3'
           : isScrolled
             ? 'bg-[#f0ede6]/95 backdrop-blur-md py-3 shadow-premium border-b border-gold-500/10'
-            : 'bg-transparent py-5'
+            : 'bg-[#f0ede6] py-5 shadow-sm border-b border-gold-500/5'
       }`}
       role="navigation"
       aria-label="Main navigation"
