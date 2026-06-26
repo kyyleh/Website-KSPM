@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query } from './lib/db';
-import { hashPassword, handlePreflight, setCors } from './lib/auth';
+import { query } from './lib/db.js';
+import { hashPassword, handlePreflight, setCors } from './lib/auth.js';
 import type { ResultSetHeader } from 'mysql2/promise';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

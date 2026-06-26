@@ -28,7 +28,7 @@ export async function query<T extends RowDataPacket[] | ResultSetHeader | OkPack
   params?: unknown[],
 ): Promise<T> {
   const db = getPool();
-  const [rows] = await db.execute<T>(sql, params);
+  const [rows] = await db.execute<T>(sql, params as any);
   return rows;
 }
 
