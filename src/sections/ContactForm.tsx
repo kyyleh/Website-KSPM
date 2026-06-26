@@ -1,15 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { Send, CheckCircle, AlertCircle, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { contactFormConfig } from '../config';
+import { submitContactForm } from '../lib/strapi';
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   MapPin, Phone, Mail, Clock,
 };
 
-export function ContactForm() {
+export function ContactForm({ data }: { data?: typeof contactFormConfig }) {
+  const activeConfig = data || contactFormConfig;
+
   // Null check: if config is empty, render nothing
-  if (!contactFormConfig.mainTitle) return null;
+  if (!activeConfig.mainTitle) return null;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -54,6 +57,24 @@ export function ContactForm() {
     setIsSubmitting(true);
 
     try {
+      // First try to submit to Strapi backend
+      try {
+        await submitContactForm({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: `Date: ${formData.visitDate}, Visitors: ${formData.visitors}. Message: ${formData.message}`,
+        });
+        setStatus('success');
+        setFormData({ name: '', email: '', phone: '', visitDate: '', visitors: '2', message: '' });
+        setIsSubmitting(false);
+        setTimeout(() => setStatus('idle'), 5000);
+        return;
+      } catch (err) {
+        console.warn("Strapi submission failed, falling back to Web3Forms:", err);
+      }
+
+      // Fallback to Web3Forms API
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
@@ -96,7 +117,7 @@ export function ContactForm() {
     }));
   };
 
-  const form = contactFormConfig.form;
+  const form = activeConfig.form;
 
   return (
     <section
@@ -115,16 +136,16 @@ export function ContactForm() {
       <div className="container-custom relative">
         {/* Section Header */}
         <div className="fade-up text-center mb-16">
-          <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{contactFormConfig.scriptText}</span>
+          <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{activeConfig.scriptText}</span>
           <span className="text-gold-gradient text-xs uppercase tracking-[0.2em] mb-4 block">
-            {contactFormConfig.subtitle}
+            {activeConfig.subtitle}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-h1 text-[#1c1515] mb-4">
-            {contactFormConfig.mainTitle}
+            {activeConfig.mainTitle}
           </h2>
-          {contactFormConfig.introText && (
+          {activeConfig.introText && (
             <p className="text-[#4a4545] max-w-2xl mx-auto">
-              {contactFormConfig.introText}
+              {activeConfig.introText}
             </p>
           )}
         </div>
@@ -133,11 +154,11 @@ export function ContactForm() {
           {/* Contact Info */}
           <div className="lg:col-span-2 space-y-6">
             <div className="slide-in-left" style={{ transitionDelay: '0.1s' }}>
-              {contactFormConfig.contactInfoTitle && (
-                <h3 className="font-serif text-h5 text-[#1c1515] mb-6">{contactFormConfig.contactInfoTitle}</h3>
+              {activeConfig.contactInfoTitle && (
+                <h3 className="font-serif text-h5 text-[#1c1515] mb-6">{activeConfig.contactInfoTitle}</h3>
               )}
               <div className="space-y-4" role="list" aria-label="Contact information">
-                {contactFormConfig.contactInfo.map((item) => {
+                {activeConfig.contactInfo.map((item) => {
                   const IconComponent = iconMap[item.icon];
                   return (
                     <div

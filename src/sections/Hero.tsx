@@ -24,18 +24,22 @@ function useCountUp(target: number, duration = 2000, start = false) {
   return count;
 }
 
-export function Hero({ isReady }: { isReady: boolean }) {
+import { getMediaUrl } from '../lib/strapi';
+
+export function Hero({ isReady, data }: { isReady: boolean; data?: typeof heroConfig }) {
+  const activeConfig = data || heroConfig;
+
   // Null check: if config is empty, render nothing
-  if (!heroConfig.mainTitle) return null;
+  if (!activeConfig.mainTitle) return null;
 
   const [phase, setPhase] = useState(0);
   // phase 0: hidden, 1: bg visible, 2: title, 3: cta, 4: stats counting
 
   // Build count-up hooks from stats config
-  const stat0 = heroConfig.stats[0];
-  const stat1 = heroConfig.stats[1];
-  const stat2 = heroConfig.stats[2];
-  const stat3 = heroConfig.stats[3];
+  const stat0 = activeConfig.stats[0];
+  const stat1 = activeConfig.stats[1];
+  const stat2 = activeConfig.stats[2];
+  const stat3 = activeConfig.stats[3];
   const count0 = useCountUp(stat0?.value ?? 0, 2000, phase >= 4 && (stat0?.value ?? 0) < 2000);
   const count1 = useCountUp(stat1?.value ?? 0, 2200, phase >= 4 && (stat1?.value ?? 0) < 2000);
   const count2 = useCountUp(stat2?.value ?? 0, 1800, phase >= 4 && (stat2?.value ?? 0) < 2000);
@@ -71,8 +75,8 @@ export function Hero({ isReady }: { isReady: boolean }) {
       <div className={`absolute inset-0 transition-opacity duration-[1.5s] ease-out ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}>
         <div className="absolute inset-0 hero-kenburns">
           <img
-            src={heroConfig.backgroundImage}
-            alt={heroConfig.mainTitle}
+            src={getMediaUrl(activeConfig.backgroundImage)}
+            alt={activeConfig.mainTitle}
             className="w-full h-full object-cover scale-105"
           />
         </div>
@@ -84,7 +88,7 @@ export function Hero({ isReady }: { isReady: boolean }) {
         {/* Script accent */}
         <div className={`transition-all duration-1000 ease-out ${phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <span className="font-script text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-gold-gradient">
-            {heroConfig.scriptText}
+            {activeConfig.scriptText}
           </span>
         </div>
 
@@ -93,18 +97,18 @@ export function Hero({ isReady }: { isReady: boolean }) {
 
         {/* Main Title */}
         <h1 className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] text-[#1c1515] leading-[1.05] tracking-wide transition-all duration-1000 ease-out ${phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '0.3s' }}>
-          {heroConfig.mainTitle}
+          {activeConfig.mainTitle}
         </h1>
 
         {/* CTA */}
-        {heroConfig.ctaButtonText && (
+        {activeConfig.ctaButtonText && (
           <div className={`mt-10 transition-all duration-700 ease-out ${phase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
             <button
-              onClick={() => scrollToSection(heroConfig.ctaTarget || '#about')}
+              onClick={() => scrollToSection(activeConfig.ctaTarget || '#about')}
               className="btn-primary rounded-sm inline-flex items-center gap-2 group"
-              aria-label={heroConfig.ctaButtonText}
+              aria-label={activeConfig.ctaButtonText}
             >
-              {heroConfig.ctaButtonText}
+              {activeConfig.ctaButtonText}
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </div>
@@ -112,12 +116,12 @@ export function Hero({ isReady }: { isReady: boolean }) {
       </div>
 
       {/* Stats with count-up */}
-      {heroConfig.stats.length > 0 && (
+      {activeConfig.stats.length > 0 && (
         <div className={`absolute bottom-20 left-0 right-0 z-10 transition-all duration-1000 ease-out ${phase >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <div className="container-custom">
             <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-md py-6 px-4 md:px-8 rounded-xl shadow-premium border border-white/50 hover:shadow-gold-soft transition-all duration-500">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-                {heroConfig.stats.map((stat, index) => (
+                {activeConfig.stats.map((stat, index) => (
                   <div 
                     key={index} 
                     className={`text-center px-2 ${
@@ -143,10 +147,10 @@ export function Hero({ isReady }: { isReady: boolean }) {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f0ede6] to-transparent" />
 
       {/* Side decorative */}
-      {heroConfig.decorativeText && (
+      {activeConfig.decorativeText && (
         <div className={`absolute left-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4 transition-opacity duration-1000 ${phase >= 3 ? 'opacity-100' : 'opacity-0'}`}>
           <div className="w-px h-20 bg-gradient-to-b from-transparent via-gold-500/50 to-transparent" />
-          <span className="text-gold-500 text-xs tracking-widest" style={{ writingMode: 'vertical-lr' }}>{heroConfig.decorativeText}</span>
+          <span className="text-gold-500 text-xs tracking-widest" style={{ writingMode: 'vertical-lr' }}>{activeConfig.decorativeText}</span>
           <div className="w-px h-20 bg-gradient-to-b from-transparent via-gold-500/50 to-transparent" />
         </div>
       )}

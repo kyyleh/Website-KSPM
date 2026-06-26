@@ -7,9 +7,14 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   History, Award, BookOpen, Target,
 };
 
-export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) {
+import { getMediaUrl } from '../lib/strapi';
+
+
+export function Museum({ onNavigate, data }: { onNavigate?: (href: string) => void; data?: typeof museumConfig }) {
+  const activeConfig = data || museumConfig;
+
   // Null check: if config is empty, render nothing
-  if (!museumConfig.mainTitle) return null;
+  if (!activeConfig.mainTitle) return null;
 
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -48,47 +53,47 @@ export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) 
           <div className="lg:col-span-7 space-y-8 slide-in-left">
             {/* Section Header */}
             <div>
-              <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{museumConfig.scriptText}</span>
+              <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{activeConfig.scriptText}</span>
               <span className="text-gold-gradient text-xs uppercase tracking-[0.2em] mb-4 block">
-                {museumConfig.subtitle}
+                {activeConfig.subtitle}
               </span>
               <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-h2 text-neutral-900 has-bar">
-                {museumConfig.mainTitle}
+                {activeConfig.mainTitle}
               </h2>
             </div>
 
             {/* Introduction */}
-            {museumConfig.introText && (
+            {activeConfig.introText && (
               <p className="text-neutral-600 leading-relaxed text-base">
-                {museumConfig.introText}
+                {activeConfig.introText}
               </p>
             )}
 
             {/* Founder Quote */}
-            {museumConfig.quote.text && (
+            {activeConfig.quote.text && (
               <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-4 sm:gap-6 p-6 bg-white/85 backdrop-blur-sm rounded-2xl border border-neutral-200/50 shadow-premium">
-                {museumConfig.founderPhoto && (
+                {activeConfig.founderPhoto && (
                   <div className="w-20 h-20 rounded-xl overflow-hidden border border-gold-300 shadow-premium flex-shrink-0">
                     <img
-                      src={museumConfig.founderPhoto}
-                      alt={museumConfig.founderPhotoAlt}
+                      src={getMediaUrl(activeConfig.founderPhoto)}
+                      alt={activeConfig.founderPhotoAlt}
                       loading="lazy"
                       className="w-full h-full object-contain bg-white p-2"
                     />
                   </div>
                 )}
                 <div>
-                  {museumConfig.quote.prefix && (
+                  {activeConfig.quote.prefix && (
                     <p className="font-script text-xl text-gold-gradient mb-1">
-                      &ldquo;{museumConfig.quote.prefix}&rdquo;
+                      &ldquo;{activeConfig.quote.prefix}&rdquo;
                     </p>
                   )}
                   <p className="text-neutral-600 text-sm italic">
-                    "{museumConfig.quote.text}"
+                    "{activeConfig.quote.text}"
                   </p>
-                  {museumConfig.quote.attribution && (
+                  {activeConfig.quote.attribution && (
                     <p className="text-gold-600 text-xs mt-1.5 font-medium text-center sm:text-left">
-                      — {museumConfig.quote.attribution}
+                      — {activeConfig.quote.attribution}
                     </p>
                   )}
                 </div>
@@ -101,18 +106,18 @@ export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) 
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-neutral-200/60 shadow-premium bg-white">
               {/* Main showcase photo (use first tab's image as default) */}
               <img
-                src={museumConfig.tabs[0]?.image || "/images/about-vision.jpg"}
-                alt={museumConfig.mainTitle}
+                src={getMediaUrl(activeConfig.tabs[0]?.image || "/images/about-vision.jpg")}
+                alt={activeConfig.mainTitle}
                 loading="lazy"
                 className="w-full h-full object-cover"
               />
 
               {/* Year Badge */}
-              {museumConfig.yearBadge && (
+              {activeConfig.yearBadge && (
                 <div className="absolute top-6 right-6 w-20 h-20 rounded-full bg-white/95 backdrop-blur-sm border border-gold-400/40 shadow-gold-soft flex items-center justify-center transition-all duration-300 hover:shadow-gold-glow hover:scale-105">
                   <div className="text-center">
-                    <div className="font-serif text-xl text-gold-gradient font-bold">{museumConfig.yearBadge}</div>
-                    <div className="text-[9px] text-neutral-700 uppercase tracking-wider font-semibold">{museumConfig.yearBadgeLabel}</div>
+                    <div className="font-serif text-xl text-gold-gradient font-bold">{activeConfig.yearBadge}</div>
+                    <div className="text-[9px] text-neutral-700 uppercase tracking-wider font-semibold">{activeConfig.yearBadgeLabel}</div>
                   </div>
                 </div>
               )}
@@ -121,10 +126,10 @@ export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) 
               <div className="absolute bottom-0 left-0 right-0 p-5 bg-white/95 backdrop-blur-md border-t border-neutral-200/60 shadow-premium">
                 <div className="flex items-center justify-between">
                   <div>
-                    {museumConfig.openingHoursLabel && <p className="text-[#7a6024] text-[10px] uppercase tracking-wider mb-0.5 font-medium">{museumConfig.openingHoursLabel}</p>}
-                    {museumConfig.openingHours && <p className="text-[#1c1515] font-serif text-base font-bold">{museumConfig.openingHours}</p>}
+                    {activeConfig.openingHoursLabel && <p className="text-[#7a6024] text-[10px] uppercase tracking-wider mb-0.5 font-medium">{activeConfig.openingHoursLabel}</p>}
+                    {activeConfig.openingHours && <p className="text-[#1c1515] font-serif text-base font-bold">{activeConfig.openingHours}</p>}
                   </div>
-                  {museumConfig.ctaButtonText && (
+                  {activeConfig.ctaButtonText && (
                     <button
                       onClick={() => {
                         if (onNavigate) {
@@ -135,9 +140,9 @@ export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) 
                         }
                       }}
                       className="btn-primary rounded-sm text-xs px-5 py-2 cursor-pointer shadow-sm"
-                      aria-label={museumConfig.ctaButtonText}
+                      aria-label={activeConfig.ctaButtonText}
                     >
-                      {museumConfig.ctaButtonText}
+                      {activeConfig.ctaButtonText}
                     </button>
                   )}
                 </div>
@@ -147,7 +152,7 @@ export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) 
         </div>
 
         {/* Horizontal Timeline (spanning full width below the intro row) */}
-        {museumConfig.timeline.length > 0 && (
+        {activeConfig.timeline.length > 0 && (
           <div id="history" className="fade-up border-t border-neutral-200/60 pt-10 pb-16">
             <h3 className="font-serif text-xl text-neutral-800 font-semibold mb-8 text-center uppercase tracking-wider">Garis Waktu Perjalanan</h3>
             <div className="relative">
@@ -155,7 +160,7 @@ export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) 
               <div className="absolute top-3 left-0 right-0 h-px bg-gold-500/30" />
               {/* Timeline points */}
               <div className="flex justify-between overflow-x-auto gap-4 scrollbar-none pb-4">
-                {museumConfig.timeline.map((event) => (
+                {activeConfig.timeline.map((event) => (
                   <div key={event.year} className="relative flex flex-col items-center flex-shrink-0 min-w-[100px] text-center">
                     <div className="w-3 h-3 rounded-full bg-[#f0ede6] border-2 border-gold-500 z-10 shadow-sm" />
                     <span className="font-serif text-sm text-gold-600 mt-2 font-bold">{event.year}</span>
@@ -176,7 +181,7 @@ export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) 
           </div>
 
           <div className="space-y-10 md:space-y-12">
-            {museumConfig.tabs.map((tab, index) => {
+            {activeConfig.tabs.map((tab, index) => {
               const isEven = index % 2 === 0;
               const IconComponent = iconMap[tab.icon];
               return (
@@ -188,7 +193,7 @@ export function Museum({ onNavigate }: { onNavigate?: (href: string) => void }) 
                     {/* Image */}
                     <div className={`relative w-full md:col-span-5 overflow-hidden md:min-h-0 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
                       <img
-                        src={tab.image}
+                        src={getMediaUrl(tab.image)}
                         alt={tab.name}
                         loading="lazy"
                         className="relative z-10 w-full h-auto object-cover object-center hover:scale-105 transition-transform duration-700 md:absolute md:inset-0 md:h-full"

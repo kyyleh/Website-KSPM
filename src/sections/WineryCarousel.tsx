@@ -1,12 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { MapPin } from 'lucide-react';
 import { wineryCarouselConfig, navigationConfig } from '../config';
+import { getMediaUrl } from '../lib/strapi';
 
-export function WineryCarousel({ onNavigate }: { onNavigate?: (href: string) => void }) {
+export function WineryCarousel({ onNavigate, data }: { onNavigate?: (href: string) => void; data?: typeof wineryCarouselConfig }) {
+  const activeConfig = data || wineryCarouselConfig;
+
   // Null check: if config is empty, render nothing
-  if (!wineryCarouselConfig.mainTitle || wineryCarouselConfig.slides.length === 0) return null;
+  if (!activeConfig.mainTitle || activeConfig.slides.length === 0) return null;
 
-  const slides = wineryCarouselConfig.slides;
+  const slides = activeConfig.slides;
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,12 +48,12 @@ export function WineryCarousel({ onNavigate }: { onNavigate?: (href: string) => 
       <div className="container-custom relative">
         {/* Section Header */}
         <div className="fade-up text-center mb-16">
-          <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{wineryCarouselConfig.scriptText}</span>
+          <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{activeConfig.scriptText}</span>
           <span className="text-gold-gradient text-xs uppercase tracking-[0.2em] mb-4 block">
-            {wineryCarouselConfig.subtitle}
+            {activeConfig.subtitle}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-h1 text-[#1c1515] mb-4">
-            {wineryCarouselConfig.mainTitle}
+            {activeConfig.mainTitle}
           </h2>
           <div className="w-24 h-1 bg-gold-gradient mx-auto" />
         </div>
@@ -68,7 +71,7 @@ export function WineryCarousel({ onNavigate }: { onNavigate?: (href: string) => 
                   {/* Image Container */}
                   <div className={`relative w-full md:col-span-5 overflow-hidden md:min-h-0 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
                     <img
-                      src={slide.image}
+                      src={getMediaUrl(slide.image)}
                       alt={slide.title}
                       loading="lazy"
                       className="relative z-10 w-full h-auto object-cover object-center hover:scale-105 transition-transform duration-700 md:absolute md:inset-0 md:h-full"
@@ -78,10 +81,10 @@ export function WineryCarousel({ onNavigate }: { onNavigate?: (href: string) => 
                   {/* Content Container */}
                   <div className={`p-6 md:p-8 lg:p-10 md:col-span-7 lg:col-span-7 flex flex-col justify-start ${isEven ? 'md:order-2' : 'md:order-1'}`}>
                     {/* Location Tag */}
-                    {wineryCarouselConfig.locationTag && (
+                    {activeConfig.locationTag && (
                       <div className="flex items-center gap-2 text-[#7a6024] text-xs uppercase tracking-wider mb-3">
                         <MapPin className="w-4 h-4 text-gold-500" />
-                        <span>{wineryCarouselConfig.locationTag}</span>
+                        <span>{activeConfig.locationTag}</span>
                       </div>
                     )}
 

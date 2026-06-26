@@ -7,13 +7,17 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Wine, Sparkles, Clock, BookOpen,
 };
 
-export function WineShowcase({ onNavigate }: { onNavigate?: (href: string) => void }) {
-  // Null check: if config is empty, render nothing
-  if (!wineShowcaseConfig.mainTitle || wineShowcaseConfig.wines.length === 0) return null;
+import { getMediaUrl } from '../lib/strapi';
 
-  const wines = wineShowcaseConfig.wines;
-  const features = wineShowcaseConfig.features;
-  const quote = wineShowcaseConfig.quote;
+export function WineShowcase({ onNavigate, data }: { onNavigate?: (href: string) => void; data?: typeof wineShowcaseConfig }) {
+  const activeConfig = data || wineShowcaseConfig;
+
+  // Null check: if config is empty, render nothing
+  if (!activeConfig.mainTitle || activeConfig.wines.length === 0) return null;
+
+  const wines = activeConfig.wines;
+  const features = activeConfig.features;
+  const quote = activeConfig.quote;
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,11 +55,11 @@ export function WineShowcase({ onNavigate }: { onNavigate?: (href: string) => vo
       <div className="container-custom relative">
         {/* Section Title */}
         <div className="fade-up text-center mb-16">
-          <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{wineShowcaseConfig.scriptText}</span>
+          <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{activeConfig.scriptText}</span>
           <span className="text-gold-gradient text-xs uppercase tracking-[0.2em] mb-4 block">
-            {wineShowcaseConfig.subtitle}
+            {activeConfig.subtitle}
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-h1 text-[#1c1515] mb-4">{wineShowcaseConfig.mainTitle}</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-h1 text-[#1c1515] mb-4">{activeConfig.mainTitle}</h2>
           <div className="w-24 h-1 bg-gold-gradient mx-auto" />
         </div>
 
@@ -104,7 +108,7 @@ export function WineShowcase({ onNavigate }: { onNavigate?: (href: string) => vo
                         <div className={`w-48 h-48 ${wine.glowColor} rounded-full blur-3xl opacity-10`} />
                       </div>
                       <img
-                        src={wine.image}
+                        src={getMediaUrl(wine.image)}
                         alt={wine.name}
                         loading="lazy"
                         className="relative z-10 w-full h-auto object-cover object-center hover:scale-105 transition-transform duration-700 md:absolute md:inset-0 md:h-full"

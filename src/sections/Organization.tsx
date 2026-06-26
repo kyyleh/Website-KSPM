@@ -2,6 +2,8 @@ import { useRef, useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { organizationConfig, type OrgNode } from '../config';
 
+import { getMediaUrl } from '../lib/strapi';
+
 const OrgMemberCard = ({
   node,
   index,
@@ -24,7 +26,7 @@ const OrgMemberCard = ({
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-100 flex-shrink-0">
         {node.image ? (
           <img
-            src={node.image}
+            src={getMediaUrl(node.image)}
             alt={node.name}
             loading="lazy"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -59,8 +61,10 @@ const OrgMemberCard = ({
   );
 };
 
-export function Organization() {
-  if (!organizationConfig.structure) return null;
+export function Organization({ data }: { data?: typeof organizationConfig }) {
+  const activeConfig = data || organizationConfig;
+
+  if (!activeConfig.structure) return null;
 
   const [activeMember, setActiveMember] = useState<{ node: OrgNode; index: string; category: string } | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -91,7 +95,7 @@ export function Organization() {
     };
   }, [activeMember]);
 
-  const root = organizationConfig.structure;
+  const root = activeConfig.structure;
   const pembinaNode = root;
   const dewanKehormatanNode = root.children?.[0];
   const ketuaUmumNode = dewanKehormatanNode?.children?.[0];
@@ -124,15 +128,15 @@ export function Organization() {
         {/* Section Header */}
         <div className="fade-up text-center mb-16">
           <span className="font-script text-4xl md:text-6xl lg:text-7xl text-gold-gradient block mb-2">
-            {organizationConfig.scriptText}
+            {activeConfig.scriptText}
           </span>
           <span className="text-gold-gradient text-xs uppercase tracking-[0.2em] mb-4 block">
-            {organizationConfig.subtitle}
+            {activeConfig.subtitle}
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-h1 text-[#1c1515]">{organizationConfig.mainTitle}</h2>
-          {organizationConfig.description && (
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-h1 text-[#1c1515]">{activeConfig.mainTitle}</h2>
+          {activeConfig.description && (
             <p className="text-[#4a4545] max-w-2xl mx-auto mt-6">
-              {organizationConfig.description}
+              {activeConfig.description}
             </p>
           )}
         </div>
@@ -172,7 +176,7 @@ export function Organization() {
               {activeMember.node.image ? (
                 <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-gold-400 shadow-md mb-4 bg-neutral-100 flex-shrink-0">
                   <img
-                    src={activeMember.node.image}
+                    src={getMediaUrl(activeMember.node.image)}
                     alt={activeMember.node.name}
                     className="w-full h-full object-cover"
                   />

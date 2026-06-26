@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Navigation } from './sections/Navigation';
 import { Hero } from './sections/Hero';
 import { WineShowcase } from './sections/WineShowcase';
@@ -15,10 +15,37 @@ import { RegisterForm } from './sections/RegisterForm';
 import { Preloader } from './components/Preloader';
 import { ScrollToTop } from './components/ScrollToTop';
 import { WhatsAppButton } from './components/WhatsAppButton';
+import {
+  getMappedHero,
+  getMappedAbout,
+  getMappedActivities,
+  getMappedResearch,
+  getMappedContact
+} from './lib/strapi';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'events' | 'research' | 'register'>('home');
+
+  // Backend state data
+  const [heroData, setHeroData] = useState<any>(undefined);
+  const [aboutData, setAboutData] = useState<any>(undefined);
+  const [activitiesData, setActivitiesData] = useState<any>(undefined);
+  const [researchData, setResearchData] = useState<any>(undefined);
+  const [contactData, setContactData] = useState<any>(undefined);
+
+  useEffect(() => {
+    // Fetch all backend configs concurrently
+    Promise.all([
+      getMappedHero().then(res => res && setHeroData(res)),
+      getMappedAbout().then(res => res && setAboutData(res)),
+      getMappedActivities().then(res => res && setActivitiesData(res)),
+      getMappedResearch().then(res => res && setResearchData(res)),
+      getMappedContact().then(res => res && setContactData(res))
+    ]).catch(err => {
+      console.error("Error loading data from Strapi backend:", err);
+    });
+  }, []);
 
   const handlePreloaderComplete = useCallback(() => {
     setIsLoading(false);
@@ -72,28 +99,28 @@ function App() {
         <main>
           {currentPage === 'home' && (
             <>
-              <Hero isReady={!isLoading} />
+              <Hero isReady={!isLoading} data={heroData} />
               <News />
-              <ContactForm />
+              <ContactForm data={contactData} />
             </>
           )}
           {currentPage === 'about' && (
             <>
               <AboutHeader />
-              <Museum onNavigate={handlePageChange} />
-              <Organization />
+              <Museum onNavigate={handlePageChange} data={aboutData?.aboutConfig} />
+              <Organization data={aboutData?.orgConfig} />
             </>
           )}
           {currentPage === 'events' && (
             <>
               <EventsHeader />
-              <WineryCarousel onNavigate={handlePageChange} />
+              <WineryCarousel onNavigate={handlePageChange} data={activitiesData} />
             </>
           )}
           {currentPage === 'research' && (
             <>
               <ResearchHeader />
-              <WineShowcase onNavigate={handlePageChange} />
+              <WineShowcase onNavigate={handlePageChange} data={researchData} />
             </>
           )}
           {currentPage === 'register' && (
