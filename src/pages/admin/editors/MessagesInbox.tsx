@@ -21,7 +21,7 @@ export function MessagesInbox() {
     setLoading(true);
     try {
       const res = await getMessages();
-      setMessages(res.data || res || []);
+      setMessages((res as any).data || res || []);
     } catch {
       setMessages([]);
     }

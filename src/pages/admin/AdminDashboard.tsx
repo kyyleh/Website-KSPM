@@ -15,7 +15,7 @@ type AdminSection = 'dashboard' | 'hero' | 'about' | 'events' | 'research' | 'ne
 
 export function AdminDashboard() {
   const [section, setSection] = useState<AdminSection>('dashboard');
-  const [adminName, setAdminName] = useState('Admin');
+  const [adminName] = useState('Admin');
   const [stats, setStats] = useState({ totalMessages: 0, unreadMessages: 0 });
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +31,7 @@ export function AdminDashboard() {
       // Fetch message stats
       try {
         const res = await getMessages();
-        const msgs = res.data || res || [];
+        const msgs = (res as any).data || res || [];
         setStats({
           totalMessages: msgs.length,
           unreadMessages: msgs.filter((m: any) => !m.is_read).length,
