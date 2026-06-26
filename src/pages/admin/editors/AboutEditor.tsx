@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save, Plus, Trash2, Loader2, Code, Eye, CheckCircle, AlertCircle, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+import { Save, Plus, Trash2, Loader2, CheckCircle, AlertCircle, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { getContent, saveContent } from '../lib/adminApi';
 import { museumConfig, organizationConfig } from '../../../config';
 
