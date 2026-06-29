@@ -10,8 +10,6 @@ export function NewsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
   const [saving, setSaving] = useState(false);
   const [showAddArticleModal, setShowAddArticleModal] = useState(false);
   const [newArticle, setNewArticle] = useState({ title: '', category: 'Market Analysis', excerpt: '', date: '', image: '', url: '' });
-  const [showAddTestimonialModal, setShowAddTestimonialModal] = useState(false);
-  const [newTestimonial, setNewTestimonial] = useState({ name: '', role: '', text: '', rating: 5, image: '' });
 
   useEffect(() => {
     (async () => {
@@ -71,34 +69,6 @@ export function NewsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
     }
     setIsDirty?.(true);
     setData({ ...data, articles: data.articles.filter((_: any, i: number) => i !== index) });
-  };
-
-  const updateTestimonial = (index: number, key: string, value: any) => {
-    setIsDirty?.(true);
-    const testimonials = [...data.testimonials];
-    testimonials[index] = { ...testimonials[index], [key]: value };
-    setData({ ...data, testimonials });
-  };
-
-  const handleConfirmAddTestimonial = () => {
-    if (!newTestimonial.name) {
-      alert('Nama testimoni harus diisi!');
-      return;
-    }
-    setIsDirty?.(true);
-    setData({
-      ...data,
-      testimonials: [...(data.testimonials || []), { ...newTestimonial }],
-    });
-    setShowAddTestimonialModal(false);
-  };
-
-  const removeTestimonial = (index: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus testimoni ini?")) {
-      return;
-    }
-    setIsDirty?.(true);
-    setData({ ...data, testimonials: data.testimonials.filter((_: any, i: number) => i !== index) });
   };
 
   return (
@@ -169,60 +139,6 @@ export function NewsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
                   value={article.image || ''}
                   onChange={(url) => updateArticle(i, 'image', url)}
                   label="Gambar Artikel"
-                />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Testimonials */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-[#1c1515] font-bold">Testimoni ({data.testimonials?.length || 0})</h2>
-          <button
-            onClick={() => {
-              setNewTestimonial({ name: '', role: '', text: '', rating: 5, image: '' });
-              setShowAddTestimonialModal(true);
-            }}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-[#faf9f5] border border-[#d2cbbe] rounded-lg hover:bg-neutral-100 text-[#1c1515] font-semibold transition-colors"
-          >
-            <Plus className="w-4 h-4" /> Tambah Testimoni
-          </button>
-        </div>
-
-        {data.testimonials?.map((t: any, i: number) => (
-          <div key={i} className="bg-white border border-[#eae6dd] rounded-2xl p-6 space-y-4 shadow-sm">
-            <div className="flex items-center justify-between border-b border-[#eae6dd] pb-2">
-              <span className="text-[#a67e2a] font-bold text-sm uppercase">Testimoni #{i + 1}</span>
-              <button onClick={() => removeTestimonial(i)} className="text-neutral-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="md:col-span-2 space-y-3">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div>
-                    <label className="block text-neutral-500 text-xs mb-1">Nama</label>
-                    <input type="text" value={t.name || ''} onChange={e => updateTestimonial(i, 'name', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                  </div>
-                  <div>
-                    <label className="block text-neutral-500 text-xs mb-1">Role</label>
-                    <input type="text" value={t.role || ''} onChange={e => updateTestimonial(i, 'role', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                  </div>
-                  <div>
-                    <label className="block text-neutral-500 text-xs mb-1">Rating (1-5)</label>
-                    <input type="number" min={1} max={5} value={t.rating || 5} onChange={e => updateTestimonial(i, 'rating', parseInt(e.target.value))} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-neutral-500 text-xs mb-1">Teks Testimoni</label>
-                  <textarea value={t.text || ''} onChange={e => updateTestimonial(i, 'text', e.target.value)} rows={2} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                </div>
-              </div>
-              <div>
-                <ImageUploader
-                  value={t.image || ''}
-                  onChange={(url) => updateTestimonial(i, 'image', url)}
-                  label="Foto Testimoni"
                 />
               </div>
             </div>
@@ -310,86 +226,6 @@ export function NewsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
               <button
                 type="button"
                 onClick={handleConfirmAddArticle}
-                className="px-4 py-2 text-sm bg-gradient-to-r from-[#dcae44] to-[#b88c2b] text-white font-bold rounded-lg transition-colors"
-              >
-                Tambah
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showAddTestimonialModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm overflow-y-auto">
-          <div className="w-full max-w-lg bg-white border border-[#eae6dd] rounded-2xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-lg font-bold text-[#1c1515]">Tambah Testimoni Baru</h3>
-            
-            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-              <ImageUploader
-                value={newTestimonial.image}
-                onChange={(url) => setNewTestimonial({ ...newTestimonial, image: url })}
-                label="Foto Profil Testimoni"
-              />
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="md:col-span-2 space-y-3">
-                  <div>
-                    <label className="block text-xs text-neutral-500 mb-1">Nama</label>
-                    <input
-                      type="text"
-                      value={newTestimonial.name}
-                      onChange={(e) => setNewTestimonial({ ...newTestimonial, name: e.target.value })}
-                      placeholder="Nama pemberi testimoni..."
-                      className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-neutral-500 mb-1">Role / Jabatan</label>
-                    <input
-                      type="text"
-                      value={newTestimonial.role}
-                      onChange={(e) => setNewTestimonial({ ...newTestimonial, role: e.target.value })}
-                      placeholder="Misal: Anggota KSPM, Mahasiswa"
-                      className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-neutral-500 mb-1">Rating (1-5)</label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={5}
-                      value={newTestimonial.rating}
-                      onChange={(e) => setNewTestimonial({ ...newTestimonial, rating: Number(e.target.value) })}
-                      className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs text-neutral-500 mb-1">Isi Testimoni</label>
-                <textarea
-                  value={newTestimonial.text}
-                  onChange={(e) => setNewTestimonial({ ...newTestimonial, text: e.target.value })}
-                  rows={3}
-                  placeholder="Pesan testimoni..."
-                  className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a] resize-none"
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-2 pt-4 border-t border-[#eae6dd]">
-              <button
-                type="button"
-                onClick={() => setShowAddTestimonialModal(false)}
-                className="px-4 py-2 text-sm bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-neutral-700 rounded-lg transition-colors"
-              >
-                Batal
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmAddTestimonial}
                 className="px-4 py-2 text-sm bg-gradient-to-r from-[#dcae44] to-[#b88c2b] text-white font-bold rounded-lg transition-colors"
               >
                 Tambah
