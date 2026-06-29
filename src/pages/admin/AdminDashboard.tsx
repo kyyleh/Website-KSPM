@@ -7,6 +7,7 @@ import { ResearchEditor } from './editors/ResearchEditor';
 import { NewsEditor } from './editors/NewsEditor';
 import { GalleryEditor } from './editors/GalleryEditor';
 import { MessagesInbox } from './editors/MessagesInbox';
+import { FooterEditor } from './editors/FooterEditor';
 import { verifyToken, logout, getMessages } from './lib/adminApi';
 import { LayoutDashboard, MessageSquare, AlertCircle } from 'lucide-react';
 
@@ -18,7 +19,8 @@ type AdminSection =
   | 'research'
   | 'news'
   | 'gallery'
-  | 'messages';
+  | 'messages'
+  | 'footer';
 
 export function AdminDashboard() {
   const [section, setSection] = useState<AdminSection>('dashboard');
@@ -79,6 +81,7 @@ export function AdminDashboard() {
       case 'news': return <NewsEditor setIsDirty={setIsDirty} />;
       case 'gallery': return <GalleryEditor setIsDirty={setIsDirty} />;
       case 'messages': return <MessagesInbox />;
+      case 'footer': return <FooterEditor setIsDirty={setIsDirty} />;
       default: return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div>
