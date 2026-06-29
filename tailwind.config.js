@@ -73,9 +73,10 @@ module.exports = {
         },
       },
       fontFamily: {
-        serif: ['Playfair Display', 'serif'],
-        sans: ['Inter', 'sans-serif'],
-        script: ['Dancing Script', 'cursive'],
+        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        mono: ['"Space Mono"', 'monospace'],
+        serif: ['"Plus Jakarta Sans"', 'sans-serif'],
+        script: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       fontSize: {
         'display': ['5.5rem', { lineHeight: '1.1' }],

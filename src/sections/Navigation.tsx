@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, ChevronDown, Wine, Home, BookOpen, Newspaper, Users, Mail, Grape } from 'lucide-react';
+import { Menu, X, ChevronDown, TrendingUp, Home, BookOpen, Newspaper, Users, Mail, Activity, Camera } from 'lucide-react';
 import { navigationConfig } from '../config';
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Home, BookOpen, Newspaper, Users, Mail, Grape, Wine, Menu, X, ChevronDown,
+  Home, BookOpen, Newspaper, Users, Mail, Activity, TrendingUp, Menu, X, ChevronDown, Camera,
 };
 
-export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' | 'about' | 'events' | 'research' | 'register'; onNavigate?: (href: string) => void }) {
+export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' | 'about' | 'events' | 'research' | 'register' | 'gallery'; onNavigate?: (href: string) => void }) {
   // Null check: if config is empty, render nothing
   if (!navigationConfig.brandName) return null;
 
@@ -64,12 +64,12 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
       <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isMobileMenuOpen
-          ? 'bg-[#f0ede6] py-3 translate-y-0'
+          ? 'bg-background py-3 translate-y-0'
           : isHidden
             ? '-translate-y-full'
             : isScrolled
-              ? 'bg-[#f0ede6]/95 backdrop-blur-md py-3 shadow-premium border-b border-gold-500/10 translate-y-0'
-              : 'bg-[#f0ede6] py-5 shadow-sm border-b border-gold-500/5 translate-y-0'
+              ? 'bg-background/95 backdrop-blur-md py-3 shadow-premium border-b border-gold-500/10 translate-y-0'
+              : 'bg-background py-5 shadow-sm border-b border-gold-500/5 translate-y-0'
       }`}
       role="navigation"
       aria-label="Main navigation"
@@ -88,7 +88,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
               className="h-12 sm:h-16 w-auto transition-transform duration-300 group-hover:scale-110" 
             />
           ) : (
-            <Wine className="w-8 h-8 text-gold-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />
+            <TrendingUp className="w-8 h-8 text-gold-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />
           )}
           <div className="flex flex-col text-left">
             <span className="font-serif text-2xl sm:text-3xl text-neutral-900 tracking-wide">{navigationConfig.brandName}</span>
@@ -141,7 +141,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                   >
                     <div className="bg-white/95 backdrop-blur-xl rounded-2xl overflow-hidden min-w-[320px] border border-gold-500/10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] p-3 relative">
                       <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-gold-400 to-gold-600" />
-                      <div className="px-3 pt-3 pb-2 mb-2 border-b border-neutral-100 flex items-center justify-between">
+                      <div className="px-3 pt-3 pb-2 mb-2 border-b border-border flex items-center justify-between">
                         <span className="text-[10px] font-bold text-gold-600 uppercase tracking-widest">
                           Menu {link.name}
                         </span>
@@ -178,7 +178,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
         {navigationConfig.ctaButtonText && (
           <button
             onClick={() => scrollToSection('#register')}
-            className="hidden lg:block btn-primary rounded"
+            className="hidden lg:block btn-primary rounded-lg"
             aria-label={navigationConfig.ctaButtonText}
           >
             {navigationConfig.ctaButtonText}
@@ -187,8 +187,11 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
 
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden p-2 text-neutral-800"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="lg:hidden p-4 -mr-4 text-neutral-800 relative z-50 pointer-events-auto cursor-pointer"
+          onClick={() => {
+            console.log('Mobile menu clicked! Previous state:', isMobileMenuOpen);
+            setIsMobileMenuOpen(prev => !prev);
+          }}
           aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMobileMenuOpen}
         >
@@ -203,7 +206,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
 
     {/* Mobile Menu */}
     <div
-      className={`lg:hidden fixed inset-0 top-[72px] z-45 mobile-menu-blur transition-opacity duration-500 overflow-y-auto ${
+      className={`lg:hidden fixed inset-0 top-[72px] sm:top-[88px] z-40 mobile-menu-blur transition-opacity duration-500 overflow-y-auto ${
         isMobileMenuOpen
           ? 'opacity-100 visible'
             : 'opacity-0 invisible pointer-events-none'
@@ -222,7 +225,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
               >
                 {link.dropdown ? (
                   <div>
-                    <div className="flex items-center justify-between w-full border-b border-neutral-200/60">
+                    <div className="flex items-center justify-between w-full border-b border-border">
                       <button
                         onClick={() => setActiveDropdown(activeDropdown === link.name ? null : link.name)}
                         className={`flex items-center gap-3 py-4 text-lg transition-colors flex-1 text-left ${
@@ -269,7 +272,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
                 ) : (
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className={`flex items-center gap-3 w-full py-4 text-lg border-b border-neutral-200/60 transition-colors ${
+                    className={`flex items-center gap-3 w-full py-4 text-lg border-b border-border transition-colors ${
                       (link.name === 'Beranda' && currentPage === 'home') ||
                       (link.name === 'Tentang Kami' && currentPage === 'about') ||
                       (link.name === 'Kegiatan' && currentPage === 'events') ||
@@ -290,7 +293,7 @@ export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' |
           {navigationConfig.ctaButtonText && (
             <button
               onClick={() => scrollToSection('#register')}
-              className="btn-primary rounded mt-6 text-center"
+              className="btn-primary rounded-lg mt-6 text-center"
               role="menuitem"
             >
               {navigationConfig.ctaButtonText}

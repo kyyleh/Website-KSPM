@@ -1,9 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { MapPin } from 'lucide-react';
-import { wineryCarouselConfig, navigationConfig } from '../config';
-import { getMediaUrl } from '../lib/strapi';
+import { wineryCarouselConfig } from '../config';
 
-export function WineryCarousel({ onNavigate, data }: { onNavigate?: (href: string) => void; data?: typeof wineryCarouselConfig }) {
+export function WineryCarousel({ data }: { onNavigate?: (href: string) => void; data?: typeof wineryCarouselConfig }) {
   const activeConfig = data || wineryCarouselConfig;
 
   // Null check: if config is empty, render nothing
@@ -21,113 +19,64 @@ export function WineryCarousel({ onNavigate, data }: { onNavigate?: (href: strin
           }
         });
       },
-      { threshold: 0.05 }
+      { threshold: 0.1 }
     );
 
-    const elements = sectionRef.current?.querySelectorAll('.fade-up, .slide-in-left, .slide-in-right');
+    const elements = sectionRef.current?.querySelectorAll('.fade-up, .scale-in');
     elements?.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section
-      id="events"
+    <section 
       ref={sectionRef}
-      className="section-padding relative overflow-hidden"
+      id="activities"
+      className="py-8 sm:py-12 md:py-16 relative overflow-hidden bg-neutral-50/50 border-b border-border"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(45deg, #d2a855 25%, transparent 25%), linear-gradient(-45deg, #d2a855 25%, transparent 25%)`,
-          backgroundSize: '60px 60px',
-          backgroundPosition: '0 0, 30px 0'
-        }} />
-      </div>
+      {/* Background Accent */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(circle at 30% 20%, rgba(201, 146, 42, 0.3) 0%, transparent 40%),
+                            radial-gradient(circle at 70% 80%, rgba(201, 146, 42, 0.25) 0%, transparent 40%)`
+        }}
+      />
 
-      <div className="container-custom relative">
-        {/* Section Header */}
-        <div className="fade-up text-center mb-16">
-          <span className="font-script text-3xl md:text-5xl lg:text-6xl text-gold-gradient block mb-2">{activeConfig.scriptText}</span>
-          <span className="text-gold-gradient text-xs uppercase tracking-[0.2em] mb-4 block">
-            {activeConfig.subtitle}
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-h1 text-[#1c1515] mb-4">
+      <div className="container-custom relative z-10">
+        <div className="text-center mb-6 sm:mb-10 md:mb-16 fade-up">
+          <h2 className="font-sans text-4xl sm:text-5xl font-extrabold text-primary tracking-tight uppercase mb-4">
             {activeConfig.mainTitle}
           </h2>
-          <div className="w-24 h-1 bg-gold-gradient mx-auto" />
         </div>
 
-        {/* Activities List */}
-        <div className="space-y-12 md:space-y-16">
+        {/* Activities 3-Column Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
           {slides.map((slide, index) => {
-            const isEven = index % 2 === 0;
+            const labelNo = String(index + 1).padStart(2, '0');
             return (
               <div
                 key={index}
-                className="fade-up bg-white/95 backdrop-blur-sm border border-neutral-200/60 rounded-2xl overflow-hidden shadow-premium hover:shadow-gold-soft hover:-translate-y-1 transition-all duration-500"
+                className="fade-up bg-white border border-border rounded-2xl p-3 sm:p-6 md:p-8 shadow-sm hover:shadow-premium hover:-translate-y-1 transition-all duration-500 ease-out flex flex-col justify-between h-full"
               >
-                <div className="grid md:grid-cols-12 items-stretch">
-                  {/* Image Container */}
-                  <div className={`relative w-full md:col-span-5 overflow-hidden md:min-h-0 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
-                    <img
-                      src={getMediaUrl(slide.image)}
-                      alt={slide.title}
-                      loading="lazy"
-                      className="relative z-10 w-full h-auto object-cover object-center hover:scale-105 transition-transform duration-700 md:absolute md:inset-0 md:h-full"
-                    />
+                <div className="flex flex-col items-start gap-4 h-full">
+                  {/* Eyebrow / No */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="font-script bg-neutral-100 border border-border text-primary font-bold text-xs px-3 py-1.5 rounded-lg">
+                      KEGIATAN {labelNo}
+                    </span>
                   </div>
 
-                  {/* Content Container */}
-                  <div className={`p-6 md:p-8 lg:p-10 md:col-span-7 lg:col-span-7 flex flex-col justify-start ${isEven ? 'md:order-2' : 'md:order-1'}`}>
-                    {/* Location Tag */}
-                    {activeConfig.locationTag && (
-                      <div className="flex items-center gap-2 text-[#7a6024] text-xs uppercase tracking-wider mb-3">
-                        <MapPin className="w-4 h-4 text-gold-500" />
-                        <span>{activeConfig.locationTag}</span>
-                      </div>
-                    )}
-
+                  <div className="flex-grow">
                     {/* Title */}
-                    <h3 className="font-serif text-2xl md:text-3xl text-neutral-900 font-semibold mb-1">
+                    <h3 className="font-sans text-sm min-[375px]:text-base sm:text-lg md:text-2xl font-bold text-primary mb-2">
                       {slide.title}
                     </h3>
                     
-                    {/* Subtitle */}
-                    <p className="text-[#7a6024] text-sm md:text-base font-medium italic mb-4">
-                      {slide.subtitle}
-                    </p>
-
-                    {/* Area Stats */}
-                    <div className="flex items-baseline gap-2 mb-4 bg-gold-500/5 px-4 py-1.5 rounded-lg w-fit border border-gold-500/10">
-                      <span className="font-serif text-2xl md:text-3xl text-gold-gradient font-bold">
-                        {slide.area}
-                      </span>
-                      <span className="text-neutral-600 text-xs md:text-sm font-medium">{slide.unit}</span>
-                    </div>
-
                     {/* Description */}
-                    <p className="text-neutral-600 text-sm md:text-base leading-relaxed mb-6">
+                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
                       {slide.description}
                     </p>
-
-                    {/* CTA */}
-                    {navigationConfig.ctaButtonText && (
-                      <button
-                        onClick={() => {
-                          if (onNavigate) {
-                            onNavigate('#register');
-                          } else {
-                            const element = document.querySelector('#contact');
-                            if (element) element.scrollIntoView({ behavior: 'smooth' });
-                          }
-                        }}
-                        className="bg-[#1c1515] text-white hover:bg-gold-500 transition-all duration-300 px-6 py-2.5 text-xs font-medium tracking-wide rounded-sm cursor-pointer border border-[#1c1515] hover:border-gold-500 shadow-sm w-fit"
-                        aria-label={navigationConfig.ctaButtonText}
-                      >
-                        {navigationConfig.ctaButtonText}
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>
@@ -138,4 +87,3 @@ export function WineryCarousel({ onNavigate, data }: { onNavigate?: (href: strin
     </section>
   );
 }
-

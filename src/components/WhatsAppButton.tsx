@@ -9,15 +9,42 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Hubungi kami melalui WhatsApp"
-      className="fixed bottom-8 right-8 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg shadow-[#25D366]/20 transition-all duration-300 hover:bg-[#20ba5a] hover:scale-110 hover:shadow-green-500/35 animate-fade-in cursor-pointer"
+      className="fixed bottom-8 right-8 z-40 cursor-pointer group"
     >
-      <svg
-        viewBox="0 0 24 24"
-        className="w-7 h-7 fill-current"
-        xmlns="http://www.w3.org/2000/svg"
+      {/* Pulse ring */}
+      <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-30 scale-100 group-hover:scale-125 group-hover:opacity-0 transition-all duration-500 pointer-events-none" />
+
+      {/* Button */}
+      <span className="relative flex items-center justify-center w-14 h-14 rounded-full shadow-xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-2xl"
+        style={{
+          background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+          boxShadow: '0 4px 24px 0 rgba(37,211,102,0.35), 0 1.5px 6px 0 rgba(0,0,0,0.12)'
+        }}
       >
-        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.5 1.453 5.457 1.454 5.539 0 10.043-4.507 10.046-10.05.002-2.68-1.038-5.2-2.93-7.093C17.278 1.671 14.76 .63 12.008.631 6.471.631 1.968 5.137 1.965 10.68c-.001 1.96.51 3.878 1.482 5.51l-.97 3.547 3.63-.952zm11.233-5.205c-.3-.15-1.77-.875-2.04-.972-.27-.099-.47-.15-.67.15-.2.3-.77.972-.94 1.17-.18.195-.35.225-.65.075-3.08-1.527-4.14-2.532-5.78-5.362-.18-.3-.02-.465.13-.615.13-.135.3-.35.45-.525.15-.18.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.67-1.62-.92-2.2-.24-.58-.5-.5-.67-.512-.17-.008-.37-.01-.57-.01-.2 0-.52.075-.79.375-.27.3-1.04 1.02-1.04 2.487 0 1.47 1.07 2.887 1.22 3.09 1.5 1.97 3.27 3.62 5.61 4.54.72.28 1.24.45 1.66.58.73.23 1.4.2 1.93.12.58-.087 1.77-.72 2.02-1.38.25-.66.25-1.23.175-1.35-.075-.12-.27-.18-.57-.33z" />
-      </svg>
+        {/* WhatsApp SVG icon */}
+        <svg
+          viewBox="0 0 48 48"
+          className="w-8 h-8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Phone body */}
+          <path
+            d="M24 4C13.0 4 4 13.0 4 24c0 3.6 1.0 7.0 2.7 9.9L4 44l10.4-2.7C17.1 42.9 20.4 44 24 44c11.0 0 20-9.0 20-20S35.0 4 24 4z"
+            fill="white"
+            fillOpacity="0.15"
+          />
+          <path
+            d="M24 4C13.0 4 4 13.0 4 24c0 3.6 1.0 7.0 2.7 9.9L4 44l10.4-2.7C17.1 42.9 20.4 44 24 44c11.0 0 20-9.0 20-20S35.0 4 24 4z"
+            fill="white"
+          />
+          {/* Chat bubble */}
+          <path
+            d="M35.2 28.5c-.2-.4-1.6-2.5-2.7-3-.6-.3-1-.3-1.4.1-.5.5-1.8 2.1-2.2 2.5-.4.4-.8.5-1.4.2-3.5-1.7-5.8-3.8-7.4-7-.2-.5 0-.8.3-1.1.6-.6 1.2-1.5 1.4-1.8.2-.4.1-.7-.1-1-.2-.4-1.9-4.6-2.6-6.3-.7-1.6-1.4-1.4-1.9-1.4-.5 0-1 0-1.5 0-.5 0-1.4.2-2.1 1C13 12.5 11 14.5 11 18.6c0 4.1 3.1 8.1 3.5 8.6 4 5.8 9.4 9.6 14.3 10.6 2.2.5 4.2.3 5.7-.5 1.7-.9 2.7-2.4 3-3.8.3-1.2.2-2.2 0-2.5-.2-.3-.4-.4-.3-.5z"
+            fill="#25D366"
+          />
+        </svg>
+      </span>
     </a>
   );
 }

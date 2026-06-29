@@ -91,3 +91,11 @@ export async function getMappedResearch(): Promise<any | null> {
 export async function getMappedContact(): Promise<any | null> {
   return fetchContent('contact');
 }
+
+export async function getMappedNews(): Promise<any | null> {
+  return fetchContent('news');
+}
+
+export async function getMappedGallery(): Promise<any | null> {
+  return fetchContent('gallery');
+}

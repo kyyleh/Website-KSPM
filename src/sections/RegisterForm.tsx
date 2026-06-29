@@ -181,7 +181,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
         </button>
 
         {status === 'success' ? (
-          <div className="bg-white/95 backdrop-blur-sm border border-neutral-200/60 rounded-2xl p-6 sm:p-8 md:p-12 shadow-premium text-center hover:shadow-gold-soft transition-all duration-500">
+          <div className="bg-white/95 backdrop-blur-sm border border-border rounded-2xl p-6 sm:p-8 md:p-12 shadow-premium text-center hover:shadow-gold-soft transition-all duration-500">
             <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="w-10 h-10 text-green-500" />
             </div>
@@ -199,14 +199,14 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
               </button>
               <button
                 onClick={() => onNavigate?.('#hero')}
-                className="bg-[#1c1515] text-white hover:bg-gold-500 transition-all duration-300 px-6 py-3 text-sm font-medium tracking-wide rounded-sm cursor-pointer border border-[#1c1515] hover:border-gold-500 shadow-sm"
+                className="bg-[#c9922a] text-white hover:bg-[#b07f20] transition-all duration-300 px-6 py-3 text-sm font-medium tracking-wide rounded-lg cursor-pointer border border-[#c9922a] hover:border-[#b07f20] shadow-sm"
               >
                 Kembali ke Beranda
               </button>
             </div>
           </div>
         ) : (
-          <div className="bg-white/95 backdrop-blur-sm border border-neutral-200/60 rounded-2xl p-6 sm:p-8 md:p-12 shadow-premium hover:shadow-gold-soft transition-all duration-500">
+          <div className="bg-white/95 backdrop-blur-sm border border-border rounded-2xl p-6 sm:p-8 md:p-12 shadow-premium hover:shadow-gold-soft transition-all duration-500">
             <div className="text-center mb-10">
               <span className="font-script text-3xl md:text-5xl text-gold-gradient block mb-2">Formulir Pendaftaran</span>
               <h2 className="font-serif text-3xl text-neutral-900 font-semibold uppercase tracking-wide">Gabung KSPM FEB UIKA</h2>
@@ -229,7 +229,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Masukkan nama lengkap Anda"
-                    className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300"
                   />
                 </div>
 
@@ -247,7 +247,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                     value={formData.nim}
                     onChange={handleChange}
                     placeholder="Masukkan NIM Anda"
-                    className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300"
                   />
                 </div>
 
@@ -262,7 +262,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                     name="faculty"
                     value={formData.faculty}
                     onChange={handleFacultyChange}
-                    className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300"
                   >
                     {Object.keys(facultyProdiMap).map(fac => (
                       <option key={fac} value={fac}>{fac}</option>
@@ -281,7 +281,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                     name="major"
                     value={formData.major}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300"
                   >
                     {(facultyProdiMap[formData.faculty] || []).map(major => (
                       <option key={major} value={major}>{major}</option>
@@ -300,7 +300,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                     name="semester"
                     value={formData.semester}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300"
                   >
                     {[1, 2, 3, 4, 5, 6, 7, 8].map(sem => (
                       <option key={sem} value={sem}>{sem}</option>
@@ -322,7 +322,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+62 xxx-xxxx-xxxx"
-                    className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300"
                   />
                 </div>
 
@@ -340,7 +340,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="email@example.com"
-                    className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300"
                   />
                 </div>
               </div>
@@ -358,7 +358,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                   value={formData.reason}
                   onChange={handleChange}
                   placeholder="Tuliskan motivasi atau alasan singkat Anda..."
-                  className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300 resize-none"
                 />
               </div>
 
@@ -375,12 +375,12 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
                   value={formData.skills}
                   onChange={handleChange}
                   placeholder="Tuliskan jika ada minat atau keahlian khusus..."
-                  className="w-full px-4 py-3 bg-white border border-neutral-300 rounded-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500 transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-white border border-input rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-300 resize-none"
                 />
               </div>
 
               {status === 'error' && (
-                <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-700 text-sm rounded-sm text-center">
+                <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-700 text-sm rounded-lg text-center">
                   Gagal mengirim pendaftaran. Silakan periksa koneksi Anda dan coba lagi.
                 </div>
               )}
@@ -389,7 +389,7 @@ Mohon bantuannya untuk verifikasi pendaftaran saya. Terima kasih!`;
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="w-full btn-primary rounded-sm flex items-center justify-center gap-2 py-3.5 cursor-pointer shadow-sm mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full btn-primary rounded-lg flex items-center justify-center gap-2 py-3.5 cursor-pointer shadow-sm mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === 'submitting' ? (
                   <>

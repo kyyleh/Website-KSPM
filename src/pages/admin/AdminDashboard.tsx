@@ -5,13 +5,24 @@ import { AboutEditor } from './editors/AboutEditor';
 import { EventsEditor } from './editors/EventsEditor';
 import { ResearchEditor } from './editors/ResearchEditor';
 import { NewsEditor } from './editors/NewsEditor';
+import { GalleryEditor } from './editors/GalleryEditor';
 import { ContactEditor } from './editors/ContactEditor';
 import { FooterEditor } from './editors/FooterEditor';
 import { MessagesInbox } from './editors/MessagesInbox';
 import { verifyToken, logout, getMessages } from './lib/adminApi';
 import { LayoutDashboard, MessageSquare, AlertCircle } from 'lucide-react';
 
-type AdminSection = 'dashboard' | 'hero' | 'about' | 'events' | 'research' | 'news' | 'contact' | 'footer' | 'messages';
+type AdminSection =
+  | 'dashboard'
+  | 'hero'
+  | 'about'
+  | 'events'
+  | 'research'
+  | 'news'
+  | 'gallery'
+  | 'contact'
+  | 'footer'
+  | 'messages';
 
 export function AdminDashboard() {
   const [section, setSection] = useState<AdminSection>('dashboard');
@@ -70,6 +81,7 @@ export function AdminDashboard() {
       case 'events': return <EventsEditor setIsDirty={setIsDirty} />;
       case 'research': return <ResearchEditor setIsDirty={setIsDirty} />;
       case 'news': return <NewsEditor setIsDirty={setIsDirty} />;
+      case 'gallery': return <GalleryEditor setIsDirty={setIsDirty} />;
       case 'contact': return <ContactEditor setIsDirty={setIsDirty} />;
       case 'footer': return <FooterEditor setIsDirty={setIsDirty} />;
       case 'messages': return <MessagesInbox />;

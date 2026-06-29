@@ -62,7 +62,7 @@ export const navigationConfig: NavigationConfig = {
       href: "#about",
       icon: "Users",
       dropdown: [
-        { name: "Visi & Misi", href: "#about" },
+        { name: "Visi & Misi", href: "#philosophy" },
         { name: "Sejarah", href: "#history" },
         { name: "Struktur Organisasi", href: "#organization" },
       ]
@@ -70,7 +70,7 @@ export const navigationConfig: NavigationConfig = {
     {
       name: "Kegiatan",
       href: "#events",
-      icon: "Grape",
+      icon: "Activity",
       dropdown: [
         { name: "Investalk", href: "#events" },
         { name: "Kursus Pasar Modal", href: "#events" },
@@ -89,9 +89,10 @@ export const navigationConfig: NavigationConfig = {
         { name: "Sekolah Pasar Modal", href: "#research" },
       ]
     },
+    { name: "Galeri", href: "#gallery", icon: "Camera" },
     { name: "Kontak", href: "#contact", icon: "Mail" },
   ],
-  ctaButtonText: "Gabung Kami",
+  ctaButtonText: "Gabung Jadi Anggota",
 };
 
 // -----------------------------------------------------------------------------
@@ -131,7 +132,7 @@ export interface HeroConfig {
 }
 
 export const heroConfig: HeroConfig = {
-  scriptText: "Kelompok Studi Pasar Modal",
+  scriptText: "Edukasi, Riset & Investasi",
   mainTitle: "Komunitas Pasar Modal\nTerbesar di UIKA Bogor",
   ctaButtonText: "Jelajahi Kami",
   ctaTarget: "#about",
@@ -144,6 +145,72 @@ export const heroConfig: HeroConfig = {
   decorativeText: "KSPM FEB UIKA BOGOR",
   backgroundImage: "/images/hero-banner.jpg",
 };
+
+// -----------------------------------------------------------------------------
+// Achievements Config
+// -----------------------------------------------------------------------------
+export interface Achievement {
+  value: string;
+  label: string;
+  description: string;
+  icon: string;
+}
+
+export interface AchievementsConfig {
+  scriptText: string;
+  mainTitle: string;
+  subtitle: string;
+  items: Achievement[];
+  ctaText?: string;
+  ctaTarget?: string;
+}
+
+export const achievementsConfig: AchievementsConfig = {
+  scriptText: "Pencapaian Kami",
+  mainTitle: "Pencapaian Kami",
+  subtitle: "Dalam 7 tahun perjalanan, KSPM FEB UIKA Bogor telah menorehkan berbagai pencapaian nyata di bidang edukasi, riset, dan pengembangan komunitas pasar modal.",
+  items: [
+    {
+      value: "500+",
+      label: "Alumni Aktif",
+      description: "Lulusan program yang kini berkiprah di industri keuangan & pasar modal",
+      icon: "Users",
+    },
+    {
+      value: "50+",
+      label: "Riset Diterbitkan",
+      description: "Laporan riset fundamental & teknikal yang dipublikasikan secara rutin",
+      icon: "FileText",
+    },
+    {
+      value: "30+",
+      label: "Kegiatan Per Tahun",
+      description: "Seminar, workshop, company visit, dan kursus pasar modal setiap tahunnya",
+      icon: "Calendar",
+    },
+    {
+      value: "20+",
+      label: "Mitra Institusi",
+      description: "Kerja sama dengan broker, OJK, BEI, dan lembaga keuangan terkemuka",
+      icon: "Handshake",
+    },
+    {
+      value: "7",
+      label: "Tahun Berdedikasi",
+      description: "Konsisten mendidik generasi investor muda sejak 2019 hingga kini",
+      icon: "Award",
+    },
+    {
+      value: "#1",
+      label: "KSP Pasar Modal UIKA",
+      description: "Kelompok studi pasar modal terbesar dan paling aktif di lingkungan UIKA Bogor",
+      icon: "TrendingUp",
+    },
+  ],
+  ctaText: "Bergabung Bersama Kami",
+  ctaTarget: "#register",
+};
+
 
 // -----------------------------------------------------------------------------
 // Wine Showcase Config → Adapted for Research Programs
@@ -186,8 +253,8 @@ export interface WineShowcaseConfig {
 
 export const wineShowcaseConfig: WineShowcaseConfig = {
   scriptText: "Program Unggulan",
-  subtitle: "RISET & EDUKASI PASAR MODAL",
-  mainTitle: "Riset & Edukasi",
+  subtitle: "PROGRAM KSPM",
+  mainTitle: "Riset & Publikasi",
   wines: [
     {
       id: "sps",
@@ -250,7 +317,7 @@ export const wineShowcaseConfig: WineShowcaseConfig = {
     { icon: "BookOpen", title: "Analisis Fundamental", description: "Pembelajaran analisis laporan keuangan dan valuasi perusahaan secara mendalam" },
     { icon: "Sparkles", title: "Technical Analysis", description: "Studi pola grafik dan indikator teknikal untuk timing masuk & keluar investasi" },
     { icon: "Clock", title: "Risk Management", description: "Strategi pengelolaan risiko portofolio dan alokasi aset yang optimal" },
-    { icon: "Wine", title: "Market Update", description: "Update kondisi pasar terkini dan sentimen investor setiap minggunya" },
+    { icon: "TrendingUp", title: "Market Update", description: "Update kondisi pasar terkini dan sentimen investor setiap minggunya" },
   ],
   quote: {
     text: "Investasi terbaik adalah investasi dalam pengetahuan. Semakin banyak Anda belajar, semakin baik keputusan investasi Anda.",
@@ -374,10 +441,10 @@ export interface MuseumConfig {
 }
 
 export const museumConfig: MuseumConfig = {
-  scriptText: "Tentang Kami",
+  scriptText: "PROFIL & SEJARAH",
   subtitle: "OUR JOURNEY",
   mainTitle: "Sejarah KSPM FEB UIKA",
-  introText: "Kelompok Studi Pasar Modal Fakultas Ekonomi dan Bisnis Universitas Ibn Khaldun Bogor didirikan dengan visi menjadi komunitas pasar modal terdepan yang mencetak generasi investor dan trader yang cerdas, berintegritas, dan profesional.",
+  introText: "Kelompok Studi Pasar Modal (KSPM) FEB UIKA Bogor adalah wadah edukasi untuk mendalami dunia investasi dan pasar modal secara akademis maupun praktis.",
   timeline: [
     { year: "2019", event: "KSPM FEB UIKA Bogor resmi berdiri" },
     { year: "2020", event: "Program KPM pertama diluncurkan" },
@@ -508,27 +575,52 @@ export const organizationConfig: OrganizationConfig = {
                     name: "Dept. Research",
                     role: "Riset",
                     image: "/images/dept-research.jpg",
+                    children: [
+                      { name: "Ahmad Fauzi", role: "Anggota Research" },
+                      { name: "Luthfi Halim", role: "Anggota Research" },
+                      { name: "Sarah Utami", role: "Anggota Research" }
+                    ]
                   },
                   {
                     name: "Dept. Media",
                     role: "Media Kreatif",
                     image: "/images/dept-media.jpg",
+                    children: [
+                      { name: "Budi Santoso", role: "Anggota Media" },
+                      { name: "Rian Aditama", role: "Anggota Media" },
+                      { name: "Nadia Safitri", role: "Anggota Media" }
+                    ]
                   },
                   {
                     name: "Dept. HR & Program",
                     role: "Program & SDM",
                     image: "/images/dept-hr.jpg",
+                    children: [
+                      { name: "Dian Lestari", role: "Anggota HR" },
+                      { name: "Fikri Haikal", role: "Anggota HR" },
+                      { name: "Indah Permata", role: "Anggota HR" }
+                    ]
                   },
                   {
                     name: "Dept. Finance",
                     role: "Pendanaan",
                     image: "/images/dept-finance.jpg",
+                    children: [
+                      { name: "Hendra Wijaya", role: "Anggota Finance" },
+                      { name: "Rina Amelia", role: "Anggota Finance" },
+                      { name: "Taufik Hidayat", role: "Anggota Finance" }
+                    ]
                   },
                 ],
               },
             ],
           }
         ]
+      },
+      {
+        name: "Steering Committee",
+        role: "",
+        image: "/images/agung-supriatna.png",
       }
     ]
   }
@@ -755,7 +847,7 @@ export const contactFormConfig: ContactFormConfig = {
   whatsappLink: "https://wa.me/6289514455380",
   mainTitle: "Mari Berkolaborasi",
   introText: "Punya pertanyaan tentang KSPM atau ingin berkolaborasi? Jangan ragu untuk menghubungi kami. Tim kami siap membantu Anda.",
-  contactInfoTitle: "Informasi Kontak",
+  contactInfoTitle: "Hubungi Kami",
   contactInfo: [
     {
       icon: "MapPin",
@@ -789,9 +881,9 @@ export const contactFormConfig: ContactFormConfig = {
     emailPlaceholder: "email@example.com",
     phoneLabel: "Nomor Telepon",
     phonePlaceholder: "+62 xxx-xxxx-xxxx",
-    visitDateLabel: "Tanggal Kunjungan",
-    visitorsLabel: "Jumlah Pengunjung",
-    visitorsOptions: ["1", "2", "3-5", "6-10", "10+"],
+    visitDateLabel: "Tanggal",
+    visitorsLabel: "Kategori",
+    visitorsOptions: ["Mahasiswa UIKA", "Akademisi/Dosen", "Komunitas/Organisasi", "Instansi/Perusahaan", "Lainnya"],
     messageLabel: "Pesan",
     messagePlaceholder: "Tulis pesan Anda di sini...",
     submitText: "Kirim Pesan",
@@ -907,3 +999,73 @@ export interface ScrollToTopConfig {
 export const scrollToTopConfig: ScrollToTopConfig = {
   ariaLabel: "Kembali ke atas",
 };
+
+// -----------------------------------------------------------------------------
+// Gallery Config
+// -----------------------------------------------------------------------------
+export interface GalleryItem {
+  id: string;
+  src: string;
+  alt: string;
+  title: string;
+  description: string;
+}
+
+export const galleryConfig: GalleryItem[] = [
+  {
+    id: "gal-01",
+    src: "/images/event-investalk.jpg",
+    alt: "Investalk KSPM FEB UIKA",
+    title: "Investalk KSPM",
+    description: "Talkshow pasar modal dan investasi bersama praktisi industri keuangan nasional.",
+  },
+  {
+    id: "gal-02",
+    src: "/images/event-kpm.jpg",
+    alt: "Kursus Pasar Modal",
+    title: "Kursus Pasar Modal",
+    description: "Pelatihan rutin untuk anggota KSPM mengenai fundamental dan teknik analisis saham.",
+  },
+  {
+    id: "gal-03",
+    src: "/images/event-companyvisit.jpg",
+    alt: "Company Visit BEI",
+    title: "Company Visit",
+    description: "Kunjungan resmi KSPM FEB UIKA ke Bursa Efek Indonesia dan Sekuritas mitra.",
+  },
+  {
+    id: "gal-04",
+    src: "/images/event-comparative.jpg",
+    alt: "Comparative Study",
+    title: "Comparative Study",
+    description: "Studi banding KSPM FEB UIKA bersama Kelompok Studi dari universitas lain.",
+  },
+  {
+    id: "gal-05",
+    src: "/images/about-vision.jpg",
+    alt: "Edukasi Pasar Modal",
+    title: "Edukasi Anggota",
+    description: "Pertemuan rutin edukasi anggota baru mengenai dasar-dasar trading dan investasi.",
+  },
+  {
+    id: "gal-06",
+    src: "/images/research-sps.jpg",
+    alt: "Kelas Si Paling Saham",
+    title: "Kelas SPS",
+    description: "Kelas interaktif analisis pasar modal yang santai namun berbobot untuk mahasiswa.",
+  },
+  {
+    id: "gal-07",
+    src: "/images/research-equity.jpg",
+    alt: "Diskusi Riset Saham",
+    title: "Riset Emiten",
+    description: "Kegiatan analisis emiten dan pembedahan laporan keuangan secara berkelompok.",
+  },
+  {
+    id: "gal-08",
+    src: "/images/story-image.jpg",
+    alt: "Foto Bersama Pengurus",
+    title: "Kebersamaan Pengurus",
+    description: "Momen keakraban seluruh pengurus KSPM FEB UIKA setelah menyelesaikan program kerja.",
+  }
+];

@@ -1,9 +1,9 @@
-import { Wine, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, Linkedin, Music, MessageCircle } from 'lucide-react';
+import { TrendingUp, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, Linkedin, Music, MessageCircle } from 'lucide-react';
 import { footerConfig } from '../config';
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Wine, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, Linkedin, Music, MessageCircle,
+  TrendingUp, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, Linkedin, Music, MessageCircle,
 };
 
 export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) {
@@ -30,12 +30,12 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
   };
 
   return (
-    <footer className="relative border-t border-neutral-300/50 bg-[#f0ede6] text-neutral-800" role="contentinfo">
+    <footer className="relative border-t border-border bg-background text-neutral-800" role="contentinfo">
       {/* Main Footer */}
-      <div className="container-custom py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+      <div className="container-custom py-10 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Column */}
-          <div className="lg:col-span-1">
+          <div className="col-span-2 md:col-span-1 lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               {footerConfig.brandLogo ? (
                 <img 
@@ -44,7 +44,7 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
                   className="h-16 w-auto" 
                 />
               ) : (
-                <Wine className="w-8 h-8 text-gold-500" aria-hidden="true" />
+                <TrendingUp className="w-8 h-8 text-gold-500" aria-hidden="true" />
               )}
               <div>
                 <span className="font-serif text-3xl md:text-4xl text-[#1c1515] tracking-wide block">{footerConfig.brandName}</span>
@@ -69,7 +69,7 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
                         key={social.label}
                         href={social.href}
                         aria-label={social.label}
-                        className="w-10 h-10 rounded-full bg-white border border-neutral-300 flex items-center justify-center text-neutral-600 hover:bg-gold-500 hover:border-gold-500 hover:text-white transition-all duration-300 shadow-sm cursor-pointer"
+                        className="w-10 h-10 rounded-full bg-white border border-border flex items-center justify-center text-neutral-600 hover:bg-gold-500 hover:border-gold-500 hover:text-white transition-all duration-300 shadow-sm cursor-pointer"
                       >
                         {IconComponent && <IconComponent className="w-4 h-4" />}
                       </a>
@@ -82,14 +82,14 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
 
           {/* Link Groups */}
           {footerConfig.linkGroups.map((group, index) => (
-            <nav key={index} aria-label={group.title}>
+            <nav key={index} aria-label={group.title} className="col-span-1">
               <h3 className="font-serif text-lg text-[#1c1515] mb-5">{group.title}</h3>
               <ul className="space-y-3">
                 {group.links.map((link) => (
                   <li key={link.name}>
                     <button
                       onClick={() => scrollToSection(link.href)}
-                      className="text-neutral-600 text-sm hover:text-[#7a6024] transition-colors cursor-pointer"
+                      className="text-left text-neutral-600 text-sm hover:text-[#7a6024] transition-colors cursor-pointer"
                     >
                       {link.name}
                     </button>
@@ -100,7 +100,7 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
           ))}
 
           {/* Contact Info + Newsletter */}
-          <div>
+          <div className="col-span-2 md:col-span-1 lg:col-span-1">
             {footerConfig.contactItems.length > 0 && (
               <>
                 <h3 className="font-serif text-lg text-[#1c1515] mb-5">Kontak</h3>
@@ -124,8 +124,8 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-neutral-300/50">
-        <div className="container-custom py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="border-t border-border">
+        <div className="container-custom py-4 sm:py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center justify-center gap-4 text-neutral-500 text-xs">
             {footerConfig.copyrightText && (
               <span>{footerConfig.copyrightText}</span>
@@ -152,7 +152,7 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
               aria-label={footerConfig.backToTopText}
             >
               <span className="text-sm font-medium">{footerConfig.backToTopText}</span>
-              <div className="w-8 h-8 rounded-full border border-neutral-300 flex items-center justify-center group-hover:border-gold-500 group-hover:bg-gold-500 group-hover:text-white transition-all duration-300 shadow-sm">
+              <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center group-hover:border-gold-500 group-hover:bg-gold-500 group-hover:text-white transition-all duration-300 shadow-sm">
                 <ArrowUp className="w-4 h-4" />
               </div>
             </button>

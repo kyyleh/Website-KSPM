@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Wine } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import { preloaderConfig } from '../config';
 
 export function Preloader({ onComplete }: { onComplete: () => void }) {
@@ -35,7 +35,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
             className="h-40 w-auto" 
           />
         ) : (
-          <Wine className="w-12 h-12 text-gold-500" />
+          <TrendingUp className="w-12 h-12 text-gold-500" />
         )}
       </div>
 

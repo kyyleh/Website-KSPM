@@ -44,16 +44,19 @@ function flattenOrgStructure(structure: any): OrgMember[] {
     image: root.image || '',
   });
 
-  const dewanKehormatanNode = root.children?.[0];
-  if (dewanKehormatanNode) {
+  const steeringCommitteeNodes = root.children ?? [];
+  steeringCommitteeNodes.forEach((node: any, idx: number) => {
     list.push({
-      id: `member-sc-${Date.now()}`,
-      name: dewanKehormatanNode.name || '',
-      role: dewanKehormatanNode.role || '',
+      id: `member-sc-${idx}-${Date.now()}`,
+      name: node.name || '',
+      role: node.role || '',
       category: 'STEERING COMMITTEE',
-      image: dewanKehormatanNode.image || '',
+      image: node.image || '',
     });
+  });
 
+  const dewanKehormatanNode = steeringCommitteeNodes[0];
+  if (dewanKehormatanNode) {
     const ketuaUmumNode = dewanKehormatanNode.children?.[0];
     if (ketuaUmumNode) {
       list.push({
@@ -87,6 +90,18 @@ function flattenOrgStructure(structure: any): OrgMember[] {
           category: 'DEPARTEMEN',
           image: node.image || '',
         });
+
+        if (node.children && Array.isArray(node.children)) {
+          node.children.forEach((childNode: any, cidx: number) => {
+            list.push({
+              id: `member-dept-${idx}-member-${cidx}-${Date.now()}`,
+              name: childNode.name || '',
+              role: childNode.role || '',
+              category: 'ANGGOTA DEPARTEMEN',
+              image: childNode.image || '',
+            });
+          });
+        }
       });
     }
   }
@@ -615,6 +630,7 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
                   <option value="SEKRETARIS">SEKRETARIS</option>
                   <option value="BENDAHARA">BENDAHARA</option>
                   <option value="DEPARTEMEN">DEPARTEMEN</option>
+                  <option value="ANGGOTA DEPARTEMEN">ANGGOTA DEPARTEMEN</option>
                 </select>
               </div>
               <div>

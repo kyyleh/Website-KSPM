@@ -9,18 +9,23 @@ import { ResearchHeader } from './sections/ResearchHeader';
 import { Museum } from './sections/Museum';
 import { Organization } from './sections/Organization';
 import { News } from './sections/News';
+import { Testimonials } from './sections/Testimonials';
+import { Achievements } from './sections/Achievements';
 import { ContactForm } from './sections/ContactForm';
 import { Footer } from './sections/Footer';
 import { RegisterForm } from './sections/RegisterForm';
 import { Preloader } from './components/Preloader';
 import { ScrollToTop } from './components/ScrollToTop';
 import { WhatsAppButton } from './components/WhatsAppButton';
+import { Gallery } from './sections/Gallery';
 import {
   getMappedHero,
   getMappedAbout,
   getMappedActivities,
   getMappedResearch,
-  getMappedContact
+  getMappedContact,
+  getMappedNews,
+  getMappedGallery
 } from './lib/strapi';
 
 // Admin Panel (lazy check via URL)
@@ -31,7 +36,7 @@ import { Toaster } from 'sonner';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'events' | 'research' | 'register'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'events' | 'research' | 'register' | 'gallery'>('home');
 
   // Admin state
   const [isAdminRoute, setIsAdminRoute] = useState(false);
@@ -59,6 +64,8 @@ function App() {
   const [activitiesData, setActivitiesData] = useState<any>(undefined);
   const [researchData, setResearchData] = useState<any>(undefined);
   const [contactData, setContactData] = useState<any>(undefined);
+  const [newsData, setNewsData] = useState<any>(undefined);
+  const [galleryData, setGalleryData] = useState<any>(undefined);
 
   // Check if we're on the /admin route
   useEffect(() => {
@@ -94,7 +101,9 @@ function App() {
       getMappedAbout().then(res => res && setAboutData(res)),
       getMappedActivities().then(res => res && setActivitiesData(res)),
       getMappedResearch().then(res => res && setResearchData(res)),
-      getMappedContact().then(res => res && setContactData(res))
+      getMappedContact().then(res => res && setContactData(res)),
+      getMappedNews().then(res => res && setNewsData(res)),
+      getMappedGallery().then(res => res && setGalleryData(res))
     ]).catch(err => {
       console.error("Error loading data from backend:", err);
     });
@@ -116,7 +125,7 @@ function App() {
       }
     };
 
-    if (href === '#about' || href === '#history' || href === '#organization') {
+    if (href === '#about' || href === '#philosophy' || href === '#history' || href === '#organization') {
       setCurrentPage('about');
       setTimeout(() => scrollToTarget(href), 100);
     } else if (href === '#events') {
@@ -125,6 +134,11 @@ function App() {
     } else if (href === '#research') {
       setCurrentPage('research');
       setTimeout(() => scrollToTarget(href), 100);
+    } else if (href === '#gallery') {
+      setCurrentPage('gallery');
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     } else if (href === '#register') {
       setCurrentPage('register');
       setTimeout(() => {
@@ -165,14 +179,17 @@ function App() {
       <Toaster richColors position="top-right" />
       {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
 
-      <div className={`min-h-screen bg-[#f0ede6] ${isLoading ? 'overflow-hidden max-h-screen' : ''}`}>
+      <div className={`min-h-screen bg-background ${isLoading ? 'overflow-hidden max-h-screen' : ''}`}>
         <Navigation currentPage={currentPage} onNavigate={handlePageChange} />
 
         <main>
           {currentPage === 'home' && (
             <>
-              <Hero isReady={!isLoading} data={heroData} />
-              <News />
+              <Hero isReady={!isLoading} data={heroData} onNavigate={handlePageChange} />
+              <Testimonials data={newsData} />
+              <Achievements />
+              <News data={newsData} />
+              <Gallery onNavigate={handlePageChange} data={galleryData} />
               <ContactForm data={contactData} />
             </>
           )}
@@ -197,6 +214,9 @@ function App() {
           )}
           {currentPage === 'register' && (
             <RegisterForm onNavigate={handlePageChange} />
+          )}
+          {currentPage === 'gallery' && (
+            <Gallery isStandalone={true} onNavigate={handlePageChange} data={galleryData} />
           )}
         </main>
 
