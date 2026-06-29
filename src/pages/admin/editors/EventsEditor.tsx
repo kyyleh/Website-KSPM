@@ -195,11 +195,6 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
                 {/* Slide content */}
                 {expandedSlide === i && (
                   <div className="p-4 space-y-4 border-t border-[#eae6dd] bg-white">
-                    <ImageUploader
-                      value={slide.image}
-                      onChange={(url) => updateSlide(i, 'image', url)}
-                      label="Gambar Slider"
-                    />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs text-neutral-500 mb-1">Title</label>
@@ -235,12 +230,6 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
             <h3 className="text-lg font-bold text-[#1c1515]">Tambah Slide Kegiatan</h3>
             
             <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-              <ImageUploader
-                value={newSlide.image}
-                onChange={(url) => setNewSlide({ ...newSlide, image: url })}
-                label="Gambar Kegiatan"
-              />
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs text-neutral-500 mb-1">Judul (Title)</label>
