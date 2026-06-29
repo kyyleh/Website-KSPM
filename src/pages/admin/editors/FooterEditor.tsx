@@ -14,7 +14,7 @@ export function FooterEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
     (async () => {
       try {
         const res = await getContent('footer');
-        setData(res.content || footerConfig);
+        setData(res.content ? { ...footerConfig, ...res.content } : footerConfig);
       } catch (err: any) {
         toast.error('Gagal memuat data Footer dari server.');
         setData(footerConfig);

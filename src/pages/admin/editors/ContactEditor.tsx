@@ -14,7 +14,7 @@ export function ContactEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
     (async () => {
       try {
         const res = await getContent('contact');
-        setData(res.content || contactFormConfig);
+        setData(res.content ? { ...contactFormConfig, ...res.content } : contactFormConfig);
       } catch (err: any) {
         toast.error('Gagal memuat data Kontak dari server.');
         setData(contactFormConfig);

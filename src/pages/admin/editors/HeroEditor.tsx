@@ -35,9 +35,9 @@ export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
           getContent('news'),
         ]);
 
-        setHeroData(heroRes.content || heroConfig);
-        setAchData(achRes.content || achievementsConfig);
-        setTestimonialsData(newsRes.content || newsConfig);
+        setHeroData(heroRes.content ? { ...heroConfig, ...heroRes.content } : heroConfig);
+        setAchData(achRes.content ? { ...achievementsConfig, ...achRes.content } : achievementsConfig);
+        setTestimonialsData(newsRes.content ? { ...newsConfig, ...newsRes.content } : newsConfig);
       } catch (err: any) {
         toast.error('Gagal memuat beberapa data dari server.');
         setHeroData(heroConfig);
@@ -57,10 +57,29 @@ export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
   const handleSave = async () => {
     setSaving(true);
     try {
+      // Fetch latest 'news' content from server to merge and prevent overwriting articles
+      let latestNewsData = newsConfig;
+      try {
+        const latestNewsRes = await getContent('news');
+        if (latestNewsRes && latestNewsRes.content) {
+          latestNewsData = latestNewsRes.content;
+        }
+      } catch (err) {
+        console.warn("Gagal mengambil data 'news' terbaru, menggunakan fallback default", err);
+      }
+
+      const mergedNewsData = {
+        ...latestNewsData,
+        testimonials: testimonialsData.testimonials,
+        testimonialsMainTitle: testimonialsData.testimonialsMainTitle,
+        testimonialsSubtitle: testimonialsData.testimonialsSubtitle,
+        testimonialsScriptText: testimonialsData.testimonialsScriptText,
+      };
+
       await Promise.all([
         saveContent('hero', heroData),
         saveContent('achievements', achData),
-        saveContent('news', testimonialsData),
+        saveContent('news', mergedNewsData),
       ]);
       setIsDirty?.(false);
       toast.success('Seluruh data beranda berhasil disimpan!');

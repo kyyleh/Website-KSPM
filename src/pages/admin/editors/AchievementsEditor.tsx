@@ -14,7 +14,7 @@ export function AchievementsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolea
     (async () => {
       try {
         const res = await getContent('achievements');
-        setData(res.content || achievementsConfig);
+        setData(res.content ? { ...achievementsConfig, ...res.content } : achievementsConfig);
       } catch (err: any) {
         toast.error('Gagal memuat data Pencapaian dari server.');
         setData(achievementsConfig);

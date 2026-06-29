@@ -18,9 +18,18 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
     (async () => {
       try {
         const res = await getContent<any>('events');
-        if (res && res.content) setData(res.content);
+        if (res && res.content) {
+          setData({
+            ...wineryCarouselConfig,
+            ...res.content,
+            slides: res.content.slides || wineryCarouselConfig.slides,
+          });
+        } else {
+          setData(wineryCarouselConfig);
+        }
       } catch (err: any) {
         toast.error('Gagal memuat data Kegiatan dari server.');
+        setData(wineryCarouselConfig);
       } finally {
         setLoading(false);
       }

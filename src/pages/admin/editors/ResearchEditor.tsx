@@ -19,7 +19,17 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
     (async () => {
       try {
         const res = await getContent('research');
-        setData(res.content || wineShowcaseConfig);
+        if (res && res.content) {
+          setData({
+            ...wineShowcaseConfig,
+            ...res.content,
+            wines: res.content.wines || wineShowcaseConfig.wines,
+            features: res.content.features || wineShowcaseConfig.features,
+            quote: res.content.quote ? { ...wineShowcaseConfig.quote, ...res.content.quote } : wineShowcaseConfig.quote,
+          });
+        } else {
+          setData(wineShowcaseConfig);
+        }
       } catch (err: any) {
         toast.error('Gagal memuat data Riset dari server.');
         setData(wineShowcaseConfig);

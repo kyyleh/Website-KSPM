@@ -150,10 +150,14 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
         const res = await getContent<any>('about');
         if (res && res.content) {
           const content = res.content;
-          if (content.organization) {
-            content.organization.structure = flattenOrgStructure(content.organization.structure);
-          }
-          setData(content);
+          const mergedMuseum = content.museum ? { ...museumConfig, ...content.museum } : museumConfig;
+          const mergedOrg = content.organization ? { ...organizationConfig, ...content.organization } : organizationConfig;
+          mergedOrg.structure = flattenOrgStructure(mergedOrg.structure);
+          
+          setData({
+            museum: mergedMuseum,
+            organization: mergedOrg
+          });
         }
       } catch (err: any) {
         toast.error('Gagal memuat data Tentang Kami dari server.');

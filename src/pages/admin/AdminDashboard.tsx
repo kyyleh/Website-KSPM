@@ -8,6 +8,7 @@ import { NewsEditor } from './editors/NewsEditor';
 import { GalleryEditor } from './editors/GalleryEditor';
 import { MessagesInbox } from './editors/MessagesInbox';
 import { FooterEditor } from './editors/FooterEditor';
+import { ContactEditor } from './editors/ContactEditor';
 import { verifyToken, logout, getMessages } from './lib/adminApi';
 import { LayoutDashboard, MessageSquare, AlertCircle } from 'lucide-react';
 
@@ -20,7 +21,8 @@ type AdminSection =
   | 'news'
   | 'gallery'
   | 'messages'
-  | 'footer';
+  | 'footer'
+  | 'contact';
 
 export function AdminDashboard() {
   const [section, setSection] = useState<AdminSection>('dashboard');
@@ -82,6 +84,7 @@ export function AdminDashboard() {
       case 'gallery': return <GalleryEditor setIsDirty={setIsDirty} />;
       case 'messages': return <MessagesInbox />;
       case 'footer': return <FooterEditor setIsDirty={setIsDirty} />;
+      case 'contact': return <ContactEditor setIsDirty={setIsDirty} />;
       default: return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div>
@@ -117,7 +120,7 @@ export function AdminDashboard() {
                 </div>
                 <span className="text-neutral-500 font-medium text-[15px]">Total Section</span>
               </div>
-              <p className="text-4xl font-bold text-[#1c1515] tracking-tight">8</p>
+              <p className="text-4xl font-bold text-[#1c1515] tracking-tight">9</p>
             </div>
           </div>
  

@@ -32,7 +32,7 @@ import {
 // Admin Panel (lazy check via URL)
 import { AdminLogin } from './pages/admin/AdminLogin';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { isLoggedIn, verifyToken, logout } from './pages/admin/lib/adminApi';
+import { isLoggedIn, verifyToken } from './pages/admin/lib/adminApi';
 import { Toaster } from 'sonner';
 
 function App() {
@@ -44,18 +44,11 @@ function App() {
   const [isAdminAuthed, setIsAdminAuthed] = useState(false);
   const [adminChecking, setAdminChecking] = useState(true);
 
-  // Clear admin session and redirect to home on page refresh/reload if logged in
+  // Remove legacy token from localStorage if present
   useEffect(() => {
-    const loggedIn = localStorage.getItem('kspm_logged_in');
     const oldToken = localStorage.getItem('kspm_admin_token');
     if (oldToken) {
       localStorage.removeItem('kspm_admin_token');
-    }
-    if (loggedIn) {
-      logout();
-      if (window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin')) {
-        window.location.href = '/';
-      }
     }
   }, []);
 

@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Camera,
   PanelBottom,
+  Phone,
 } from 'lucide-react';
 
 export type AdminSection =
@@ -24,7 +25,8 @@ export type AdminSection =
   | 'news'
   | 'gallery'
   | 'messages'
-  | 'footer';
+  | 'footer'
+  | 'contact';
 
 interface SidebarItem {
   id: AdminSection;
@@ -51,6 +53,7 @@ const sidebarItems: SidebarItem[] = [
   { id: 'news', label: 'Berita', icon: <Newspaper size={20} /> },
   { id: 'gallery', label: 'Galeri Foto', icon: <Camera size={20} /> },
   { id: 'messages', label: 'Pesan Masuk', icon: <Mail size={20} /> },
+  { id: 'contact', label: 'Kontak', icon: <Phone size={20} /> },
   { id: 'footer', label: 'Footer', icon: <PanelBottom size={20} /> },
 ];
 
