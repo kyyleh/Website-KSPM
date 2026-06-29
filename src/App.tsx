@@ -14,7 +14,7 @@ import { Achievements } from './sections/Achievements';
 import { ContactForm } from './sections/ContactForm';
 import { Footer } from './sections/Footer';
 import { RegisterForm } from './sections/RegisterForm';
-import { Preloader } from './components/Preloader';
+
 import { ScrollToTop } from './components/ScrollToTop';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { Gallery } from './sections/Gallery';
@@ -35,7 +35,7 @@ import { isLoggedIn, verifyToken, logout } from './pages/admin/lib/adminApi';
 import { Toaster } from 'sonner';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+
   const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'events' | 'research' | 'register' | 'gallery'>('home');
 
   // Admin state
@@ -109,9 +109,7 @@ function App() {
     });
   }, [isAdminRoute]);
 
-  const handlePreloaderComplete = useCallback(() => {
-    setIsLoading(false);
-  }, []);
+
 
   const handlePageChange = useCallback((href: string) => {
     const scrollToTarget = (targetHref: string, retryCount = 0) => {
@@ -177,15 +175,15 @@ function App() {
   return (
     <>
       <Toaster richColors position="top-right" />
-      {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
 
-      <div className={`min-h-screen bg-background ${isLoading ? 'overflow-hidden max-h-screen' : ''}`}>
+
+      <div className="min-h-screen bg-background">
         <Navigation currentPage={currentPage} onNavigate={handlePageChange} />
 
         <main>
           {currentPage === 'home' && (
             <>
-              <Hero isReady={!isLoading} data={heroData} onNavigate={handlePageChange} />
+              <Hero isReady={true} data={heroData} onNavigate={handlePageChange} />
               <Testimonials data={newsData} />
               <Achievements />
               <News data={newsData} />
