@@ -14,6 +14,16 @@ interface OrgMember {
   image?: string;
 }
 
+const ORG_CATEGORY_LABELS: Record<string, string> = {
+  'PEMBINA': 'Pembina',
+  'STEERING COMMITTEE': 'Steering Committee',
+  'KETUA UMUM': 'Ketua Umum',
+  'SEKRETARIS': 'Sekretaris',
+  'BENDAHARA': 'Bendahara',
+  'DEPARTEMEN': 'Kepala Divisi / Departemen',
+  'ANGGOTA DEPARTEMEN': 'Anggota Divisi / Departemen'
+};
+
 interface AboutData {
   museum: typeof museumConfig;
   organization: Omit<typeof organizationConfig, 'structure'> & {
@@ -496,7 +506,7 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
                               <div className="text-[#1c1515] font-medium text-sm truncate">{item.name}</div>
                               <div className="text-xs text-neutral-500 truncate">
                                 <span className="bg-amber-500/10 text-[#a67e2a] px-1.5 py-0.5 rounded text-[10px] uppercase font-semibold mr-1.5">
-                                  {item.category}
+                                  {ORG_CATEGORY_LABELS[item.category] || item.category}
                                 </span>
                                 {item.role ? `${item.role}` : ''}
                               </div>
@@ -637,13 +647,13 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
                   onChange={(e) => setMemberForm({ ...memberForm, category: e.target.value })}
                   className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
                 >
-                  <option value="PEMBINA">PEMBINA</option>
-                  <option value="STEERING COMMITTEE">STEERING COMMITTEE</option>
-                  <option value="KETUA UMUM">KETUA UMUM</option>
-                  <option value="SEKRETARIS">SEKRETARIS</option>
-                  <option value="BENDAHARA">BENDAHARA</option>
-                  <option value="DEPARTEMEN">DEPARTEMEN</option>
-                  <option value="ANGGOTA DEPARTEMEN">ANGGOTA DEPARTEMEN</option>
+                  <option value="PEMBINA">Pembina</option>
+                  <option value="STEERING COMMITTEE">Steering Committee</option>
+                  <option value="KETUA UMUM">Ketua Umum</option>
+                  <option value="SEKRETARIS">Sekretaris</option>
+                  <option value="BENDAHARA">Bendahara</option>
+                  <option value="DEPARTEMEN">Kepala Divisi / Departemen</option>
+                  <option value="ANGGOTA DEPARTEMEN">Anggota Divisi / Departemen</option>
                 </select>
               </div>
               <div>

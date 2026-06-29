@@ -142,12 +142,22 @@ export function NewsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
               </div>
               <div>
                 <label className="block text-neutral-500 text-xs mb-1">Kategori</label>
-                <select value={article.category || ''} onChange={e => updateArticle(i, 'category', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]">
-                  <option value="Market Analysis">Market Analysis</option>
-                  <option value="Regulation">Regulation</option>
-                  <option value="Education">Education</option>
-                  <option value="Video Review">Video Review</option>
-                </select>
+                <input
+                  type="text"
+                  list={`news-categories-${i}`}
+                  value={article.category || ''}
+                  onChange={e => updateArticle(i, 'category', e.target.value)}
+                  placeholder="Pilih atau ketik kategori..."
+                  className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
+                />
+                <datalist id={`news-categories-${i}`}>
+                  <option value="Market Analysis">Analisis Pasar (Market Analysis)</option>
+                  <option value="Regulation">Regulasi (Regulation)</option>
+                  <option value="Education">Edukasi (Education)</option>
+                  <option value="Video Review">Ulasan Video (Video Review)</option>
+                  <option value="Pengumuman">Pengumuman</option>
+                  <option value="Kegiatan">Kegiatan</option>
+                </datalist>
               </div>
             </div>
             <div>
@@ -199,16 +209,22 @@ export function NewsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
                 </div>
                 <div>
                   <label className="block text-xs text-neutral-500 mb-1">Kategori</label>
-                  <select
+                  <input
+                    type="text"
+                    list="new-news-categories"
                     value={newArticle.category}
                     onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
+                    placeholder="Pilih atau ketik kategori..."
                     className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  >
-                    <option value="Market Analysis">Market Analysis</option>
-                    <option value="Regulation">Regulation</option>
-                    <option value="Education">Education</option>
-                    <option value="Video Review">Video Review</option>
-                  </select>
+                  />
+                  <datalist id="new-news-categories">
+                    <option value="Market Analysis">Analisis Pasar (Market Analysis)</option>
+                    <option value="Regulation">Regulasi (Regulation)</option>
+                    <option value="Education">Edukasi (Education)</option>
+                    <option value="Video Review">Ulasan Video (Video Review)</option>
+                    <option value="Pengumuman">Pengumuman</option>
+                    <option value="Kegiatan">Kegiatan</option>
+                  </datalist>
                 </div>
                 <div>
                   <label className="block text-xs text-neutral-500 mb-1">Tanggal</label>
