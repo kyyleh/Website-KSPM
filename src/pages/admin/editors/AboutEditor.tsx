@@ -439,10 +439,6 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
                           className="w-full px-3 py-2 bg-white border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
                         />
                       </div>
-                      <div>
-                        <label className="block text-xs text-neutral-500 mb-1">Highlight</label>
-                        <input type="text" value={tab.content.highlight || ''} onChange={(e) => updateTab(i, 'content.highlight', e.target.value)} className="w-full px-3 py-2 bg-white border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                      </div>
                     </div>
                   ))}
                 </div>

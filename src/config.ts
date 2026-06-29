@@ -420,7 +420,6 @@ export interface TimelineEvent {
 export interface MuseumTabContent {
   title: string;
   description: string | string[];
-  highlight?: string;
 }
 
 export interface MuseumTab {
@@ -482,7 +481,6 @@ export const museumConfig: MuseumConfig = {
       content: {
         title: "Visi KSPM",
         description: "Menjadikan kelompok studi pasar modal Universitas Ibn Khaldun Bogor sebagai pusat edukasi, informasi, dan sosialisasi pasar modal serta mengembangkan pengetahuan tentang investasi kepada Civitas Akademika Universitas Ibn Khaldun Bogor.",
-        highlight: "Edukasi • Informasi • Sosialisasi",
       },
     },
     {
@@ -498,7 +496,6 @@ export const museumConfig: MuseumConfig = {
           "• Mengedukasi dan menyosialisasikan pengetahuan mengenai pasar modal",
           "• Menyelenggarakan kegiatan-kegiatan terkait pasar modal"
         ],
-        highlight: "Terampil • Komitmen • Organisasi",
       },
     },
     {
@@ -509,7 +506,6 @@ export const museumConfig: MuseumConfig = {
       content: {
         title: "Integritas, Profesionalisme, Kolaborasi",
         description: "Kami menjunjung tinggi integritas dalam setiap analisis, profesionalisme dalam setiap kegiatan, dan semangat kolaborasi untuk pertumbuhan bersama.",
-        highlight: "Integrity • Professionalism • Collaboration",
       },
     },
     {
@@ -520,7 +516,6 @@ export const museumConfig: MuseumConfig = {
       content: {
         title: "Berkontribusi untuk Pasar Modal Indonesia",
         description: "Telah meluluskan ratusan alumni yang aktif di industri pasar modal, menerbitkan puluhan riset, dan menjalin kerja sama dengan berbagai lembaga keuangan.",
-        highlight: "500+ Alumni • 50+ Riset • 20+ Partnership",
       },
     },
   ],
