@@ -96,66 +96,27 @@ export function WineShowcase({ onNavigate, data }: { onNavigate?: (href: string)
                   <div className="grid md:grid-cols-12 items-stretch">
                     {/* Image Container */}
                     <div className={`relative w-full md:col-span-5 overflow-hidden md:min-h-0 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
-                      {/* Glow background accent */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className={`w-48 h-48 ${wine.glowColor} rounded-full blur-3xl opacity-10`} />
-                      </div>
                       <img
                         src={getMediaUrl(wine.image)}
                         alt={wine.name}
                         loading="lazy"
                         className="relative z-10 w-full h-auto object-cover object-center hover:scale-105 transition-transform duration-700 md:absolute md:inset-0 md:h-full"
                       />
-                      {/* Year Badge */}
-                      <div className="absolute bottom-4 right-4 z-20 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-sm border border-gold-300 text-xs text-[#7a6024] font-serif font-semibold shadow-gold-soft">
-                        {wine.year}
-                      </div>
                     </div>
 
                     {/* Content Container */}
-                    <div className={`p-4 sm:p-6 md:p-8 lg:p-10 md:col-span-7 flex flex-col justify-start ${isEven ? 'md:order-2' : 'md:order-1'}`}>
-                      {/* Name & Subtitle */}
+                    <div className={`p-4 sm:p-6 md:p-8 lg:p-10 md:col-span-7 flex flex-col justify-center ${isEven ? 'md:order-2' : 'md:order-1'}`}>
+                      {/* Name */}
                       <div className="mb-4">
                         <h3 className="font-serif text-2xl md:text-3xl text-neutral-900 font-bold mb-1">
                           {wine.name}
                         </h3>
-                        <span className="font-script text-xl text-gold-gradient block">{wine.subtitle}</span>
                       </div>
 
                       {/* Description */}
                       <p className="text-neutral-600 text-sm md:text-base leading-relaxed mb-6">
                         {wine.description}
                       </p>
-
-                      {/* Focus Materi */}
-                      {wine.tastingNotes && (
-                        <div className="mb-6">
-                          <span className="text-xs text-neutral-500 uppercase tracking-wider block mb-2 font-medium">Fokus Materi</span>
-                          <div className="flex flex-wrap gap-2">
-                            {wine.tastingNotes.split(',').map((note) => (
-                              <span key={note} className="px-3 py-1 bg-gold-500/10 rounded-full text-xs text-[#7a6024] font-medium border border-gold-500/20">
-                                {note.trim()}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Details Table */}
-                      <div className="grid grid-cols-3 gap-1 sm:gap-4 py-4 border-y border-border mb-6 text-left">
-                        <div className="border-r border-border pr-1 sm:pr-2 md:pr-4">
-                          <div className="font-serif text-[10px] min-[375px]:text-xs sm:text-sm md:text-base text-gold-600 font-bold">{wine.temperature}</div>
-                          <div className="text-[9px] text-neutral-500 uppercase tracking-wider mt-1 font-semibold">Pelaksanaan</div>
-                        </div>
-                        <div className="border-r border-border pr-1 sm:pr-2 md:pr-4">
-                          <div className="font-serif text-[10px] min-[375px]:text-xs sm:text-sm md:text-base text-[#7a6024] font-bold">{wine.aging}</div>
-                          <div className="text-[9px] text-neutral-500 uppercase tracking-wider mt-1 font-semibold">Waktu/Rilis</div>
-                        </div>
-                        <div>
-                          <div className="font-serif text-[10px] min-[375px]:text-xs sm:text-sm md:text-base text-[#7a6024] font-bold">{wine.alcohol}</div>
-                          <div className="text-[9px] text-neutral-500 uppercase tracking-wider mt-1 font-semibold">Sasaran</div>
-                        </div>
-                      </div>
 
                       {/* CTA */}
                       {navigationConfig.ctaButtonText && (

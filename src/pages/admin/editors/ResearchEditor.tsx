@@ -10,9 +10,7 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
   const [saving, setSaving] = useState(false);
   const [showAddProgramModal, setShowAddProgramModal] = useState(false);
   const [newProgram, setNewProgram] = useState({
-    name: '', subtitle: '', year: '', image: '', description: '', tastingNotes: '',
-    alcohol: 'Semua Level', temperature: 'Online & Offline', aging: 'Bulanan',
-    filter: '', glowColor: 'bg-blue-900/20'
+    name: '', image: '', description: ''
   });
 
   useEffect(() => {
@@ -25,7 +23,6 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
             ...res.content,
             wines: res.content.wines || wineShowcaseConfig.wines,
             features: res.content.features || wineShowcaseConfig.features,
-            quote: res.content.quote ? { ...wineShowcaseConfig.quote, ...res.content.quote } : wineShowcaseConfig.quote,
           });
         } else {
           setData(wineShowcaseConfig);
@@ -123,19 +120,9 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
         </div>
 
         <h2 className="text-sm font-bold uppercase tracking-wider text-[#a67e2a] pt-4 border-t border-[#eae6dd]">Detail Program Riset</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-xs text-neutral-500 mb-1">Script Text</label>
-            <input type="text" value={data.scriptText || ''} onChange={e => updateField('scriptText', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-          </div>
-          <div>
-            <label className="block text-xs text-neutral-500 mb-1">Subtitle</label>
-            <input type="text" value={data.subtitle || ''} onChange={e => updateField('subtitle', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-          </div>
-          <div>
-            <label className="block text-xs text-neutral-500 mb-1">Main Title</label>
-            <input type="text" value={data.mainTitle || ''} onChange={e => updateField('mainTitle', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-          </div>
+        <div>
+          <label className="block text-xs text-neutral-500 mb-1">Judul Utama (Main Title)</label>
+          <input type="text" value={data.mainTitle || ''} onChange={e => updateField('mainTitle', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
         </div>
       </div>
 
@@ -146,9 +133,7 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
           <button
             onClick={() => {
               setNewProgram({
-                name: '', subtitle: '', year: '', image: '', description: '', tastingNotes: '',
-                alcohol: 'Semua Level', temperature: 'Online & Offline', aging: 'Bulanan',
-                filter: '', glowColor: 'bg-blue-900/20'
+                name: '', image: '', description: ''
               });
               setShowAddProgramModal(true);
             }}
@@ -164,28 +149,10 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
               <span className="text-[#a67e2a] font-bold text-sm uppercase">Program #{i + 1}</span>
               <button onClick={() => removeWine(i)} className="text-neutral-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
                 <label className="block text-neutral-500 text-xs mb-1">Nama</label>
                 <input type="text" value={wine.name || ''} onChange={e => updateWine(i, 'name', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-              </div>
-              <div>
-                <label className="block text-neutral-500 text-xs mb-1">Subtitle</label>
-                <input type="text" value={wine.subtitle || ''} onChange={e => updateWine(i, 'subtitle', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-              </div>
-              <div>
-                <label className="block text-neutral-500 text-xs mb-1">Nomor/Year</label>
-                <input type="text" value={wine.year || ''} onChange={e => updateWine(i, 'year', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-neutral-500 text-xs mb-1">Deskripsi</label>
-              <textarea value={wine.description || ''} onChange={e => updateWine(i, 'description', e.target.value)} rows={2} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-neutral-500 text-xs mb-1">Tasting Notes / Tags</label>
-                <input type="text" value={wine.tastingNotes || ''} onChange={e => updateWine(i, 'tastingNotes', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
               </div>
               <div>
                 <ImageUploader
@@ -195,30 +162,13 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
                 />
               </div>
             </div>
+            <div>
+              <label className="block text-neutral-500 text-xs mb-1">Deskripsi</label>
+              <textarea value={wine.description || ''} onChange={e => updateWine(i, 'description', e.target.value)} rows={3} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
+            </div>
           </div>
         ))}
       </div>
-
-      {/* Quote */}
-      {data.quote && (
-        <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 space-y-4 shadow-sm">
-          <h2 className="text-[#a67e2a] font-bold text-sm uppercase tracking-wider">Quote</h2>
-          <div>
-            <label className="block text-neutral-500 text-xs mb-1">Teks Quote</label>
-            <textarea value={data.quote.text || ''} onChange={e => updateField('quote', { ...data.quote, text: e.target.value })} rows={2} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-neutral-500 text-xs mb-1">Attribution</label>
-              <input type="text" value={data.quote.attribution || ''} onChange={e => updateField('quote', { ...data.quote, attribution: e.target.value })} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-            </div>
-            <div>
-              <label className="block text-neutral-500 text-xs mb-1">Prefix</label>
-              <input type="text" value={data.quote.prefix || ''} onChange={e => updateField('quote', { ...data.quote, prefix: e.target.value })} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-            </div>
-          </div>
-        </div>
-      )}
       {showAddProgramModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm overflow-y-auto">
           <div className="w-full max-w-lg bg-white border border-[#eae6dd] rounded-2xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
@@ -231,77 +181,15 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
                 label="Gambar Utama Program"
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Nama Program</label>
-                  <input
-                    type="text"
-                    value={newProgram.name}
-                    onChange={(e) => setNewProgram({ ...newProgram, name: e.target.value })}
-                    placeholder="Nama program..."
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Sub-Judul</label>
-                  <input
-                    type="text"
-                    value={newProgram.subtitle}
-                    onChange={(e) => setNewProgram({ ...newProgram, subtitle: e.target.value })}
-                    placeholder="Misal: SiPalingSaham"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Nomor / Urutan</label>
-                  <input
-                    type="text"
-                    value={newProgram.year}
-                    onChange={(e) => setNewProgram({ ...newProgram, year: e.target.value })}
-                    placeholder="Misal: 01, 02"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Tags / Tasting Notes</label>
-                  <input
-                    type="text"
-                    value={newProgram.tastingNotes}
-                    onChange={(e) => setNewProgram({ ...newProgram, tastingNotes: e.target.value })}
-                    placeholder="Koma sebagai pemisah, misal: Saham, Investasi"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Level</label>
-                  <input
-                    type="text"
-                    value={newProgram.alcohol}
-                    onChange={(e) => setNewProgram({ ...newProgram, alcohol: e.target.value })}
-                    placeholder="Misal: Semua Level, Intermediate+"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Frekuensi / Hari</label>
-                  <input
-                    type="text"
-                    value={newProgram.temperature}
-                    onChange={(e) => setNewProgram({ ...newProgram, temperature: e.target.value })}
-                    placeholder="Misal: Setiap Rabu, Rilis Bulanan"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Waktu / Jadwal</label>
-                  <input
-                    type="text"
-                    value={newProgram.aging}
-                    onChange={(e) => setNewProgram({ ...newProgram, aging: e.target.value })}
-                    placeholder="Misal: 16.00 – 17.00, Per Emiten"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs text-neutral-500 mb-1">Nama Program</label>
+                <input
+                  type="text"
+                  value={newProgram.name}
+                  onChange={(e) => setNewProgram({ ...newProgram, name: e.target.value })}
+                  placeholder="Nama program..."
+                  className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
+                />
               </div>
 
               <div>

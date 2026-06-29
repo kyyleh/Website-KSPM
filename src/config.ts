@@ -220,16 +220,8 @@ export const achievementsConfig: AchievementsConfig = {
 export interface Wine {
   id: string;
   name: string;
-  subtitle: string;
-  year: string;
   image: string;
-  filter: string;
-  glowColor: string;
   description: string;
-  tastingNotes: string;
-  alcohol: string;
-  temperature: string;
-  aging: string;
 }
 
 export interface WineFeature {
@@ -238,27 +230,16 @@ export interface WineFeature {
   description: string;
 }
 
-export interface WineQuote {
-  text: string;
-  attribution: string;
-  prefix: string;
-}
-
 export interface WineShowcaseConfig {
-  scriptText: string;
-  subtitle: string;
   mainTitle: string;
   wines: Wine[];
   features: WineFeature[];
-  quote: WineQuote;
   researchHeaderTitle: string;
   researchHeaderDescription: string;
   researchHeaderImage: string;
 }
 
 export const wineShowcaseConfig: WineShowcaseConfig = {
-  scriptText: "Program Unggulan",
-  subtitle: "PROGRAM KSPM",
   mainTitle: "Riset & Publikasi",
   researchHeaderTitle: "Riset KSPM",
   researchHeaderDescription: "Kami membimbing dan memfasilitasi mahasiswa dalam riset analisis fundamental dan teknikal saham, publikasi ringkasan pasar modal mingguan, serta program edukasi terpadu untuk membentuk kebiasaan investasi yang sehat.",
@@ -267,58 +248,26 @@ export const wineShowcaseConfig: WineShowcaseConfig = {
     {
       id: "sps",
       name: "Kelas SPS",
-      subtitle: "SiPalingSaham",
-      year: "01",
       image: "/images/research-sps.jpg",
-      filter: "",
-      glowColor: "bg-blue-900/20",
       description: "Kelas edukasi pasar modal interaktif yang membahas dunia saham secara fun dan mudah dipahami. Dari analisis dasar hingga strategi trading praktis untuk semua level.",
-      tastingNotes: "Stock Analysis, Trading Strategy, Market Insight",
-      alcohol: "Semua Level",
-      temperature: "Setiap Rabu",
-      aging: "16.00 – 17.00",
     },
     {
       id: "equity",
       name: "Equity",
-      subtitle: "Research",
-      year: "02",
       image: "/images/research-equity.jpg",
-      filter: "brightness(1.1)",
-      glowColor: "bg-amber-900/20",
       description: "Riset mendalam tentang emiten-emiten terbuka di Bursa Efek Indonesia. Analisis fundamental, valuasi, dan proyeksi kinerja keuangan perusahaan.",
-      tastingNotes: "Fundamental Analysis, Valuation, Financial Modeling",
-      alcohol: "Intermediate+",
-      temperature: "Rilis Bulanan",
-      aging: "Per Emiten",
     },
     {
       id: "weekly",
       name: "Weekly Market",
-      subtitle: "Update",
-      year: "03",
       image: "/images/research-weekly.jpg",
-      filter: "brightness(1.15)",
-      glowColor: "bg-emerald-900/20",
       description: "Update mingguan pergerakan pasar saham Indonesia dan global. Berisi analisis sektor, sentimen pasar, dan rekomendasi saham pilihan yang terukur.",
-      tastingNotes: "Market Update, Sector Analysis, Stock Picks",
-      alcohol: "Semua Level",
-      temperature: "Setiap Minggu",
-      aging: "Setiap Senin",
     },
     {
       id: "spm",
       name: "Sekolah",
-      subtitle: "Pasar Modal",
-      year: "04",
       image: "/images/research-cme.jpg",
-      filter: "brightness(1.05) hue-rotate(10deg)",
-      glowColor: "bg-purple-900/20",
       description: "Program pembelajaran pasar modal secara komprehensif dan berjenjang. Dari pengenalan investasi hingga strategi portofolio, dengan sertifikat resmi.",
-      tastingNotes: "Investasi Dasar, Analisis Saham, Portofolio Management",
-      alcohol: "Pemula",
-      temperature: "Online & Offline",
-      aging: "Bulanan",
     },
   ],
   features: [
@@ -327,11 +276,6 @@ export const wineShowcaseConfig: WineShowcaseConfig = {
     { icon: "Clock", title: "Risk Management", description: "Strategi pengelolaan risiko portofolio dan alokasi aset yang optimal" },
     { icon: "TrendingUp", title: "Market Update", description: "Update kondisi pasar terkini dan sentimen investor setiap minggunya" },
   ],
-  quote: {
-    text: "Investasi terbaik adalah investasi dalam pengetahuan. Semakin banyak Anda belajar, semakin baik keputusan investasi Anda.",
-    attribution: "KSPM FEB UIKA Bogor",
-    prefix: "Filosofi Kami",
-  },
 };
 
 // -----------------------------------------------------------------------------
