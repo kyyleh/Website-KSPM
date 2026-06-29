@@ -6,24 +6,18 @@ import { EventsEditor } from './editors/EventsEditor';
 import { ResearchEditor } from './editors/ResearchEditor';
 import { NewsEditor } from './editors/NewsEditor';
 import { GalleryEditor } from './editors/GalleryEditor';
-import { ContactEditor } from './editors/ContactEditor';
-import { FooterEditor } from './editors/FooterEditor';
 import { MessagesInbox } from './editors/MessagesInbox';
-import { AchievementsEditor } from './editors/AchievementsEditor';
 import { verifyToken, logout, getMessages } from './lib/adminApi';
 import { LayoutDashboard, MessageSquare, AlertCircle } from 'lucide-react';
 
 type AdminSection =
   | 'dashboard'
   | 'hero'
-  | 'achievements'
   | 'about'
   | 'events'
   | 'research'
   | 'news'
   | 'gallery'
-  | 'contact'
-  | 'footer'
   | 'messages';
 
 export function AdminDashboard() {
@@ -79,14 +73,11 @@ export function AdminDashboard() {
   const renderEditor = () => {
     switch (section) {
       case 'hero': return <HeroEditor setIsDirty={setIsDirty} />;
-      case 'achievements': return <AchievementsEditor setIsDirty={setIsDirty} />;
       case 'about': return <AboutEditor setIsDirty={setIsDirty} />;
       case 'events': return <EventsEditor setIsDirty={setIsDirty} />;
       case 'research': return <ResearchEditor setIsDirty={setIsDirty} />;
       case 'news': return <NewsEditor setIsDirty={setIsDirty} />;
       case 'gallery': return <GalleryEditor setIsDirty={setIsDirty} />;
-      case 'contact': return <ContactEditor setIsDirty={setIsDirty} />;
-      case 'footer': return <FooterEditor setIsDirty={setIsDirty} />;
       case 'messages': return <MessagesInbox />;
       default: return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">

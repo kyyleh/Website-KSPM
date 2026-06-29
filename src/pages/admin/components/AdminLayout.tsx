@@ -6,29 +6,23 @@ import {
   Calendar,
   FlaskConical,
   Newspaper,
-  Phone,
   Mail,
-  PanelBottom,
   Menu,
   X,
   LogOut,
   ChevronRight,
   Camera,
-  Award,
 } from 'lucide-react';
 
 export type AdminSection =
   | 'dashboard'
   | 'hero'
-  | 'achievements'
   | 'about'
   | 'events'
   | 'research'
   | 'news'
   | 'gallery'
-  | 'contact'
-  | 'messages'
-  | 'footer';
+  | 'messages';
 
 interface SidebarItem {
   id: AdminSection;
@@ -49,15 +43,12 @@ interface AdminLayoutProps {
 const sidebarItems: SidebarItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
   { id: 'hero', label: 'Beranda (Hero)', icon: <Home size={20} /> },
-  { id: 'achievements', label: 'Pencapaian', icon: <Award size={20} /> },
   { id: 'about', label: 'Tentang Kami', icon: <Users size={20} /> },
   { id: 'events', label: 'Kegiatan', icon: <Calendar size={20} /> },
   { id: 'research', label: 'Riset', icon: <FlaskConical size={20} /> },
   { id: 'news', label: 'Berita', icon: <Newspaper size={20} /> },
   { id: 'gallery', label: 'Galeri Foto', icon: <Camera size={20} /> },
-  { id: 'contact', label: 'Kontak', icon: <Phone size={20} /> },
   { id: 'messages', label: 'Pesan Masuk', icon: <Mail size={20} /> },
-  { id: 'footer', label: 'Footer', icon: <PanelBottom size={20} /> },
 ];
 
 export function AdminLayout({
