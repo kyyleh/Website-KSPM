@@ -457,10 +457,6 @@
   color: #a39c93 !important;
 }
 
-.admin-theme-main .text-white {
-  color: #1c1515 !important;
-}
-
 .admin-theme-main .text-slate-200,
 .admin-theme-main .text-slate-300 {
   color: #4a4545 !important;
@@ -477,7 +473,7 @@
 .admin-theme-main .text-amber-400,
 .admin-theme-main .text-\[\#d9a334\],
 .admin-theme-main .text-amber-500 {
-  color: hsl(var(--secondary)) !important;
+  color: hsl(var(--primary)) !important;
 }
 
 .admin-theme-main .fixed.inset-0.bg-black\/60 {

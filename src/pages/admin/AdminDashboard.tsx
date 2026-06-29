@@ -157,8 +157,8 @@ export function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full" />
+      <div className="min-h-screen bg-[#f0ede6] flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-2 border-[#c9922a] border-t-transparent rounded-full" />
       </div>
     );
   }

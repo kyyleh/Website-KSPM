@@ -68,7 +68,7 @@ export function AdminLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-[#f8f7f2] text-[#1c1515] overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#f0ede6] text-[#1c1515] overflow-hidden font-sans">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -80,21 +80,21 @@ export function AdminLayout({
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:static inset-y-0 left-0 z-40 w-64 bg-[#141010] text-white border-r border-[#262121] flex flex-col transition-transform duration-300 shadow-2xl shadow-black/40 lg:shadow-none
+          fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white text-[#1c1515] border-r border-[#eae6dd] flex flex-col transition-transform duration-300 shadow-xl shadow-[#1c1515]/5 lg:shadow-none
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
         {/* Brand */}
-        <div className="flex items-center gap-3 px-5 py-5 border-b border-white/5">
+        <div className="flex items-center gap-3 px-5 py-5 border-b border-[#eae6dd]">
           <div className="w-10 h-10 flex items-center justify-center">
-            <img src="/images/kspm-logo.png" alt="KSPM" className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(245,158,11,0.2)]" />
+            <img src="/images/kspm-logo.png" alt="KSPM" className="w-full h-full object-contain" />
           </div>
           <div>
-            <h1 className="font-semibold text-sm tracking-wide">KSPM Admin</h1>
-            <p className="text-[11px] text-slate-400">FEB UIKA Bogor</p>
+            <h1 className="font-semibold text-sm tracking-wide text-[#1c1515]">KSPM Admin</h1>
+            <p className="text-[11px] text-[#7a7575]">FEB UIKA Bogor</p>
           </div>
           <button
-            className="ml-auto lg:hidden p-1 hover:bg-slate-800 rounded"
+            className="ml-auto lg:hidden p-1.5 hover:bg-[#faf9f5] rounded-lg transition-colors text-neutral-500"
             onClick={() => setSidebarOpen(false)}
           >
             <X size={18} />
@@ -102,7 +102,7 @@ export function AdminLayout({
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-5 px-3 space-y-1.5 custom-scrollbar">
+        <nav className="flex-1 overflow-y-auto py-5 px-3 space-y-1.5 custom-scrollbar bg-white">
           {sidebarItems.map((item) => {
             const isActive = activeSection === item.id;
             const badge = item.id === 'messages' ? unreadCount : 0;
@@ -114,14 +114,14 @@ export function AdminLayout({
                   setSidebarOpen(false);
                 }}
                 className={`
-                  w-full flex items-center gap-3 px-4 py-3 lg:px-3 lg:py-2.5 rounded-xl text-[14px] lg:text-[13px] font-medium transition-all duration-300 group
+                  w-full flex items-center gap-3 px-4 py-3 lg:px-3 lg:py-2.5 rounded-xl text-[14px] lg:text-[13px] font-medium transition-all duration-300 group border
                   ${isActive
-                    ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.1)]'
-                    : 'text-[#c2baa9] hover:text-white hover:bg-white/5 border border-transparent'
+                    ? 'bg-[#c9922a]/10 text-[#c9922a] border-[#c9922a]/20 shadow-[0_2px_8px_rgba(201,146,42,0.08)]'
+                    : 'text-[#4a4545] hover:text-[#c9922a] hover:bg-[#faf9f5] border-transparent'
                   }
                 `}
               >
-                <span className={isActive ? 'text-amber-400' : 'text-slate-400 group-hover:text-slate-200'}>
+                <span className={isActive ? 'text-[#c9922a]' : 'text-[#7a7575] group-hover:text-[#c9922a] transition-colors'}>
                   {item.icon}
                 </span>
                 <span className="flex-1 text-left">{item.label}</span>
@@ -130,25 +130,25 @@ export function AdminLayout({
                     {badge}
                   </span>
                 )}
-                {isActive && <ChevronRight size={14} className="text-amber-500/50" />}
+                {isActive && <ChevronRight size={14} className="text-[#c9922a]/50" />}
               </button>
             );
           })}
         </nav>
 
         {/* User + Logout */}
-        <div className="border-t border-white/5 p-4 bg-[#0d0a0a]">
+        <div className="border-t border-[#eae6dd] p-4 bg-[#faf9f6]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-xs font-bold text-slate-900 shadow-md shadow-amber-500/20">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#dcae44] to-[#b88c2b] flex items-center justify-center text-xs font-bold text-white shadow-sm shadow-[#c9922a]/20">
               {adminName.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{adminName}</p>
-              <p className="text-[11px] text-slate-400">Administrator</p>
+              <p className="text-sm font-medium truncate text-[#1c1515]">{adminName}</p>
+              <p className="text-[11px] text-[#7a7575]">Administrator</p>
             </div>
             <button
               onClick={onLogout}
-              className="p-3 lg:p-2 text-[#c2baa9] hover:text-red-400 hover:bg-white/5 rounded-lg transition-colors"
+              className="p-3 lg:p-2 text-[#4a4545] hover:text-red-600 hover:bg-red-500/10 rounded-lg transition-all"
               title="Logout"
             >
               <LogOut size={16} />
@@ -178,7 +178,7 @@ export function AdminLayout({
         </header>
 
         {/* Content area */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-8 bg-[#f8f7f2] relative admin-theme-main">
+        <main className="flex-1 overflow-y-auto p-4 lg:p-8 bg-[#f0ede6] relative admin-theme-main">
           {/* Subtle background glow for main content */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-amber-500/[0.02] blur-[120px] pointer-events-none rounded-full" />
           <div className="relative z-10">
