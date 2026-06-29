@@ -20,7 +20,7 @@ const HandshakeIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export function Achievements() {
+export function Achievements({ data }: { data?: typeof achievementsConfig }) {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export function Achievements() {
     return () => observer.disconnect();
   }, []);
 
-  const config = achievementsConfig;
+  const config = data || achievementsConfig;
 
   return (
     <section

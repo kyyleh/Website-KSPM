@@ -25,7 +25,8 @@ import {
   getMappedResearch,
   getMappedContact,
   getMappedNews,
-  getMappedGallery
+  getMappedGallery,
+  getMappedAchievements
 } from './lib/strapi';
 
 // Admin Panel (lazy check via URL)
@@ -66,6 +67,7 @@ function App() {
   const [contactData, setContactData] = useState<any>(undefined);
   const [newsData, setNewsData] = useState<any>(undefined);
   const [galleryData, setGalleryData] = useState<any>(undefined);
+  const [achievementsData, setAchievementsData] = useState<any>(undefined);
 
   // Check if we're on the /admin route
   useEffect(() => {
@@ -103,7 +105,8 @@ function App() {
       getMappedResearch().then(res => res && setResearchData(res)),
       getMappedContact().then(res => res && setContactData(res)),
       getMappedNews().then(res => res && setNewsData(res)),
-      getMappedGallery().then(res => res && setGalleryData(res))
+      getMappedGallery().then(res => res && setGalleryData(res)),
+      getMappedAchievements().then(res => res && setAchievementsData(res))
     ]).catch(err => {
       console.error("Error loading data from backend:", err);
     });
@@ -185,7 +188,7 @@ function App() {
             <>
               <Hero isReady={true} data={heroData} onNavigate={handlePageChange} />
               <Testimonials data={newsData} />
-              <Achievements />
+              <Achievements data={achievementsData} />
               <News data={newsData} />
               <Gallery onNavigate={handlePageChange} data={galleryData} />
               <ContactForm data={contactData} />
@@ -193,20 +196,20 @@ function App() {
           )}
           {currentPage === 'about' && (
             <>
-              <AboutHeader />
+              <AboutHeader data={aboutData?.aboutConfig} />
               <Museum onNavigate={handlePageChange} data={aboutData?.aboutConfig} />
               <Organization data={aboutData?.orgConfig} />
             </>
           )}
           {currentPage === 'events' && (
             <>
-              <EventsHeader />
+              <EventsHeader data={activitiesData} />
               <WineryCarousel onNavigate={handlePageChange} data={activitiesData} />
             </>
           )}
           {currentPage === 'research' && (
             <>
-              <ResearchHeader />
+              <ResearchHeader data={researchData} />
               <WineShowcase onNavigate={handlePageChange} data={researchData} />
             </>
           )}

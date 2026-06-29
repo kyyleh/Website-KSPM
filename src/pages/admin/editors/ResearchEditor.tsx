@@ -96,18 +96,34 @@ export function ResearchEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
 
       {/* Section Info */}
       <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 space-y-4 shadow-sm">
-        <h2 className="text-[#1c1515] font-bold text-sm uppercase tracking-wider text-[#a67e2a]">Info Section</h2>
+        <h2 className="text-sm font-bold uppercase tracking-wider text-[#a67e2a]">Header Halaman</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs text-neutral-500 mb-1">Judul Header</label>
+            <input type="text" value={data.researchHeaderTitle || ''} onChange={e => updateField('researchHeaderTitle', e.target.value)} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
+          </div>
+          <div>
+            <label className="block text-xs text-neutral-500 mb-1">Gambar Header</label>
+            <ImageUploader value={data.researchHeaderImage || ''} onChange={(url) => updateField('researchHeaderImage', url)} label="Unggah Foto Header" />
+          </div>
+        </div>
+        <div>
+          <label className="block text-xs text-neutral-500 mb-1">Deskripsi Header</label>
+          <textarea value={data.researchHeaderDescription || ''} onChange={e => updateField('researchHeaderDescription', e.target.value)} rows={3} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
+        </div>
+
+        <h2 className="text-sm font-bold uppercase tracking-wider text-[#a67e2a] pt-4 border-t border-[#eae6dd]">Detail Program Riset</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-neutral-500 text-xs mb-1">Script Text</label>
+            <label className="block text-xs text-neutral-500 mb-1">Script Text</label>
             <input type="text" value={data.scriptText || ''} onChange={e => updateField('scriptText', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
           </div>
           <div>
-            <label className="block text-neutral-500 text-xs mb-1">Subtitle</label>
+            <label className="block text-xs text-neutral-500 mb-1">Subtitle</label>
             <input type="text" value={data.subtitle || ''} onChange={e => updateField('subtitle', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
           </div>
           <div>
-            <label className="block text-neutral-500 text-xs mb-1">Main Title</label>
+            <label className="block text-xs text-neutral-500 mb-1">Main Title</label>
             <input type="text" value={data.mainTitle || ''} onChange={e => updateField('mainTitle', e.target.value)} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
           </div>
         </div>

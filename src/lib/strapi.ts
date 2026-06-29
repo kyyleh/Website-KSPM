@@ -48,6 +48,7 @@ export async function submitContactForm(data: {
   email: string;
   phone: string;
   message: string;
+  category?: string;
 }) {
   const response = await fetch(`${API_BASE}/api/messages`, {
     method: 'POST',
@@ -98,4 +99,8 @@ export async function getMappedNews(): Promise<any | null> {
 
 export async function getMappedGallery(): Promise<any | null> {
   return fetchContent('gallery');
+}
+
+export async function getMappedAchievements(): Promise<any | null> {
+  return fetchContent('achievements');
 }

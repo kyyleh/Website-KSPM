@@ -8,6 +8,7 @@ interface Message {
   email: string;
   phone: string;
   message: string;
+  category?: string;
   is_read: boolean;
   created_at: string;
 }
@@ -16,6 +17,7 @@ export function MessagesInbox() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Message | null>(null);
+  const [activeCategory, setActiveCategory] = useState<'contact' | 'registration'>('contact');
 
   const fetchMessages = async () => {
     setLoading(true);
@@ -55,6 +57,14 @@ export function MessagesInbox() {
     }
   };
 
+  const contactUnread = messages.filter(m => (m.category || 'contact') === 'contact' && !m.is_read).length;
+  const regUnread = messages.filter(m => m.category === 'registration' && !m.is_read).length;
+
+  const filteredMessages = messages.filter(m => {
+    const category = m.category || 'contact';
+    return category === activeCategory;
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -68,6 +78,40 @@ export function MessagesInbox() {
         </button>
       </div>
 
+      {/* Category Tabs */}
+      <div className="flex gap-2 border-b border-[#eae6dd] pb-px">
+        <button
+          onClick={() => { setActiveCategory('contact'); setSelected(null); }}
+          className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${
+            activeCategory === 'contact'
+              ? 'border-[#a67e2a] text-[#a67e2a]'
+              : 'border-transparent text-neutral-500 hover:text-neutral-700'
+          }`}
+        >
+          Hubungi Kami
+          {contactUnread > 0 && (
+            <span className="bg-[#a67e2a] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+              {contactUnread}
+            </span>
+          )}
+        </button>
+        <button
+          onClick={() => { setActiveCategory('registration'); setSelected(null); }}
+          className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${
+            activeCategory === 'registration'
+              ? 'border-[#a67e2a] text-[#a67e2a]'
+              : 'border-transparent text-neutral-500 hover:text-neutral-700'
+          }`}
+        >
+          Pendaftaran Anggota
+          {regUnread > 0 && (
+            <span className="bg-[#a67e2a] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+              {regUnread}
+            </span>
+          )}
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Message List */}
         <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-2">
@@ -75,13 +119,13 @@ export function MessagesInbox() {
             <div className="flex items-center justify-center py-12">
               <Loader2 className="w-6 h-6 animate-spin text-[#a67e2a]" />
             </div>
-          ) : messages.length === 0 ? (
+          ) : filteredMessages.length === 0 ? (
             <div className="text-center py-12 text-neutral-400 bg-white border border-[#eae6dd] rounded-2xl">
               <Mail className="w-12 h-12 mx-auto mb-3 opacity-50 text-neutral-400" />
-              <p>Belum ada pesan masuk</p>
+              <p>Belum ada pesan masuk di kategori ini</p>
             </div>
           ) : (
-            messages.map(msg => (
+            filteredMessages.map(msg => (
               <div
                 key={msg.id}
                 onClick={() => {

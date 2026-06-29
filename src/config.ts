@@ -129,6 +129,7 @@ export interface HeroConfig {
   stats: HeroStat[];
   decorativeText: string;
   backgroundImage: string;
+  description: string;
 }
 
 export const heroConfig: HeroConfig = {
@@ -144,6 +145,7 @@ export const heroConfig: HeroConfig = {
   ],
   decorativeText: "KSPM FEB UIKA BOGOR",
   backgroundImage: "/images/hero-banner.jpg",
+  description: "Kelompok Studi Pasar Modal FEB UIKA Bogor hadir sebagai wadah edukasi, riset, dan analisis instrumen pasar modal bagi seluruh akademisi Universitas Ibn Khaldun.",
 };
 
 // -----------------------------------------------------------------------------
@@ -249,12 +251,18 @@ export interface WineShowcaseConfig {
   wines: Wine[];
   features: WineFeature[];
   quote: WineQuote;
+  researchHeaderTitle: string;
+  researchHeaderDescription: string;
+  researchHeaderImage: string;
 }
 
 export const wineShowcaseConfig: WineShowcaseConfig = {
   scriptText: "Program Unggulan",
   subtitle: "PROGRAM KSPM",
   mainTitle: "Riset & Publikasi",
+  researchHeaderTitle: "Riset KSPM",
+  researchHeaderDescription: "Kami membimbing dan memfasilitasi mahasiswa dalam riset analisis fundamental dan teknikal saham, publikasi ringkasan pasar modal mingguan, serta program edukasi terpadu untuk membentuk kebiasaan investasi yang sehat.",
+  researchHeaderImage: "/images/research-equity.jpg",
   wines: [
     {
       id: "sps",
@@ -344,6 +352,9 @@ export interface WineryCarouselConfig {
   mainTitle: string;
   locationTag: string;
   slides: CarouselSlide[];
+  eventsHeaderTitle: string;
+  eventsHeaderDescription: string;
+  eventsHeaderImage: string;
 }
 
 export const wineryCarouselConfig: WineryCarouselConfig = {
@@ -351,6 +362,9 @@ export const wineryCarouselConfig: WineryCarouselConfig = {
   subtitle: "EVENTS & ACTIVITIES",
   mainTitle: "Program Kerja",
   locationTag: "FEB UIKA Bogor",
+  eventsHeaderTitle: "Kegiatan KSPM",
+  eventsHeaderDescription: "Kami menyelenggarakan berbagai kegiatan akademis dan non-akademis yang bertujuan meningkatkan literasi, inklusi, serta keahlian praktis dalam industri pasar modal bagi seluruh civitas akademika dan masyarakat luas.",
+  eventsHeaderImage: "/images/event-investalk.jpg",
   slides: [
     {
       image: "/images/event-investalk.jpg",
@@ -438,6 +452,9 @@ export interface MuseumConfig {
   quote: MuseumQuote;
   founderPhotoAlt: string;
   founderPhoto: string;
+  aboutHeaderTitle: string;
+  aboutHeaderDescription: string;
+  aboutHeaderImage: string;
 }
 
 export const museumConfig: MuseumConfig = {
@@ -445,6 +462,9 @@ export const museumConfig: MuseumConfig = {
   subtitle: "OUR JOURNEY",
   mainTitle: "Sejarah KSPM FEB UIKA",
   introText: "Kelompok Studi Pasar Modal (KSPM) FEB UIKA Bogor adalah wadah edukasi untuk mendalami dunia investasi dan pasar modal secara akademis maupun praktis.",
+  aboutHeaderTitle: "Tentang Kami",
+  aboutHeaderDescription: "Mengenal lebih dekat KSPM FEB UIKA Bogor. Kami adalah wadah edukasi, riset, dan sosialisasi pasar modal yang berdedikasi mencetak investor muda yang cerdas, profesional, dan berintegritas tinggi sejak tahun 2019.",
+  aboutHeaderImage: "/images/about-vision.jpg",
   timeline: [
     { year: "2019", event: "KSPM FEB UIKA Bogor resmi berdiri" },
     { year: "2020", event: "Program KPM pertama diluncurkan" },

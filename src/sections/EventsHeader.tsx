@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { getMediaUrl } from '../lib/strapi';
 
-export function EventsHeader() {
+export function EventsHeader({ data }: { data?: any }) {
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,6 +22,10 @@ export function EventsHeader() {
     return () => observer.disconnect();
   }, []);
 
+  const title = data?.eventsHeaderTitle || "Kegiatan KSPM";
+  const description = data?.eventsHeaderDescription || "Kami menyelenggarakan berbagai kegiatan akademis dan non-akademis yang bertujuan meningkatkan literasi, inklusi, serta keahlian praktis dalam industri pasar modal bagi seluruh civitas akademika dan masyarakat luas.";
+  const image = data?.eventsHeaderImage || "/images/event-investalk.jpg";
+
   return (
     <section 
       id="events"
@@ -36,10 +40,10 @@ export function EventsHeader() {
         {/* Left Column: Text Content */}
         <div className="lg:col-span-7 flex flex-col items-start gap-4">
           <h1 className="font-sans text-3xl sm:text-4xl md:text-6xl lg:text-[4.8rem] xl:text-[5.5rem] text-primary leading-[1.05] tracking-tight font-extrabold fade-up opacity-0" style={{ transitionDelay: '0.1s' }}>
-            Kegiatan KSPM
+            {title}
           </h1>
           <p className="text-neutral-600 text-sm sm:text-base md:text-lg leading-relaxed fade-up opacity-0" style={{ transitionDelay: '0.4s' }}>
-            Kami menyelenggarakan berbagai kegiatan akademis dan non-akademis yang bertujuan meningkatkan literasi, inklusi, serta keahlian praktis dalam industri pasar modal bagi seluruh civitas akademika dan masyarakat luas.
+            {description}
           </p>
         </div>
 
@@ -50,7 +54,7 @@ export function EventsHeader() {
         >
           <div className="relative aspect-[4/3] w-full overflow-hidden">
             <img
-              src={getMediaUrl("/images/event-investalk.jpg")}
+              src={getMediaUrl(image)}
               alt="KSPM FEB UIKA Kegiatan"
               className="w-full h-full object-cover"
             />

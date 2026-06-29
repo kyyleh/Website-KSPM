@@ -333,9 +333,29 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
         <div className="space-y-4">
           {/* General / Museum Info */}
           <div className="bg-white border border-[#eae6dd] rounded-2xl px-6 shadow-sm">
-            <SectionHeader title="Informasi Umum" sectionKey="general" />
+            <SectionHeader title="Informasi Umum & Header" sectionKey="general" />
             {openSections.general && (
               <div className="pb-6 space-y-4">
+                {/* About Page Header Content */}
+                <div className="border-b border-[#eae6dd] pb-4 mb-4 space-y-4">
+                  <h3 className="text-xs font-bold text-[#a67e2a] uppercase tracking-wider">Header Halaman</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-600 mb-1">Judul Header</label>
+                      <input type="text" value={data.museum.aboutHeaderTitle || ''} onChange={(e) => updateMuseum('aboutHeaderTitle', e.target.value)} className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-600 mb-1">Gambar Header</label>
+                      <ImageUploader value={data.museum.aboutHeaderImage || ''} onChange={(url) => updateMuseum('aboutHeaderImage', url)} label="Unggah Foto Header" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-600 mb-1">Deskripsi Header</label>
+                    <textarea value={data.museum.aboutHeaderDescription || ''} onChange={(e) => updateMuseum('aboutHeaderDescription', e.target.value)} rows={3} className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] resize-none focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all" />
+                  </div>
+                </div>
+
+                <h3 className="text-xs font-bold text-[#a67e2a] uppercase tracking-wider pt-2">Detail Profil & Sejarah</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-neutral-600 mb-1" title="Teks kecil di atas judul utama">Teks Skrip (Kecil) <span className="text-neutral-400 text-xs font-normal cursor-help">❔</span></label>
@@ -351,8 +371,8 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
                   <input type="text" value={data.museum.mainTitle} onChange={(e) => updateMuseum('mainTitle', e.target.value)} className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-600 mb-1" title="Teks paragraf pengantar">Teks Pengantar <span className="text-neutral-400 text-xs font-normal cursor-help">❔</span></label>
-                  <textarea value={data.museum.introText} onChange={(e) => updateMuseum('introText', e.target.value)} rows={4} className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] resize-none focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all" />
+                  <label className="block text-sm font-medium text-neutral-600 mb-1" title="Paragraf pengantar">Teks Intro <span className="text-neutral-400 text-xs font-normal cursor-help">❔</span></label>
+                  <textarea value={data.museum.introText} onChange={(e) => updateMuseum('introText', e.target.value)} rows={3} className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] resize-none focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all" />
                 </div>
               </div>
             )}

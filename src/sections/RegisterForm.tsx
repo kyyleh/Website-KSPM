@@ -104,6 +104,7 @@ export function RegisterForm({ onNavigate }: { onNavigate?: (href: string) => vo
           email: formData.email,
           phone: formData.phone,
           message: `[Pendaftaran Anggota Baru]\nNIM: ${formData.nim}\nFakultas: ${formData.faculty}\nProdi/Jurusan: ${formData.major}\nSemester: ${formData.semester}\nAlasan Bergabung: ${formData.reason}\nKeahlian/Minat: ${formData.skills}`,
+          category: 'registration',
         });
         setStatus('success');
         return;

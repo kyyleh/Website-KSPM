@@ -41,10 +41,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         email VARCHAR(255) NOT NULL,
         phone VARCHAR(50),
         message TEXT NOT NULL,
+        category VARCHAR(100) DEFAULT 'contact',
         is_read BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    // Ensure category column exists (for existing tables)
+    try {
+      await query<ResultSetHeader>(`
+        ALTER TABLE messages ADD COLUMN category VARCHAR(100) DEFAULT 'contact'
+      `);
+    } catch (e) {
+      // Ignore if column already exists
+    }
 
     // Insert default admin user (ignore if already exists)
     const hashedPassword = hashPassword('Admin');

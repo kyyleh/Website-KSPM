@@ -87,15 +87,15 @@ export function Spatial({ data, onNavigate }: { data?: typeof heroConfig; onNavi
           </h1>
 
           <p className="text-muted-foreground text-[10px] sm:text-xs md:text-sm lg:text-base leading-relaxed max-w-xl">
-            Kelompok Studi Pasar Modal FEB UIKA Bogor hadir sebagai wadah edukasi, riset, dan analisis instrumen pasar modal bagi seluruh akademisi Universitas Ibn Khaldun.
+            {activeConfig.description || "Kelompok Studi Pasar Modal FEB UIKA Bogor hadir sebagai wadah edukasi, riset, dan analisis instrumen pasar modal bagi seluruh akademisi Universitas Ibn Khaldun."}
           </p>
 
           <div className="flex flex-wrap gap-2 sm:gap-4 mt-1 sm:mt-2">
             <button
-              onClick={() => onNavigate ? onNavigate('#about') : scrollToSection('#about')}
+              onClick={() => onNavigate ? onNavigate(activeConfig.ctaTarget || '#about') : scrollToSection(activeConfig.ctaTarget || '#about')}
               className="btn-primary px-3 py-1.5 sm:px-8 sm:py-3 text-[10px] sm:text-sm flex items-center gap-1 sm:gap-2 group cursor-pointer"
             >
-              Jelajahi Kami
+              {activeConfig.ctaButtonText || "Jelajahi Kami"}
               <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
             <button

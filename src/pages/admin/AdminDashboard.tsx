@@ -9,12 +9,14 @@ import { GalleryEditor } from './editors/GalleryEditor';
 import { ContactEditor } from './editors/ContactEditor';
 import { FooterEditor } from './editors/FooterEditor';
 import { MessagesInbox } from './editors/MessagesInbox';
+import { AchievementsEditor } from './editors/AchievementsEditor';
 import { verifyToken, logout, getMessages } from './lib/adminApi';
 import { LayoutDashboard, MessageSquare, AlertCircle } from 'lucide-react';
 
 type AdminSection =
   | 'dashboard'
   | 'hero'
+  | 'achievements'
   | 'about'
   | 'events'
   | 'research'
@@ -77,6 +79,7 @@ export function AdminDashboard() {
   const renderEditor = () => {
     switch (section) {
       case 'hero': return <HeroEditor setIsDirty={setIsDirty} />;
+      case 'achievements': return <AchievementsEditor setIsDirty={setIsDirty} />;
       case 'about': return <AboutEditor setIsDirty={setIsDirty} />;
       case 'events': return <EventsEditor setIsDirty={setIsDirty} />;
       case 'research': return <ResearchEditor setIsDirty={setIsDirty} />;

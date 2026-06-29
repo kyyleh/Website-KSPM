@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { getMediaUrl } from '../lib/strapi';
 
-export function ResearchHeader() {
+export function ResearchHeader({ data }: { data?: any }) {
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,6 +22,10 @@ export function ResearchHeader() {
     return () => observer.disconnect();
   }, []);
 
+  const title = data?.researchHeaderTitle || "Riset KSPM";
+  const description = data?.researchHeaderDescription || "Kami membimbing dan memfasilitasi mahasiswa dalam riset analisis fundamental dan teknikal saham, publikasi ringkasan pasar modal mingguan, serta program edukasi terpadu untuk membentuk kebiasaan investasi yang sehat.";
+  const image = data?.researchHeaderImage || "/images/research-equity.jpg";
+
   return (
     <section 
       id="research"
@@ -36,10 +40,10 @@ export function ResearchHeader() {
         {/* Left Column: Text Content */}
         <div className="lg:col-span-7 flex flex-col items-start gap-4">
           <h1 className="font-sans text-3xl sm:text-4xl md:text-6xl lg:text-[4.8rem] xl:text-[5.5rem] text-primary leading-[1.05] tracking-tight font-extrabold fade-up opacity-0" style={{ transitionDelay: '0.1s' }}>
-            Riset KSPM
+            {title}
           </h1>
           <p className="text-neutral-600 text-sm sm:text-base md:text-lg leading-relaxed fade-up opacity-0" style={{ transitionDelay: '0.4s' }}>
-            Kami membimbing dan memfasilitasi mahasiswa dalam riset analisis fundamental dan teknikal saham, publikasi ringkasan pasar modal mingguan, serta program edukasi terpadu untuk membentuk kebiasaan investasi yang sehat.
+            {description}
           </p>
         </div>
 
@@ -50,7 +54,7 @@ export function ResearchHeader() {
         >
           <div className="relative aspect-[4/3] w-full overflow-hidden">
             <img
-              src={getMediaUrl("/images/research-equity.jpg")}
+              src={getMediaUrl(image)}
               alt="KSPM FEB UIKA Riset"
               className="w-full h-full object-cover"
             />

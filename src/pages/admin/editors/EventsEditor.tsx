@@ -114,7 +114,23 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
         <div className="space-y-4">
           {/* Section meta */}
           <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 space-y-4 shadow-sm">
-            <h3 className="text-sm font-bold text-[#a67e2a] uppercase tracking-wider">Header Section</h3>
+            <h3 className="text-sm font-bold text-[#a67e2a] uppercase tracking-wider">Header Halaman</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs text-neutral-500 mb-1">Judul Header</label>
+                <input type="text" value={data.eventsHeaderTitle || ''} onChange={(e) => { setIsDirty?.(true); setData(prev => ({ ...prev, eventsHeaderTitle: e.target.value })); }} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
+              </div>
+              <div>
+                <label className="block text-xs text-neutral-500 mb-1">Gambar Header</label>
+                <ImageUploader value={data.eventsHeaderImage || ''} onChange={(url) => { setIsDirty?.(true); setData(prev => ({ ...prev, eventsHeaderImage: url })); }} label="Unggah Foto Header" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs text-neutral-500 mb-1">Deskripsi Header</label>
+              <textarea value={data.eventsHeaderDescription || ''} onChange={(e) => { setIsDirty?.(true); setData(prev => ({ ...prev, eventsHeaderDescription: e.target.value })); }} rows={3} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
+            </div>
+
+            <h3 className="text-sm font-bold text-[#a67e2a] uppercase tracking-wider pt-4 border-t border-[#eae6dd]">Detail Slider Kegiatan</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs text-neutral-500 mb-1">Script Text</label>

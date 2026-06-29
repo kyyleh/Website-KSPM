@@ -159,6 +159,19 @@ export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-neutral-600 mb-2" title="Deskripsi singkat paragraf di halaman utama">
+                Deskripsi <span className="text-neutral-400 text-xs font-normal cursor-help">❔</span>
+              </label>
+              <textarea
+                value={data.description || ''}
+                onChange={(e) => updateField('description', e.target.value)}
+                rows={3}
+                className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all resize-none"
+                placeholder="Masukkan paragraf deskripsi singkat..."
+              />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <label className="block text-sm font-medium text-neutral-600 mb-2" title="Teks yang muncul di tombol">

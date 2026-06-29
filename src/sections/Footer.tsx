@@ -6,9 +6,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   TrendingUp, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, Linkedin, Music, MessageCircle,
 };
 
-export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) {
+export function Footer({ onNavigate, data }: { onNavigate?: (href: string) => void; data?: typeof footerConfig }) {
+  const activeConfig = data || footerConfig;
+
   // Null check: if config is empty, render nothing
-  if (!footerConfig.brandName) return null;
+  if (!activeConfig.brandName) return null;
 
   const scrollToTop = () => {
     if (onNavigate) {
@@ -37,32 +39,32 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-1 lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              {footerConfig.brandLogo ? (
+              {activeConfig.brandLogo ? (
                 <img 
-                  src={footerConfig.brandLogo} 
-                  alt={`${footerConfig.brandName} Logo`} 
+                  src={activeConfig.brandLogo} 
+                  alt={`${activeConfig.brandName} Logo`} 
                   className="h-16 w-auto" 
                 />
               ) : (
                 <TrendingUp className="w-8 h-8 text-gold-500" aria-hidden="true" />
               )}
               <div>
-                <span className="font-serif text-3xl md:text-4xl text-[#1c1515] tracking-wide block">{footerConfig.brandName}</span>
-                {footerConfig.tagline && (
-                  <span className="text-xs md:text-sm text-[#7a6024] tracking-widest uppercase mt-1 block">{footerConfig.tagline}</span>
+                <span className="font-serif text-3xl md:text-4xl text-[#1c1515] tracking-wide block">{activeConfig.brandName}</span>
+                {activeConfig.tagline && (
+                  <span className="text-xs md:text-sm text-[#7a6024] tracking-widest uppercase mt-1 block">{activeConfig.tagline}</span>
                 )}
               </div>
             </div>
-            {footerConfig.description && (
+            {activeConfig.description && (
               <p className="text-neutral-600 text-sm leading-relaxed mb-6">
-                {footerConfig.description}
+                {activeConfig.description}
               </p>
             )}
             {/* Social Links */}
-            {footerConfig.socialLinks.length > 0 && (
+            {activeConfig.socialLinks.length > 0 && (
               <nav aria-label="Social media links">
                 <div className="flex gap-3">
-                  {footerConfig.socialLinks.map((social) => {
+                  {activeConfig.socialLinks.map((social) => {
                     const IconComponent = iconMap[social.icon];
                     return (
                       <a
@@ -81,7 +83,7 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
           </div>
 
           {/* Link Groups */}
-          {footerConfig.linkGroups.map((group, index) => (
+          {activeConfig.linkGroups.map((group, index) => (
             <nav key={index} aria-label={group.title} className="col-span-1">
               <h3 className="font-serif text-lg text-[#1c1515] mb-5">{group.title}</h3>
               <ul className="space-y-3">
@@ -101,11 +103,11 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
 
           {/* Contact Info + Newsletter */}
           <div className="col-span-2 md:col-span-1 lg:col-span-1">
-            {footerConfig.contactItems.length > 0 && (
+            {activeConfig.contactItems.length > 0 && (
               <>
                 <h3 className="font-serif text-lg text-[#1c1515] mb-5">Kontak</h3>
                 <ul className="space-y-4">
-                  {footerConfig.contactItems.map((item, index) => {
+                  {activeConfig.contactItems.map((item, index) => {
                     const IconComponent = iconMap[item.icon];
                     return (
                       <li key={index} className="flex items-start gap-3">
@@ -127,31 +129,31 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
       <div className="border-t border-border">
         <div className="container-custom py-4 sm:py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center justify-center gap-4 text-neutral-500 text-xs">
-            {footerConfig.copyrightText && (
-              <span>{footerConfig.copyrightText}</span>
+            {activeConfig.copyrightText && (
+              <span>{activeConfig.copyrightText}</span>
             )}
-            {footerConfig.legalLinks.map((link, index) => (
+            {activeConfig.legalLinks.map((link, index) => (
               <span key={index}>
                 <span className="hidden md:inline">|</span>
                 <button className="hover:text-[#7a6024] transition-colors ml-2 md:ml-0 cursor-pointer">{link}</button>
               </span>
             ))}
-            {footerConfig.icpText && (
+            {activeConfig.icpText && (
               <>
                 <span className="hidden md:inline">|</span>
-                <span>{footerConfig.icpText}</span>
+                <span>{activeConfig.icpText}</span>
               </>
             )}
           </div>
 
           {/* Back to Top */}
-          {footerConfig.backToTopText && (
+          {activeConfig.backToTopText && (
             <button
               onClick={scrollToTop}
               className="flex items-center gap-2 text-neutral-600 hover:text-[#7a6024] transition-colors group cursor-pointer"
-              aria-label={footerConfig.backToTopText}
+              aria-label={activeConfig.backToTopText}
             >
-              <span className="text-sm font-medium">{footerConfig.backToTopText}</span>
+              <span className="text-sm font-medium">{activeConfig.backToTopText}</span>
               <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center group-hover:border-gold-500 group-hover:bg-gold-500 group-hover:text-white transition-all duration-300 shadow-sm">
                 <ArrowUp className="w-4 h-4" />
               </div>
@@ -161,11 +163,11 @@ export function Footer({ onNavigate }: { onNavigate?: (href: string) => void }) 
       </div>
 
       {/* Age Verification Note */}
-      {footerConfig.ageVerificationText && (
+      {activeConfig.ageVerificationText && (
         <div className="bg-[#e3ded4] py-3">
           <div className="container-custom">
             <p className="text-center text-neutral-600 text-xs">
-              {footerConfig.ageVerificationText}
+              {activeConfig.ageVerificationText}
             </p>
           </div>
         </div>

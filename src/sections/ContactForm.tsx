@@ -95,6 +95,7 @@ export function ContactForm({ data }: { data?: typeof contactFormConfig }) {
           email: formData.email,
           phone: formData.phone,
           message: `Tanggal: ${formData.visitDate || 'Tidak ada'}, Kategori: ${formData.visitors}. Pesan: ${formData.message}`,
+          category: 'contact',
         });
         setStatus('success');
         setFormData({ name: '', email: '', phone: '', visitDate: '', visitors: 'Mahasiswa UIKA', message: '' });

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { getMediaUrl } from '../lib/strapi';
 
-export function AboutHeader() {
+export function AboutHeader({ data }: { data?: any }) {
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,6 +22,10 @@ export function AboutHeader() {
     return () => observer.disconnect();
   }, []);
 
+  const title = data?.aboutHeaderTitle || "Tentang Kami";
+  const description = data?.aboutHeaderDescription || "Mengenal lebih dekat KSPM FEB UIKA Bogor. Kami adalah wadah edukasi, riset, dan sosialisasi pasar modal yang berdedikasi mencetak investor muda yang cerdas, profesional, dan berintegritas tinggi sejak tahun 2019.";
+  const image = data?.aboutHeaderImage || "/images/about-vision.jpg";
+
   return (
     <section 
       id="about"
@@ -36,10 +40,10 @@ export function AboutHeader() {
         {/* Left Column: Text Content */}
         <div className="lg:col-span-7 flex flex-col items-start gap-4">
           <h1 className="font-sans text-3xl sm:text-4xl md:text-6xl lg:text-[4.8rem] xl:text-[5.5rem] text-primary leading-[1.05] tracking-tight font-extrabold fade-up opacity-0" style={{ transitionDelay: '0.1s' }}>
-            Tentang Kami
+            {title}
           </h1>
           <p className="text-neutral-600 text-sm sm:text-base md:text-lg leading-relaxed fade-up opacity-0" style={{ transitionDelay: '0.4s' }}>
-            Mengenal lebih dekat KSPM FEB UIKA Bogor. Kami adalah wadah edukasi, riset, dan sosialisasi pasar modal yang berdedikasi mencetak investor muda yang cerdas, profesional, dan berintegritas tinggi sejak tahun 2019.
+            {description}
           </p>
         </div>
 
@@ -50,7 +54,7 @@ export function AboutHeader() {
         >
           <div className="relative aspect-[4/3] w-full overflow-hidden">
             <img
-              src={getMediaUrl("/images/about-vision.jpg")}
+              src={getMediaUrl(image)}
               alt="KSPM FEB UIKA Tentang Kami"
               className="w-full h-full object-cover"
             />
