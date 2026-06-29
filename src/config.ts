@@ -338,19 +338,12 @@ export const wineShowcaseConfig: WineShowcaseConfig = {
 // Winery Carousel Config → Adapted for Events
 // -----------------------------------------------------------------------------
 export interface CarouselSlide {
-  image: string;
   title: string;
-  subtitle: string;
-  area: string;
-  unit: string;
   description: string;
 }
 
 export interface WineryCarouselConfig {
-  scriptText: string;
-  subtitle: string;
   mainTitle: string;
-  locationTag: string;
   slides: CarouselSlide[];
   eventsHeaderTitle: string;
   eventsHeaderDescription: string;
@@ -358,52 +351,29 @@ export interface WineryCarouselConfig {
 }
 
 export const wineryCarouselConfig: WineryCarouselConfig = {
-  scriptText: "Kegiatan Kami",
-  subtitle: "EVENTS & ACTIVITIES",
   mainTitle: "Program Kerja",
-  locationTag: "FEB UIKA Bogor",
   eventsHeaderTitle: "Kegiatan KSPM",
   eventsHeaderDescription: "Kami menyelenggarakan berbagai kegiatan akademis dan non-akademis yang bertujuan meningkatkan literasi, inklusi, serta keahlian praktis dalam industri pasar modal bagi seluruh civitas akademika dan masyarakat luas.",
   eventsHeaderImage: "/images/event-investalk.jpg",
   slides: [
     {
-      image: "/images/event-investalk.jpg",
       title: "Investalk",
-      subtitle: "Investor Talk Show",
-      area: "1000+",
-      unit: "Peserta",
       description: "Talk show interaktif dengan praktisi pasar modal, investor sukses, dan analis terkemuka untuk berbagi pengalaman dan insight.",
     },
     {
-      image: "/images/event-kpm.jpg",
       title: "Kursus Pasar Modal",
-      subtitle: "Comprehensive Learning",
-      area: "500+",
-      unit: "Alumni",
       description: "Program pembelajaran sistematis tentang pasar modal dari dasar hingga mahir dengan sertifikat resmi.",
     },
     {
-      image: "/images/event-ojkvisit.jpg",
       title: "Kunjungan OJK",
-      subtitle: "Capital Goes to Community",
-      area: "30+",
-      unit: "Mahasiswa",
       description: "Kunjungan edukatif ke Otoritas Jasa Keuangan (OJK) untuk memahami regulasi, pengawasan industri jasa keuangan, serta peningkatan literasi keuangan.",
     },
     {
-      image: "/images/event-bursavisit.jpg",
       title: "Kunjungan Bursa",
-      subtitle: "Galeri Investasi",
-      area: "40+",
-      unit: "Mahasiswa",
       description: "Kunjungan langsung ke Bursa Efek Indonesia untuk mempraktikkan pembukaan rekening efek dan melihat mekanisme perdagangan saham secara real-time.",
     },
     {
-      image: "/images/event-comparative.jpg",
       title: "Comparative Study",
-      subtitle: "Cross-Campus Learning",
-      area: "15+",
-      unit: "Kampus",
       description: "Program pertukaran ilmu dengan KSPM dari berbagai universitas di Indonesia untuk memperluas wawasan.",
     },
   ],

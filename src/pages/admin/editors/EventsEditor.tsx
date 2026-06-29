@@ -11,7 +11,7 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
   const [saving, setSaving] = useState(false);
   const [showJson, setShowJson] = useState(false);
   const [showAddSlideModal, setShowAddSlideModal] = useState(false);
-  const [newSlide, setNewSlide] = useState<CarouselSlide>({ image: '', title: '', subtitle: '', area: '', unit: '', description: '' });
+  const [newSlide, setNewSlide] = useState<CarouselSlide>({ title: '', description: '' });
   const [expandedSlide, setExpandedSlide] = useState<number | null>(0);
 
   useEffect(() => {
@@ -138,21 +138,15 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
               <label className="block text-xs text-neutral-500 mb-1">Deskripsi Header</label>
               <textarea value={data.eventsHeaderDescription || ''} onChange={(e) => { setIsDirty?.(true); setData(prev => ({ ...prev, eventsHeaderDescription: e.target.value })); }} rows={3} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
             </div>
+          </div>
 
-            <h3 className="text-sm font-bold text-[#a67e2a] uppercase tracking-wider pt-4 border-t border-[#eae6dd]">Detail Slider Kegiatan</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-xs text-neutral-500 mb-1">Script Text</label>
-                <input type="text" value={data.scriptText} onChange={(e) => { setIsDirty?.(true); setData(prev => ({ ...prev, scriptText: e.target.value })); }} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-              </div>
-              <div>
-                <label className="block text-xs text-neutral-500 mb-1">Subtitle</label>
-                <input type="text" value={data.subtitle} onChange={(e) => { setIsDirty?.(true); setData(prev => ({ ...prev, subtitle: e.target.value })); }} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-              </div>
-              <div>
-                <label className="block text-xs text-neutral-500 mb-1">Main Title</label>
-                <input type="text" value={data.mainTitle} onChange={(e) => { setIsDirty?.(true); setData(prev => ({ ...prev, mainTitle: e.target.value })); }} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-              </div>
+          <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 space-y-4 shadow-sm">
+            <h3 className="text-sm font-bold text-[#a67e2a] uppercase tracking-wider">
+              Detail Section Kegiatan
+            </h3>
+            <div>
+              <label className="block text-xs text-neutral-500 mb-1">Judul Utama (Main Title)</label>
+              <input type="text" value={data.mainTitle} onChange={(e) => { setIsDirty?.(true); setData(prev => ({ ...prev, mainTitle: e.target.value })); }} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
             </div>
           </div>
 
@@ -164,7 +158,7 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
               </h3>
                <button
                 onClick={() => {
-                  setNewSlide({ image: '', title: '', subtitle: '', area: '', unit: '', description: '' });
+                  setNewSlide({ title: '', description: '' });
                   setShowAddSlideModal(true);
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-[#faf9f5] border border-[#d2cbbe] rounded-lg hover:bg-neutral-100 text-[#1c1515] font-semibold transition-colors"
@@ -181,12 +175,8 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
                   onClick={() => setExpandedSlide(expandedSlide === i ? null : i)}
                 >
                   <GripVertical size={16} className="text-neutral-400" />
-                  {slide.image && (
-                    <img src={slide.image} alt="" className="w-10 h-10 rounded object-cover border border-[#eae6dd]" />
-                  )}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-[#1c1515] truncate">{slide.title || '(Untitled)'}</p>
-                    <p className="text-xs text-neutral-500">{slide.subtitle}</p>
                   </div>
                   <div className="flex items-center gap-1">
                     <button onClick={(e) => { e.stopPropagation(); moveSlide(i, 'up'); }} disabled={i === 0} className="p-1 text-neutral-400 hover:text-neutral-600 disabled:opacity-30">
@@ -204,23 +194,9 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
                 {/* Slide content */}
                 {expandedSlide === i && (
                   <div className="p-4 space-y-4 border-t border-[#eae6dd] bg-white">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs text-neutral-500 mb-1">Title</label>
-                        <input type="text" value={slide.title} onChange={(e) => updateSlide(i, 'title', e.target.value)} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-neutral-500 mb-1">Subtitle</label>
-                        <input type="text" value={slide.subtitle} onChange={(e) => updateSlide(i, 'subtitle', e.target.value)} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-neutral-500 mb-1">Area / Stat</label>
-                        <input type="text" value={slide.area} onChange={(e) => updateSlide(i, 'area', e.target.value)} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-neutral-500 mb-1">Unit</label>
-                        <input type="text" value={slide.unit} onChange={(e) => updateSlide(i, 'unit', e.target.value)} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-                      </div>
+                    <div>
+                      <label className="block text-xs text-neutral-500 mb-1">Title</label>
+                      <input type="text" value={slide.title} onChange={(e) => updateSlide(i, 'title', e.target.value)} className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
                     </div>
                     <div>
                       <label className="block text-xs text-neutral-500 mb-1">Description</label>
@@ -238,48 +214,16 @@ export function EventsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
           <div className="w-full max-w-lg bg-white border border-[#eae6dd] rounded-2xl p-6 shadow-2xl space-y-4 my-8 animate-in fade-in zoom-in-95 duration-200">
             <h3 className="text-lg font-bold text-[#1c1515]">Tambah Slide Kegiatan</h3>
             
-            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Judul (Title)</label>
-                  <input
-                    type="text"
-                    value={newSlide.title}
-                    onChange={(e) => setNewSlide({ ...newSlide, title: e.target.value })}
-                    placeholder="Misal: Investalk 2026"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Sub-Judul (Subtitle)</label>
-                  <input
-                    type="text"
-                    value={newSlide.subtitle}
-                    onChange={(e) => setNewSlide({ ...newSlide, subtitle: e.target.value })}
-                    placeholder="Misal: Seminar Nasional"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Area / Stat</label>
-                  <input
-                    type="text"
-                    value={newSlide.area}
-                    onChange={(e) => setNewSlide({ ...newSlide, area: e.target.value })}
-                    placeholder="Misal: 200"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-neutral-500 mb-1">Unit</label>
-                  <input
-                    type="text"
-                    value={newSlide.unit}
-                    onChange={(e) => setNewSlide({ ...newSlide, unit: e.target.value })}
-                    placeholder="Misal: + Peserta"
-                    className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                  />
-                </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs text-neutral-500 mb-1">Judul (Title)</label>
+                <input
+                  type="text"
+                  value={newSlide.title}
+                  onChange={(e) => setNewSlide({ ...newSlide, title: e.target.value })}
+                  placeholder="Misal: Investalk 2026"
+                  className="w-full px-3 py-2 bg-[#faf9f5] border border-[#d2cbbe] rounded-lg text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
+                />
               </div>
               
               <div>
