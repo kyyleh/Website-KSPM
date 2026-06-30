@@ -370,20 +370,21 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
             {openSections.general && (
               <div className="pb-4 space-y-3.5 border-t border-[#eae6dd]/40 pt-3">
                 <div className="border-b border-[#eae6dd]/40 pb-3 space-y-3">
-                  <h4 className="font-script text-[9px] text-neutral-400 font-bold tracking-[0.12em]">Header Halaman</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                      <label className="font-script text-[10px] text-neutral-500 block mb-1">Judul Header</label>
-                      <input type="text" value={data.sejarah.aboutHeaderTitle || ''} onChange={(e) => updateSejarah('aboutHeaderTitle', e.target.value)} className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-2 py-1.5 focus:bg-white transition-all outline-none rounded-t duration-200 text-[#1c1515]" />
+                  <h4 className="font-script text-[9px] text-neutral-400 font-bold tracking-[0.12em] mb-1.5">Header Halaman</h4>
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex-1 space-y-3.5">
+                      <div>
+                        <label className="font-script text-[10px] text-neutral-500 block mb-1">Judul Header</label>
+                        <input type="text" value={data.sejarah.aboutHeaderTitle || ''} onChange={(e) => updateSejarah('aboutHeaderTitle', e.target.value)} className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-2 py-1.5 focus:bg-white transition-all outline-none rounded-t duration-200 text-[#1c1515]" />
+                      </div>
+                      <div>
+                        <label className="font-script text-[10px] text-neutral-500 block mb-1">Deskripsi Header</label>
+                        <textarea value={data.sejarah.aboutHeaderDescription || ''} onChange={(e) => updateSejarah('aboutHeaderDescription', e.target.value)} rows={3} className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-2 py-1.5 focus:bg-white transition-all outline-none rounded-t duration-200 text-[#1c1515] resize-none" />
+                      </div>
                     </div>
-                    <div>
-                      <label className="font-script text-[10px] text-neutral-500 block mb-1">Gambar Header</label>
-                      <ImageUploader value={data.sejarah.aboutHeaderImage || ''} onChange={(url) => updateSejarah('aboutHeaderImage', url)} />
+                    <div className="w-full md:w-auto md:shrink-0 flex justify-start md:justify-end">
+                      <ImageUploader label="Gambar Header" value={data.sejarah.aboutHeaderImage || ''} onChange={(url) => updateSejarah('aboutHeaderImage', url)} />
                     </div>
-                  </div>
-                  <div>
-                    <label className="font-script text-[10px] text-neutral-500 block mb-1">Deskripsi Header</label>
-                    <textarea value={data.sejarah.aboutHeaderDescription || ''} onChange={(e) => updateSejarah('aboutHeaderDescription', e.target.value)} rows={2} className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-2 py-1.5 focus:bg-white transition-all outline-none rounded-t duration-200 text-[#1c1515] resize-none" />
                   </div>
                 </div>
 

@@ -131,19 +131,20 @@ export function EditorRiset({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
       {/* Section Info */}
       <div className="bg-white border border-[#eae6dd] rounded-xl p-4 space-y-3.5 shadow-sm">
         <h2 className="font-script text-[10px] text-[#a67e2a] font-bold tracking-[0.12em]">Header Halaman</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <label className="font-script text-[10px] text-neutral-500 block mb-1">Judul Header</label>
-            <input type="text" value={data.researchHeaderTitle || ''} onChange={e => updateField('researchHeaderTitle', e.target.value)} className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-2 py-1.5 focus:bg-white transition-all outline-none rounded-t duration-200 text-[#1c1515]" />
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1 space-y-3.5">
+            <div>
+              <label className="font-script text-[10px] text-neutral-500 block mb-1">Judul Header</label>
+              <input type="text" value={data.researchHeaderTitle || ''} onChange={e => updateField('researchHeaderTitle', e.target.value)} className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-2 py-1.5 focus:bg-white transition-all outline-none rounded-t duration-200 text-[#1c1515]" />
+            </div>
+            <div>
+              <label className="font-script text-[10px] text-neutral-500 block mb-1">Deskripsi Header</label>
+              <textarea value={data.researchHeaderDescription || ''} onChange={e => updateField('researchHeaderDescription', e.target.value)} rows={3} className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-2 py-1.5 focus:bg-white transition-all outline-none rounded-t duration-200 text-[#1c1515] resize-none" />
+            </div>
           </div>
-          <div>
-            <label className="font-script text-[10px] text-neutral-500 block mb-1">Gambar Header</label>
-            <ImageUploader value={data.researchHeaderImage || ''} onChange={(url) => updateField('researchHeaderImage', url)} />
+          <div className="w-full md:w-auto md:shrink-0 flex justify-start md:justify-end">
+            <ImageUploader label="Gambar Header" value={data.researchHeaderImage || ''} onChange={(url) => updateField('researchHeaderImage', url)} />
           </div>
-        </div>
-        <div>
-          <label className="font-script text-[10px] text-neutral-500 block mb-1">Deskripsi Header</label>
-          <textarea value={data.researchHeaderDescription || ''} onChange={e => updateField('researchHeaderDescription', e.target.value)} rows={2} className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-2 py-1.5 focus:bg-white transition-all outline-none rounded-t duration-200 text-[#1c1515] resize-none" />
         </div>
 
         <h2 className="font-script text-[10px] text-[#a67e2a] font-bold tracking-[0.12em] pt-2 border-t border-[#eae6dd]">Detail Program Riset</h2>
