@@ -102,6 +102,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
           role: node.role || '',
           category: 'DEPARTEMEN',
           image: node.image || '',
+          department: node.name || '',
         });
 
         if (node.children && Array.isArray(node.children)) {
@@ -527,7 +528,8 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
                                 <span className="bg-amber-500/10 text-[#a67e2a] px-1 rounded-[3px] text-[8px] uppercase font-semibold">
                                   {ORG_CATEGORY_LABELS[item.category] || item.category}
                                 </span>
-                                {item.role ? `${item.role}` : ''}
+                                {item.department ? <span className="text-[9px] text-[#a67e2a] font-medium">({item.department})</span> : null}
+                                {item.role ? `• ${item.role}` : ''}
                               </div>
                             </div>
                           </div>
@@ -661,7 +663,7 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
                   <option value="ANGGOTA DEPARTEMEN">Anggota Divisi / Departemen</option>
                 </select>
               </div>
-              {memberForm.category === 'ANGGOTA DEPARTEMEN' && (
+              {(memberForm.category === 'ANGGOTA DEPARTEMEN' || memberForm.category === 'DEPARTEMEN') && (
                 <div>
                   <label className="font-script text-[10px] text-neutral-500 block mb-1">Departemen / Divisi</label>
                   <select

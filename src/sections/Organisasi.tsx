@@ -40,7 +40,7 @@ const OrgMemberCard = ({
         <div>
           {/* Category / Position label */}
           <span className="font-script text-gold-600 text-[10px] uppercase tracking-wider font-bold block mb-1">
-            {category}
+            {category === "DEPARTEMEN" && node.department ? node.department : category}
           </span>
           {/* Name */}
           <h4 className="font-sans text-sm sm:text-base md:text-lg text-primary font-bold mt-1 leading-snug group-hover:text-gold-600 transition-colors duration-300">
@@ -296,7 +296,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
               <div className="w-24 h-px bg-neutral-200 mx-auto" />
               <div className="fade-up grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                 {depts.map((member, idx) => {
-                  const deptMembers = getDepartmentMembers(member.node.name);
+                  const deptMembers = getDepartmentMembers(member.node.department || member.node.name);
                   
                   return (
                     <div key={idx} className="flex flex-col gap-4">
@@ -405,7 +405,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
               )}
               
               <span className="font-script text-gold-600 text-[10px] uppercase tracking-widest font-bold block mb-1">
-                {activeMember.category}
+                {activeMember.category === "DEPARTEMEN" && activeMember.node.department ? activeMember.node.department : activeMember.category}
               </span>
               
               <h3 className="font-sans text-xl md:text-2xl text-primary font-bold leading-snug">
@@ -415,7 +415,15 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
               <div className="w-12 h-0.5 bg-gold-400 my-4 rounded-full" />
               
               <p className="font-sans text-muted-foreground text-sm leading-relaxed max-w-sm mb-8">
-                Sebagai {activeMember.category === "PEMBINA" ? "Pembina" : activeMember.category === "STEERING COMMITTEE" ? "Steering Committee" : activeMember.node.role || activeMember.category} KSPM FEB UIKA Bogor, berdedikasi tinggi untuk memajukan pasar modal melalui berbagai program edukasi, riset analisis saham, dan sosialisasi berkelanjutan bagi mahasiswa serta masyarakat.
+                Sebagai {
+                  activeMember.category === "PEMBINA" 
+                    ? "Pembina" 
+                    : activeMember.category === "STEERING COMMITTEE" 
+                    ? "Steering Committee" 
+                    : activeMember.category === "DEPARTEMEN" && activeMember.node.department 
+                    ? `Kepala ${activeMember.node.department}` 
+                    : activeMember.node.role || activeMember.category
+                } KSPM FEB UIKA Bogor, berdedikasi tinggi untuk memajukan pasar modal melalui berbagai program edukasi, riset analisis saham, dan sosialisasi berkelanjutan bagi mahasiswa serta masyarakat.
               </p>
 
               <button
