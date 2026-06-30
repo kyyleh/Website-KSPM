@@ -124,35 +124,35 @@ export function AdminDashboard() {
             <p className="text-neutral-500 mt-2 text-[15px]">Selamat datang kembali di panel admin KSPM FEB UIKA Bogor.</p>
           </div>
  
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#1c1515]/5 transition-all duration-300 group">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-amber-500/10 rounded-xl group-hover:scale-110 group-hover:bg-amber-500/20 transition-all duration-300">
-                  <MessageSquare className="w-6 h-6 text-[#a67e2a] drop-shadow-[0_0_10px_rgba(195,147,49,0.15)]" />
+          <div className="grid grid-cols-3 gap-2 sm:gap-6">
+            <div className="bg-white border border-[#eae6dd] rounded-2xl p-3 sm:p-6 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#1c1515]/5 transition-all duration-300 group">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2 sm:mb-4">
+                <div className="p-2 sm:p-3 bg-amber-500/10 rounded-xl group-hover:scale-110 group-hover:bg-amber-500/20 transition-all duration-300 w-fit shrink-0">
+                  <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-[#a67e2a] drop-shadow-[0_0_10px_rgba(195,147,49,0.15)]" />
                 </div>
-                <span className="text-neutral-500 font-medium text-[15px]">Total Pesan</span>
+                <span className="text-neutral-500 font-medium text-[11px] sm:text-[15px] leading-tight truncate">Total Pesan</span>
               </div>
-              <p className="text-4xl font-bold text-[#1c1515] tracking-tight">{stats.totalMessages}</p>
+              <p className="text-2xl sm:text-4xl font-bold text-[#1c1515] tracking-tight">{stats.totalMessages}</p>
             </div>
             
-            <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#1c1515]/5 transition-all duration-300 group">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-red-500/10 rounded-xl group-hover:scale-110 group-hover:bg-red-500/20 transition-all duration-300">
-                  <AlertCircle className="w-6 h-6 text-red-600 drop-shadow-[0_0_10px_rgba(239,68,68,0.15)]" />
+            <div className="bg-white border border-[#eae6dd] rounded-2xl p-3 sm:p-6 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#1c1515]/5 transition-all duration-300 group">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2 sm:mb-4">
+                <div className="p-2 sm:p-3 bg-red-500/10 rounded-xl group-hover:scale-110 group-hover:bg-red-500/20 transition-all duration-300 w-fit shrink-0">
+                  <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-600 drop-shadow-[0_0_10px_rgba(239,68,68,0.15)]" />
                 </div>
-                <span className="text-neutral-500 font-medium text-[15px]">Belum Dibaca</span>
+                <span className="text-neutral-500 font-medium text-[11px] sm:text-[15px] leading-tight truncate">Belum Dibaca</span>
               </div>
-              <p className="text-4xl font-bold text-[#1c1515] tracking-tight">{stats.unreadMessages}</p>
+              <p className="text-2xl sm:text-4xl font-bold text-[#1c1515] tracking-tight">{stats.unreadMessages}</p>
             </div>
  
-            <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#1c1515]/5 transition-all duration-300 group">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-emerald-500/10 rounded-xl group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all duration-300">
-                  <LayoutDashboard className="w-6 h-6 text-emerald-600 drop-shadow-[0_0_10px_rgba(16,185,129,0.15)]" />
+            <div className="bg-white border border-[#eae6dd] rounded-2xl p-3 sm:p-6 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#1c1515]/5 transition-all duration-300 group">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2 sm:mb-4">
+                <div className="p-2 sm:p-3 bg-emerald-500/10 rounded-xl group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all duration-300 w-fit shrink-0">
+                  <LayoutDashboard className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 drop-shadow-[0_0_10px_rgba(16,185,129,0.15)]" />
                 </div>
-                <span className="text-neutral-500 font-medium text-[15px]">Total Section</span>
+                <span className="text-neutral-500 font-medium text-[11px] sm:text-[15px] leading-tight truncate">Total Section</span>
               </div>
-              <p className="text-4xl font-bold text-[#1c1515] tracking-tight">9</p>
+              <p className="text-2xl sm:text-4xl font-bold text-[#1c1515] tracking-tight">9</p>
             </div>
           </div>
  

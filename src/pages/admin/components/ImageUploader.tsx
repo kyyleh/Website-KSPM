@@ -57,7 +57,7 @@ export function ImageUploader({ value, onChange, label = 'Gambar', className = '
         </label>
       )}
 
-      <div className="w-44 h-44">
+      <div className="w-full max-w-[11rem] aspect-square mx-auto">
         {value ? (
           /* 1x1 Square Preview Card with Hover Overlay Actions */
           <div className="relative w-full h-full rounded-xl overflow-hidden border border-[#eae6dd] group bg-[#faf9f5] shadow-sm">
