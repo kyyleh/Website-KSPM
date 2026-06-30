@@ -35,6 +35,67 @@ interface AboutData {
   };
 }
 
+function sortOrgMembers(members: OrgMember[]): OrgMember[] {
+  const pembina = members.filter(m => (m.category || '').toUpperCase() === 'PEMBINA');
+  const sc = members.filter(m => (m.category || '').toUpperCase() === 'STEERING COMMITTEE');
+  const ketua = members.filter(m => (m.category || '').toUpperCase() === 'KETUA UMUM');
+  const sekretaris = members.filter(m => (m.category || '').toUpperCase() === 'SEKRETARIS');
+  const bendahara = members.filter(m => (m.category || '').toUpperCase() === 'BENDAHARA');
+
+  const deptHeads = members.filter(m => (m.category || '').toUpperCase() === 'DEPARTEMEN');
+  const deptMembers = members.filter(m => (m.category || '').toUpperCase() === 'ANGGOTA DEPARTEMEN');
+
+  const deptsList: OrgMember[] = [];
+  const addedIds = new Set<string>();
+
+  // Process department heads and their respective members
+  deptHeads.forEach(head => {
+    deptsList.push(head);
+    addedIds.add(head.id);
+
+    const headDeptName = (head.department || head.name || '').toLowerCase().trim();
+    
+    // Find members of this department
+    const membersOfDept = deptMembers.filter(m => {
+      const mDeptName = (m.department || '').toLowerCase().trim();
+      return mDeptName === headDeptName && mDeptName !== '';
+    });
+
+    membersOfDept.forEach(m => {
+      deptsList.push(m);
+      addedIds.add(m.id);
+    });
+  });
+
+  // Remaining department members (in case of typos or no head)
+  deptMembers.forEach(m => {
+    if (!addedIds.has(m.id)) {
+      deptsList.push(m);
+      addedIds.add(m.id);
+    }
+  });
+
+  // Add all other categorized members to the added Set
+  pembina.forEach(m => addedIds.add(m.id));
+  sc.forEach(m => addedIds.add(m.id));
+  ketua.forEach(m => addedIds.add(m.id));
+  sekretaris.forEach(m => addedIds.add(m.id));
+  bendahara.forEach(m => addedIds.add(m.id));
+
+  // Find any remaining members
+  const remaining = members.filter(m => !addedIds.has(m.id));
+
+  return [
+    ...pembina,
+    ...sc,
+    ...ketua,
+    ...sekretaris,
+    ...bendahara,
+    ...deptsList,
+    ...remaining,
+  ];
+}
+
 function flattenOrgStructure(structure: any): OrgMember[] {
   if (Array.isArray(structure)) {
     return structure.map((m, i) => ({
@@ -143,7 +204,7 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
       sejarah: defaultData.sejarah,
       organization: {
         ...defaultData.organization,
-        structure: flattenOrgStructure(defaultData.organization.structure)
+        structure: sortOrgMembers(flattenOrgStructure(defaultData.organization.structure))
       }
     };
   });
@@ -194,7 +255,7 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
           const content = res.content;
           const mergedSejarah = content.sejarah || content.museum ? { ...sejarahConfig, ...(content.sejarah || content.museum) } : sejarahConfig;
           const mergedOrg = content.organization ? { ...organizationConfig, ...content.organization } : organizationConfig;
-          mergedOrg.structure = flattenOrgStructure(mergedOrg.structure);
+          mergedOrg.structure = sortOrgMembers(flattenOrgStructure(mergedOrg.structure));
           
           setData({
             sejarah: mergedSejarah,
@@ -309,12 +370,16 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
       return;
     }
     setIsDirty?.(true);
-    const updatedStructure = [...(data.organization.structure as any)];
+    let updatedStructure = [...(data.organization.structure as any)];
     if (editingMemberIndex !== null) {
       updatedStructure[editingMemberIndex] = memberForm;
     } else {
       updatedStructure.push(memberForm);
     }
+    
+    // Sort automatically to keep departments grouped
+    updatedStructure = sortOrgMembers(updatedStructure);
+    
     updateOrg('structure', updatedStructure);
     setShowAddEditMemberModal(false);
   };
