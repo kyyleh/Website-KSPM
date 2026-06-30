@@ -17,7 +17,7 @@ const OrgMemberCard = ({
   return (
     <button
       onClick={onClick}
-      className="group bg-white border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-premium hover:-translate-y-1 transition-all duration-500 ease-out flex flex-col w-full max-w-sm mx-auto text-left cursor-pointer focus:outline-none"
+      className="group bg-white border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-premium hover:-translate-y-1 transition-all duration-500 ease-out flex flex-col w-full max-w-sm mx-auto text-left cursor-pointer focus:outline-none flex-1"
     >
       {/* Image Container */}
       <div className="relative aspect-square w-full overflow-hidden bg-neutral-100 flex-shrink-0">
@@ -39,7 +39,7 @@ const OrgMemberCard = ({
       <div className="p-3 sm:p-5 flex flex-col justify-between flex-grow w-full border-t border-border">
         <div>
           {/* Category / Position label */}
-          <span className="font-script text-gold-600 text-[9px] sm:text-[10px] uppercase tracking-wider font-bold block mb-1">
+          <span className="font-script text-gold-600 text-[9px] sm:text-[10px] uppercase tracking-wider font-bold block mb-1 min-h-[24px] sm:min-h-0">
             {category === "DEPARTEMEN" && node.department ? node.department : category}
           </span>
           {/* Name */}
