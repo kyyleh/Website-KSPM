@@ -262,15 +262,18 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
 
           {/* Level 2: Steering Committee (Below Pembina) */}
           {scList.length > 0 && (
-            <div className="fade-up flex flex-wrap gap-4 sm:gap-6 lg:gap-8 justify-center max-w-4xl mx-auto">
+            <div className={`fade-up grid gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto justify-center ${
+              scList.length === 1 ? 'grid-cols-1 max-w-sm' :
+              scList.length === 2 ? 'grid-cols-2' :
+              'grid-cols-2 md:grid-cols-3'
+            }`}>
               {scList.map((member) => (
-                <div key={member.node.name} className="w-[calc(50%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] max-w-sm">
-                  <OrgMemberCard
-                    node={member.node}
-                    category={member.category}
-                    onClick={() => setActiveMember({ node: member.node, category: member.category })}
-                  />
-                </div>
+                <OrgMemberCard
+                  key={member.node.name}
+                  node={member.node}
+                  category={member.category}
+                  onClick={() => setActiveMember({ node: member.node, category: member.category })}
+                />
               ))}
             </div>
           )}
@@ -288,15 +291,14 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
 
           {/* Level 4: Sekretaris & Bendahara */}
           {sekBend.length > 0 && (
-            <div className="fade-up flex flex-wrap gap-4 sm:gap-6 lg:gap-8 justify-center max-w-2xl mx-auto">
+            <div className="fade-up grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-2xl mx-auto justify-center">
               {sekBend.map((member, idx) => (
-                <div key={idx} className="w-[calc(50%-8px)] sm:w-[calc(50%-12px)] max-w-sm">
-                  <OrgMemberCard
-                    node={member.node}
-                    category={member.category}
-                    onClick={() => setActiveMember({ node: member.node, category: member.category })}
-                  />
-                </div>
+                <OrgMemberCard
+                  key={idx}
+                  node={member.node}
+                  category={member.category}
+                  onClick={() => setActiveMember({ node: member.node, category: member.category })}
+                />
               ))}
             </div>
           )}
@@ -305,12 +307,12 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
           {depts.length > 0 && (
             <div className="space-y-8">
               <div className="w-24 h-px bg-neutral-200 mx-auto" />
-              <div className="fade-up flex flex-wrap gap-4 sm:gap-6 lg:gap-8 justify-center">
+              <div className="fade-up grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-center">
                 {depts.map((member, idx) => {
                   const deptMembers = getDepartmentMembers(member.node.department || member.node.name);
                   
                   return (
-                    <div key={idx} className="flex flex-col gap-4 w-[calc(50%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-24px)] max-w-sm">
+                    <div key={idx} className="flex flex-col gap-4">
                       {/* Coordinator / Head */}
                       <OrgMemberCard
                         node={member.node}
@@ -365,15 +367,14 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
           {otherMembers.length > 0 && (
             <div className="space-y-8">
               <div className="w-24 h-px bg-neutral-200 mx-auto" />
-              <div className="fade-up flex flex-wrap gap-4 sm:gap-6 lg:gap-8 justify-center">
+              <div className="fade-up grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 justify-center">
                 {otherMembers.map((member, idx) => (
-                  <div key={idx} className="w-[calc(50%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] max-w-sm">
-                    <OrgMemberCard
-                      node={member.node}
-                      category={member.category}
-                      onClick={() => setActiveMember({ node: member.node, category: member.category })}
-                    />
-                  </div>
+                  <OrgMemberCard
+                    key={idx}
+                    node={member.node}
+                    category={member.category}
+                    onClick={() => setActiveMember({ node: member.node, category: member.category })}
+                  />
                 ))}
               </div>
             </div>
