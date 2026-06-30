@@ -189,16 +189,6 @@ export function EditorGaleri({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
                   />
                 </div>
 
-                <div>
-                  <label className="font-script text-[9px] text-[#a67e2a] font-bold block mb-0.5">Alt Text (Aksesibilitas)</label>
-                  <input
-                    type="text"
-                    value={item.alt}
-                    onChange={(e) => updateItem(index, 'alt', e.target.value)}
-                    className="w-full text-xs bg-[#faf9f5] border-b border-[#d2cbbe] hover:border-[#a67e2a] focus:border-[#a67e2a] px-1.5 py-1 focus:bg-white transition-all outline-none rounded-t text-[#1c1515]"
-                    placeholder="Aksesibilitas..."
-                  />
-                </div>
               </div>
             </div>
           </div>
@@ -256,16 +246,6 @@ export function EditorGaleri({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
                 />
               </div>
 
-              <div>
-                <label className="font-script text-[10px] text-neutral-500 block mb-1">Alt Text</label>
-                <input
-                  type="text"
-                  value={newItem.alt}
-                  onChange={(e) => setNewItem({ ...newItem, alt: e.target.value })}
-                  className="w-full px-2.5 py-1.5 bg-[#faf9f5] border border-[#d2cbbe] rounded text-xs text-[#1c1515] focus:outline-none"
-                  placeholder="Deskripsi aksesibilitas..."
-                />
-              </div>
             </div>
 
             <div className="flex justify-end gap-2 pt-3 border-t border-[#eae6dd] mt-4">
