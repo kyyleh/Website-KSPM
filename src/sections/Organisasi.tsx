@@ -105,6 +105,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
         role: m.role || '',
         image: m.image,
         department: m.department || '',
+        description: m.description || '',
       },
       category: m.category
     }));
@@ -423,8 +424,8 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
               
               <div className="w-12 h-0.5 bg-gold-400 my-4 rounded-full" />
               
-              <p className="font-sans text-muted-foreground text-sm leading-relaxed max-w-sm mb-8">
-                Sebagai {
+              <p className="font-sans text-muted-foreground text-sm leading-relaxed max-w-sm mb-8 whitespace-pre-wrap">
+                {activeMember.node.description || `Sebagai ${
                   activeMember.category === "PEMBINA" 
                     ? "Pembina" 
                     : activeMember.category === "STEERING COMMITTEE" 
@@ -432,7 +433,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
                     : activeMember.category === "DEPARTEMEN" && activeMember.node.department 
                     ? `Kepala ${activeMember.node.department}` 
                     : activeMember.node.role || activeMember.category
-                } KSPM FEB UIKA Bogor, berdedikasi tinggi untuk memajukan pasar modal melalui berbagai program edukasi, riset analisis saham, dan sosialisasi berkelanjutan bagi mahasiswa serta masyarakat.
+                } KSPM FEB UIKA Bogor, berdedikasi tinggi untuk memajukan pasar modal melalui berbagai program edukasi, riset analisis saham, dan sosialisasi berkelanjutan bagi mahasiswa serta masyarakat.`}
               </p>
 
               <button

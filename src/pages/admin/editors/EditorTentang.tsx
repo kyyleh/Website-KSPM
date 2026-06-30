@@ -15,6 +15,7 @@ interface OrgMember {
   category: string;
   image?: string;
   department?: string;
+  description?: string;
 }
 
 const ORG_CATEGORY_LABELS: Record<string, string> = {
@@ -43,6 +44,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
       category: m.category || 'DEPARTEMEN',
       image: m.image || '',
       department: m.department || '',
+      description: m.description || '',
     }));
   }
 
@@ -56,6 +58,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
     role: root.role || '',
     category: 'PEMBINA',
     image: root.image || '',
+    description: root.description || '',
   });
 
   const steeringCommitteeNodes = root.children ?? [];
@@ -66,6 +69,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
       role: node.role || '',
       category: 'STEERING COMMITTEE',
       image: node.image || '',
+      description: node.description || '',
     });
   });
 
@@ -79,6 +83,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
         role: ketuaUmumNode.role || '',
         category: 'KETUA UMUM',
         image: ketuaUmumNode.image || '',
+        description: ketuaUmumNode.description || '',
       });
 
       const children = ketuaUmumNode.children || [];
@@ -93,6 +98,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
           role: node.role || '',
           category: node.name.includes('Sekretaris') ? 'SEKRETARIS' : 'BENDAHARA',
           image: node.image || '',
+          description: node.description || '',
         });
       });
 
@@ -104,6 +110,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
           category: 'DEPARTEMEN',
           image: node.image || '',
           department: node.name || '',
+          description: node.description || '',
         });
 
         if (node.children && Array.isArray(node.children)) {
@@ -115,6 +122,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
               category: 'ANGGOTA DEPARTEMEN',
               image: childNode.image || '',
               department: node.name,
+              description: childNode.description || '',
             });
           });
         }
@@ -151,7 +159,8 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
     role: '',
     category: 'DEPARTEMEN',
     image: '',
-    department: ''
+    department: '',
+    description: ''
   });
   const [saveStatus, setSaveStatus] = useState<{
     isOpen: boolean;
@@ -277,7 +286,8 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
       role: '',
       category: 'DEPARTEMEN',
       image: '',
-      department: ''
+      department: '',
+      description: ''
     });
     setEditingMemberIndex(null);
     setShowAddEditMemberModal(true);
@@ -286,6 +296,7 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
   const handleOpenEditMember = (index: number) => {
     setMemberForm({
       department: '',
+      description: '',
       ...data.organization.structure[index]
     });
     setEditingMemberIndex(index);
@@ -711,6 +722,17 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
                   />
                 </div>
               )}
+
+              <div>
+                <label className="font-script text-[10px] text-neutral-500 block mb-1">Deskripsi / Biografi</label>
+                <textarea
+                  value={memberForm.description || ''}
+                  onChange={(e) => setMemberForm({ ...memberForm, description: e.target.value })}
+                  placeholder="Deskripsi singkat atau biografi pengurus..."
+                  rows={3}
+                  className="w-full px-2.5 py-1.5 bg-[#faf9f5] border border-[#d2cbbe] rounded text-[#1c1515] text-xs focus:outline-none resize-none"
+                />
+              </div>
 
               <div>
                 <ImageUploader

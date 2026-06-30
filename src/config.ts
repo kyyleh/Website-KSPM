@@ -452,6 +452,7 @@ export interface OrgNode {
   image?: string;
   children?: OrgNode[];
   department?: string;
+  description?: string;
 }
 
 export interface OrganizationConfig {
