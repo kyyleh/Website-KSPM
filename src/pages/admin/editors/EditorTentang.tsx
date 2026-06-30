@@ -684,17 +684,13 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
               {(memberForm.category === 'ANGGOTA DEPARTEMEN' || memberForm.category === 'DEPARTEMEN') && (
                 <div>
                   <label className="font-script text-[10px] text-neutral-500 block mb-1">Departemen / Divisi</label>
-                  <select
+                  <input
+                    type="text"
                     value={memberForm.department || ''}
                     onChange={(e) => setMemberForm({ ...memberForm, department: e.target.value })}
+                    placeholder="Misal: Dept. Media, Dept. Research..."
                     className="w-full px-2.5 py-1.5 bg-[#faf9f5] border border-[#d2cbbe] rounded text-[#1c1515] text-xs focus:outline-none"
-                  >
-                    <option value="">-- Pilih Departemen --</option>
-                    <option value="Dept. Research">Dept. Research</option>
-                    <option value="Dept. Media">Dept. Media</option>
-                    <option value="Dept. HR & Program">Dept. HR & Program</option>
-                    <option value="Dept. Finance">Dept. Finance</option>
-                  </select>
+                  />
                 </div>
               )}
 

@@ -46,6 +46,11 @@ const OrgMemberCard = ({
           <h4 className="font-sans text-sm sm:text-base md:text-lg text-primary font-bold mt-1 leading-snug group-hover:text-gold-600 transition-colors duration-300">
             {node.name}
           </h4>
+          {node.role && (
+            <p className="text-[10px] text-neutral-500 font-semibold mt-1 uppercase tracking-wider">
+              {node.role}
+            </p>
+          )}
         </div>
         {/* Detail CTA */}
         <div className="flex justify-end mt-4">
@@ -411,6 +416,11 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
               <h3 className="font-sans text-xl md:text-2xl text-primary font-bold leading-snug">
                 {activeMember.node.name}
               </h3>
+              {activeMember.node.role && (
+                <p className="text-xs text-neutral-500 font-semibold mt-1 uppercase tracking-wider">
+                  {activeMember.node.role}
+                </p>
+              )}
               
               <div className="w-12 h-0.5 bg-gold-400 my-4 rounded-full" />
               
