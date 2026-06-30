@@ -208,7 +208,7 @@ export function AdminLayout({
         </header>
 
         {/* Content area */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-8 bg-[#f0ede6] relative admin-theme-main">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-8 bg-[#f0ede6] relative admin-theme-main">
           {/* Subtle background glow for main content */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-amber-500/[0.02] blur-[120px] pointer-events-none rounded-full" />
           <div className="relative z-10">

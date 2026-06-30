@@ -17,4 +17,6 @@ dist-ssr
 
 # Vercel
 .vercel
-.vercel
+
+# Local DB
+local-db.json
