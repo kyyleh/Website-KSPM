@@ -310,7 +310,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
                   const deptMembers = getDepartmentMembers(member.node.department || member.node.name);
                   
                   return (
-                    <div key={idx} className="flex flex-col gap-4 w-[calc(50%-8px)] sm:w-[calc(50%-12px)] lg:w-[calc(25%-24px)] max-w-sm">
+                    <div key={idx} className="flex flex-col gap-4 w-[calc(50%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-24px)] max-w-sm">
                       {/* Coordinator / Head */}
                       <OrgMemberCard
                         node={member.node}
