@@ -214,37 +214,37 @@ export const achievementsConfig: AchievementsConfig = {
 };
 
 
+// // -----------------------------------------------------------------------------
+// Config Riset & Publikasi
 // -----------------------------------------------------------------------------
-// Wine Showcase Config → Adapted for Research Programs
-// -----------------------------------------------------------------------------
-export interface Wine {
+export interface ProgramRiset {
   id: string;
   name: string;
   image: string;
   description: string;
 }
 
-export interface WineFeature {
+export interface FiturRiset {
   icon: string;
   title: string;
   description: string;
 }
 
-export interface WineShowcaseConfig {
+export interface RisetPublikasiConfig {
   mainTitle: string;
-  wines: Wine[];
-  features: WineFeature[];
+  programs: ProgramRiset[];
+  features: FiturRiset[];
   researchHeaderTitle: string;
   researchHeaderDescription: string;
   researchHeaderImage: string;
 }
 
-export const wineShowcaseConfig: WineShowcaseConfig = {
+export const risetPublikasiConfig: RisetPublikasiConfig = {
   mainTitle: "Riset & Publikasi",
   researchHeaderTitle: "Riset KSPM",
   researchHeaderDescription: "Kami membimbing dan memfasilitasi mahasiswa dalam riset analisis fundamental dan teknikal saham, publikasi ringkasan pasar modal mingguan, serta program edukasi terpadu untuk membentuk kebiasaan investasi yang sehat.",
   researchHeaderImage: "/images/research-equity.jpg",
-  wines: [
+  programs: [
     {
       id: "sps",
       name: "Kelas SPS",
@@ -279,22 +279,22 @@ export const wineShowcaseConfig: WineShowcaseConfig = {
 };
 
 // -----------------------------------------------------------------------------
-// Winery Carousel Config → Adapted for Events
+// Config Carousel Kegiatan (Events)
 // -----------------------------------------------------------------------------
-export interface CarouselSlide {
+export interface SlideKegiatan {
   title: string;
   description: string;
 }
 
-export interface WineryCarouselConfig {
+export interface KegiatanCarouselConfig {
   mainTitle: string;
-  slides: CarouselSlide[];
+  slides: SlideKegiatan[];
   eventsHeaderTitle: string;
   eventsHeaderDescription: string;
   eventsHeaderImage: string;
 }
 
-export const wineryCarouselConfig: WineryCarouselConfig = {
+export const kegiatanCarouselConfig: KegiatanCarouselConfig = {
   mainTitle: "Program Kerja",
   eventsHeaderTitle: "Kegiatan KSPM",
   eventsHeaderDescription: "Kami menyelenggarakan berbagai kegiatan akademis dan non-akademis yang bertujuan meningkatkan literasi, inklusi, serta keahlian praktis dalam industri pasar modal bagi seluruh civitas akademika dan masyarakat luas.",
@@ -324,43 +324,43 @@ export const wineryCarouselConfig: WineryCarouselConfig = {
 };
 
 // -----------------------------------------------------------------------------
-// Museum Config → Adapted for About/History
+// Config Sejarah & Tentang Kami
 // -----------------------------------------------------------------------------
-export interface TimelineEvent {
+export interface EventSejarah {
   year: string;
   event: string;
 }
 
-export interface MuseumTabContent {
+export interface SejarahTabContent {
   title: string;
   description: string | string[];
 }
 
-export interface MuseumTab {
+export interface SejarahTab {
   id: string;
   name: string;
   icon: string;
   image: string;
-  content: MuseumTabContent;
+  content: SejarahTabContent;
 }
 
-export interface MuseumQuote {
+export interface SejarahQuote {
   prefix: string;
   text: string;
   attribution: string;
 }
 
-export interface MuseumConfig {
+export interface SejarahConfig {
   mainTitle: string;
   introText: string;
-  timeline: TimelineEvent[];
-  tabs: MuseumTab[];
+  timeline: EventSejarah[];
+  tabs: SejarahTab[];
   openingHours: string;
   openingHoursLabel: string;
   ctaButtonText: string;
   yearBadge: string;
   yearBadgeLabel: string;
-  quote: MuseumQuote;
+  quote: SejarahQuote;
   founderPhotoAlt: string;
   founderPhoto: string;
   aboutHeaderTitle: string;
@@ -368,7 +368,7 @@ export interface MuseumConfig {
   aboutHeaderImage: string;
 }
 
-export const museumConfig: MuseumConfig = {
+export const sejarahConfig: SejarahConfig = {
   mainTitle: "Sejarah KSPM FEB UIKA",
   introText: "Kelompok Studi Pasar Modal (KSPM) FEB UIKA Bogor adalah wadah edukasi untuk mendalami dunia investasi dan pasar modal secara akademis maupun praktis.",
   aboutHeaderTitle: "Tentang Kami",

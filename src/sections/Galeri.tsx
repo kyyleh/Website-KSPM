@@ -7,7 +7,7 @@ interface GalleryProps {
   data?: any;
 }
 
-export function Gallery({ isStandalone = false, onNavigate, data }: GalleryProps) {
+export function Galeri({ isStandalone = false, onNavigate, data }: GalleryProps) {
   const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 

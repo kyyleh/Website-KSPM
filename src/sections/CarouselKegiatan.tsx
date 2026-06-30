@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { wineryCarouselConfig } from '../config';
+import { kegiatanCarouselConfig } from '../config';
 
-export function WineryCarousel({ data }: { onNavigate?: (href: string) => void; data?: typeof wineryCarouselConfig }) {
-  const activeConfig = data || wineryCarouselConfig;
+export function CarouselKegiatan({ data }: { onNavigate?: (href: string) => void; data?: typeof kegiatanCarouselConfig }) {
+  const activeConfig = data || kegiatanCarouselConfig;
 
   // Null check: if config is empty, render nothing
   if (!activeConfig.mainTitle || activeConfig.slides.length === 0) return null;

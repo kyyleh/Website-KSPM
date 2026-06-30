@@ -20,7 +20,7 @@ const HandshakeIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export function Achievements({ data }: { data?: typeof achievementsConfig }) {
+export function Pencapaian({ data }: { data?: typeof achievementsConfig }) {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {

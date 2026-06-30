@@ -2,7 +2,7 @@ import { Quote, Star } from 'lucide-react';
 import { getMediaUrl } from '../lib/strapi';
 import { newsConfig as staticNewsConfig } from '../config';
 
-export function Testimonials({ data }: { data?: typeof staticNewsConfig }) {
+export function Testimoni({ data }: { data?: typeof staticNewsConfig }) {
   const newsConfig = data || staticNewsConfig;
 
   if (!newsConfig.testimonials || newsConfig.testimonials.length === 0) return null;

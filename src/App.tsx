@@ -1,23 +1,21 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Navigation } from './sections/Navigation';
+import { Navigasi } from './sections/Navigasi';
 import { Hero } from './sections/Hero';
-import { WineShowcase } from './sections/WineShowcase';
-import { WineryCarousel } from './sections/WineryCarousel';
-import { AboutHeader } from './sections/AboutHeader';
-import { EventsHeader } from './sections/EventsHeader';
-import { ResearchHeader } from './sections/ResearchHeader';
-import { Museum } from './sections/Museum';
-import { Organization } from './sections/Organization';
-import { News } from './sections/News';
-import { Testimonials } from './sections/Testimonials';
-import { Achievements } from './sections/Achievements';
-import { ContactForm } from './sections/ContactForm';
+import { RisetPublikasi } from './sections/RisetPublikasi';
+import { CarouselKegiatan } from './sections/CarouselKegiatan';
+import { HeaderHalaman } from './sections/HeaderHalaman';
+import { Sejarah } from './sections/Sejarah';
+import { Organisasi } from './sections/Organisasi';
+import { Berita } from './sections/Berita';
+import { Testimoni } from './sections/Testimoni';
+import { Pencapaian } from './sections/Pencapaian';
+import { FormKontak } from './sections/FormKontak';
 import { Footer } from './sections/Footer';
-import { RegisterForm } from './sections/RegisterForm';
+import { FormPendaftaran } from './sections/FormPendaftaran';
 
 import { ScrollToTop } from './components/ScrollToTop';
 import { WhatsAppButton } from './components/WhatsAppButton';
-import { Gallery } from './sections/Gallery';
+import { Galeri } from './sections/Galeri';
 import {
   getMappedHero,
   getMappedAbout,
@@ -174,43 +172,58 @@ function App() {
 
 
       <div className="min-h-screen bg-background">
-        <Navigation currentPage={currentPage} onNavigate={handlePageChange} />
+        <Navigasi currentPage={currentPage} onNavigate={handlePageChange} />
 
         <main>
           {currentPage === 'home' && (
             <>
               <Hero isReady={true} data={heroData} onNavigate={handlePageChange} />
-              <Testimonials data={newsData} />
-              <Achievements data={achievementsData} />
-              <News data={newsData} />
-              <Gallery onNavigate={handlePageChange} data={galleryData} />
-              <ContactForm data={contactData} />
+              <Testimoni data={newsData} />
+              <Pencapaian data={achievementsData} />
+              <Berita data={newsData} />
+              <Galeri onNavigate={handlePageChange} data={galleryData} />
+              <FormKontak data={contactData} />
             </>
           )}
           {currentPage === 'about' && (
             <>
-              <AboutHeader data={aboutData?.aboutConfig} />
-              <Museum onNavigate={handlePageChange} data={aboutData?.aboutConfig} />
-              <Organization data={aboutData?.orgConfig} />
+              <HeaderHalaman 
+                id="about"
+                title={aboutData?.aboutConfig?.aboutHeaderTitle || "Tentang Kami"}
+                description={aboutData?.aboutConfig?.aboutHeaderDescription || "Mengenal lebih dekat KSPM FEB UIKA Bogor. Kami adalah wadah edukasi, riset, dan sosialisasi pasar modal yang berdedikasi mencetak investor muda yang cerdas, profesional, dan berintegritas tinggi sejak tahun 2019."}
+                image={aboutData?.aboutConfig?.aboutHeaderImage || "/images/about-vision.jpg"}
+              />
+              <Sejarah onNavigate={handlePageChange} data={aboutData?.aboutConfig} />
+              <Organisasi data={aboutData?.orgConfig} />
             </>
           )}
           {currentPage === 'events' && (
             <>
-              <EventsHeader data={activitiesData} />
-              <WineryCarousel onNavigate={handlePageChange} data={activitiesData} />
+              <HeaderHalaman 
+                id="events"
+                title={activitiesData?.eventsHeaderTitle || "Kegiatan KSPM"}
+                description={activitiesData?.eventsHeaderDescription || "Kami menyelenggarakan berbagai kegiatan akademis dan non-akademis yang bertujuan meningkatkan literasi, inklusi, serta keahlian praktis dalam industri pasar modal bagi seluruh civitas akademika dan masyarakat luas."}
+                image={activitiesData?.eventsHeaderImage || "/images/event-investalk.jpg"}
+              />
+              <CarouselKegiatan onNavigate={handlePageChange} data={activitiesData} />
             </>
           )}
           {currentPage === 'research' && (
             <>
-              <ResearchHeader data={researchData} />
-              <WineShowcase onNavigate={handlePageChange} data={researchData} />
+              <HeaderHalaman 
+                id="research"
+                title={researchData?.researchHeaderTitle || "Riset KSPM"}
+                description={researchData?.researchHeaderDescription || "Kami membimbing dan memfasilitasi mahasiswa dalam riset analisis fundamental dan teknikal saham, publikasi ringkasan pasar modal mingguan, serta program edukasi terpadu untuk membentuk kebiasaan investasi yang sehat."}
+                image={researchData?.researchHeaderImage || "/images/research-equity.jpg"}
+              />
+              <RisetPublikasi onNavigate={handlePageChange} data={researchData} />
             </>
           )}
           {currentPage === 'register' && (
-            <RegisterForm onNavigate={handlePageChange} />
+            <FormPendaftaran onNavigate={handlePageChange} />
           )}
           {currentPage === 'gallery' && (
-            <Gallery isStandalone={true} onNavigate={handlePageChange} data={galleryData} />
+            <Galeri isStandalone={true} onNavigate={handlePageChange} data={galleryData} />
           )}
         </main>
 

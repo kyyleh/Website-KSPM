@@ -49,7 +49,7 @@ const facultyProdiMap: Record<string, string[]> = {
   ]
 };
 
-export function RegisterForm({ onNavigate }: { onNavigate?: (href: string) => void }) {
+export function FormPendaftaran({ onNavigate }: { onNavigate?: (href: string) => void }) {
   const [formData, setFormData] = useState({
     name: '',
     nim: '',

@@ -8,7 +8,7 @@ const LOGGED_IN_KEY = 'kspm_logged_in';
 // Auth helpers
 // ---------------------------------------------------------------------------
 export function isLoggedIn(): boolean {
-  return localStorage.getItem(LOGGED_IN_KEY) === 'true';
+  return sessionStorage.getItem(LOGGED_IN_KEY) === 'true';
 }
 
 // ---------------------------------------------------------------------------
@@ -30,7 +30,7 @@ export async function adminFetch<T = any>(
   });
 
   if (response.status === 401) {
-    localStorage.removeItem(LOGGED_IN_KEY);
+    sessionStorage.removeItem(LOGGED_IN_KEY);
     window.location.hash = '#/admin/login';
     throw new Error('Unauthorized — session expired');
   }
@@ -61,7 +61,7 @@ export async function login(userId: string, password: string) {
   }
 
   const data = await res.json();
-  localStorage.setItem(LOGGED_IN_KEY, 'true');
+  sessionStorage.setItem(LOGGED_IN_KEY, 'true');
   return data;
 }
 
@@ -69,7 +69,7 @@ export async function verifyToken(): Promise<boolean> {
   try {
     const res = await fetch('/api/auth/verify', { credentials: 'same-origin' });
     if (!res.ok) {
-      localStorage.removeItem(LOGGED_IN_KEY);
+      sessionStorage.removeItem(LOGGED_IN_KEY);
       return false;
     }
     return true;
@@ -79,7 +79,7 @@ export async function verifyToken(): Promise<boolean> {
 }
 
 export async function logout(): Promise<void> {
-  localStorage.removeItem(LOGGED_IN_KEY);
+  sessionStorage.removeItem(LOGGED_IN_KEY);
   try {
     await fetch('/api/auth/logout', { method: 'POST' });
   } catch {

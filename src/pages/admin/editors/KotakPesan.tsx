@@ -13,7 +13,7 @@ interface Message {
   created_at: string;
 }
 
-export function MessagesInbox() {
+export function KotakPesan() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Message | null>(null);
@@ -66,14 +66,16 @@ export function MessagesInbox() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="max-w-4xl space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#eae6dd] pb-3">
         <div>
-          <h1 className="text-2xl font-bold text-[#1c1515]">Pesan Masuk</h1>
-          <p className="text-neutral-500 text-sm mt-1">{messages.length} pesan total, {messages.filter(m => !m.is_read).length} belum dibaca</p>
+          <h1 className="text-xl font-bold text-[#1c1515]">Pesan Masuk</h1>
+          <p className="text-xs text-neutral-500 mt-0.5">{messages.length} pesan total, {messages.filter(m => !m.is_read).length} belum dibaca</p>
         </div>
-        <button onClick={fetchMessages} disabled={loading} className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-[#faf9f5] border border-[#d2cbbe] rounded-lg hover:bg-neutral-100 text-[#1c1515] font-semibold transition-colors disabled:opacity-50">
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+        <button onClick={fetchMessages} disabled={loading} className="flex justify-center items-center gap-1.5 px-3 py-1.5 text-xs bg-[#faf9f5] border border-[#d2cbbe] rounded-lg hover:bg-neutral-100 text-[#1c1515] font-semibold transition-colors disabled:opacity-50">
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           Refresh
         </button>
       </div>
@@ -82,7 +84,7 @@ export function MessagesInbox() {
       <div className="flex gap-2 border-b border-[#eae6dd] pb-px">
         <button
           onClick={() => { setActiveCategory('contact'); setSelected(null); }}
-          className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${
+          className={`px-3 py-1.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 ${
             activeCategory === 'contact'
               ? 'border-[#a67e2a] text-[#a67e2a]'
               : 'border-transparent text-neutral-500 hover:text-neutral-700'
@@ -90,14 +92,14 @@ export function MessagesInbox() {
         >
           Hubungi Kami
           {contactUnread > 0 && (
-            <span className="bg-[#a67e2a] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+            <span className="bg-[#a67e2a] text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">
               {contactUnread}
             </span>
           )}
         </button>
         <button
           onClick={() => { setActiveCategory('registration'); setSelected(null); }}
-          className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${
+          className={`px-3 py-1.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 ${
             activeCategory === 'registration'
               ? 'border-[#a67e2a] text-[#a67e2a]'
               : 'border-transparent text-neutral-500 hover:text-neutral-700'
@@ -105,24 +107,24 @@ export function MessagesInbox() {
         >
           Pendaftaran Anggota
           {regUnread > 0 && (
-            <span className="bg-[#a67e2a] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+            <span className="bg-[#a67e2a] text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">
               {regUnread}
             </span>
           )}
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
         {/* Message List */}
-        <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-2">
+        <div className="space-y-1.5 max-h-[60vh] overflow-y-auto pr-1">
           {loading ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-6 h-6 animate-spin text-[#a67e2a]" />
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-5 h-5 animate-spin text-[#a67e2a]" />
             </div>
           ) : filteredMessages.length === 0 ? (
-            <div className="text-center py-12 text-neutral-400 bg-white border border-[#eae6dd] rounded-2xl">
-              <Mail className="w-12 h-12 mx-auto mb-3 opacity-50 text-neutral-400" />
-              <p>Belum ada pesan masuk di kategori ini</p>
+            <div className="text-center py-8 text-neutral-400 bg-white border border-[#eae6dd] rounded-xl">
+              <Mail className="w-8 h-8 mx-auto mb-2 opacity-50 text-neutral-400" />
+              <p className="text-xs">Belum ada pesan masuk di kategori ini</p>
             </div>
           ) : (
             filteredMessages.map(msg => (
@@ -134,23 +136,23 @@ export function MessagesInbox() {
                     handleMarkAsRead(msg.id);
                   }
                 }}
-                className={`bg-white border rounded-2xl p-4 cursor-pointer transition-all hover:border-[#a67e2a]/50 ${
-                  selected?.id === msg.id ? 'border-[#a67e2a] shadow-[0_4px_12px_rgba(166,126,42,0.08)]' : 'border-[#eae6dd]'
+                className={`bg-white border rounded-xl p-3 cursor-pointer transition-all hover:border-[#a67e2a]/40 ${
+                  selected?.id === msg.id ? 'border-[#a67e2a] bg-[#faf9f5]/40 shadow-sm' : 'border-[#eae6dd]'
                 } ${!msg.is_read ? 'border-l-4 border-l-[#a67e2a]' : ''}`}
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[#1c1515] font-semibold text-sm truncate">{msg.name}</span>
-                      {!msg.is_read && <span className="w-2 h-2 rounded-full bg-[#a67e2a] flex-shrink-0" />}
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[#1c1515] font-bold text-xs truncate">{msg.name}</span>
+                      {!msg.is_read && <span className="w-1.5 h-1.5 rounded-full bg-[#a67e2a] flex-shrink-0" />}
                     </div>
-                    <p className="text-neutral-500 text-xs mt-1">{msg.email}</p>
+                    <p className="text-neutral-500 text-[10px] mt-0.5 truncate">{msg.email}</p>
                     <p className="text-neutral-600 text-xs mt-1 truncate">{msg.message}</p>
                   </div>
-                  <div className="flex items-center gap-2 ml-2 flex-shrink-0">
-                    <span className="text-neutral-400 text-xs">{formatDate(msg.created_at)}</span>
-                    <button onClick={e => { e.stopPropagation(); handleDelete(msg.id); }} className="text-neutral-400 hover:text-red-600 p-1 rounded transition-colors">
-                      <Trash2 className="w-3.5 h-3.5" />
+                  <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                    <span className="text-neutral-400 text-[9px]">{formatDate(msg.created_at)}</span>
+                    <button onClick={e => { e.stopPropagation(); handleDelete(msg.id); }} className="text-neutral-400 hover:text-red-600 p-0.5 rounded transition-colors">
+                      <Trash2 size={13} />
                     </button>
                   </div>
                 </div>
@@ -160,41 +162,41 @@ export function MessagesInbox() {
         </div>
 
         {/* Message Detail */}
-        <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 min-h-[300px] shadow-sm">
+        <div className="bg-white border border-[#eae6dd] rounded-xl p-4 min-h-[250px] shadow-sm">
           {selected ? (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-[#eae6dd] pb-3">
-                <h2 className="text-[#1c1515] font-bold text-lg">{selected.name}</h2>
-                <button onClick={() => handleDelete(selected.id)} className="text-red-600 hover:text-red-700 text-sm font-semibold flex items-center gap-1">
-                  <Trash2 className="w-4 h-4" /> Hapus
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between border-b border-[#eae6dd] pb-2">
+                <h2 className="text-[#1c1515] font-bold text-sm">{selected.name}</h2>
+                <button onClick={() => handleDelete(selected.id)} className="text-red-600 hover:text-red-700 text-xs font-bold flex items-center gap-0.5">
+                  <Trash2 size={13} /> Hapus
                 </button>
               </div>
 
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <span className="text-neutral-400 w-20">Email:</span>
-                  <a href={`mailto:${selected.email}`} className="text-[#a67e2a] font-medium hover:underline">{selected.email}</a>
+              <div className="space-y-1.5 text-xs">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-neutral-400 w-16">Email:</span>
+                  <a href={`mailto:${selected.email}`} className="text-[#a67e2a] font-semibold hover:underline">{selected.email}</a>
                 </div>
                 {selected.phone && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-neutral-400 w-20">Telepon:</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-neutral-400 w-16">Telepon:</span>
                     <span className="text-[#1c1515]">{selected.phone}</span>
                   </div>
                 )}
-                <div className="flex items-center gap-2">
-                  <span className="text-neutral-400 w-20">Tanggal:</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-neutral-400 w-16">Tanggal:</span>
                   <span className="text-[#1c1515]">{formatDate(selected.created_at)}</span>
                 </div>
               </div>
 
-              <div className="border-t border-[#eae6dd] pt-4">
-                <p className="text-neutral-700 text-sm leading-relaxed whitespace-pre-wrap">{selected.message}</p>
+              <div className="border-t border-[#eae6dd] pt-3">
+                <p className="text-neutral-755 text-xs leading-relaxed whitespace-pre-wrap">{selected.message}</p>
               </div>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-neutral-400 py-12">
-              <Eye className="w-10 h-10 mb-3 opacity-50" />
-              <p>Pilih pesan untuk melihat detail</p>
+              <Eye className="w-8 h-8 mb-2 opacity-50 text-[#a67e2a]" />
+              <p className="text-xs font-semibold">Pilih pesan untuk melihat detail</p>
             </div>
           )}
         </div>

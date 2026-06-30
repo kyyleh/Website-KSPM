@@ -7,7 +7,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   MapPin, Phone, Mail, Clock,
 };
 
-export function ContactForm({ data }: { data?: typeof contactFormConfig }) {
+export function FormKontak({ data }: { data?: typeof contactFormConfig }) {
   const activeConfig = {
     ...contactFormConfig,
     ...data,

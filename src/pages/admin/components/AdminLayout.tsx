@@ -14,6 +14,7 @@ import {
   Camera,
   PanelBottom,
   Phone,
+  Award,
 } from 'lucide-react';
 
 export type AdminSection =
@@ -26,7 +27,8 @@ export type AdminSection =
   | 'gallery'
   | 'messages'
   | 'footer'
-  | 'contact';
+  | 'contact'
+  | 'achievements';
 
 interface SidebarItem {
   id: AdminSection;
@@ -51,6 +53,7 @@ const sidebarItems: SidebarItem[] = [
   { id: 'events', label: 'Kegiatan', icon: <Calendar size={20} /> },
   { id: 'research', label: 'Riset', icon: <FlaskConical size={20} /> },
   { id: 'news', label: 'Berita', icon: <Newspaper size={20} /> },
+  { id: 'achievements', label: 'Pencapaian', icon: <Award size={20} /> },
   { id: 'gallery', label: 'Galeri Foto', icon: <Camera size={20} /> },
   { id: 'messages', label: 'Pesan Masuk', icon: <Mail size={20} /> },
   { id: 'contact', label: 'Kontak', icon: <Phone size={20} /> },

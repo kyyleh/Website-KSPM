@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Wine, Sparkles, Clock, ArrowRight, BookOpen, TrendingUp } from 'lucide-react';
-import { wineShowcaseConfig, navigationConfig } from '../config';
+import { risetPublikasiConfig, navigationConfig } from '../config';
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -9,13 +9,13 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 import { getMediaUrl } from '../lib/strapi';
 
-export function WineShowcase({ onNavigate, data }: { onNavigate?: (href: string) => void; data?: typeof wineShowcaseConfig }) {
-  const activeConfig = data || wineShowcaseConfig;
+export function RisetPublikasi({ onNavigate, data }: { onNavigate?: (href: string) => void; data?: typeof risetPublikasiConfig }) {
+  const activeConfig = data || risetPublikasiConfig;
 
   // Null check: if config is empty, render nothing
-  if (!activeConfig.mainTitle || activeConfig.wines.length === 0) return null;
+  if (!activeConfig.mainTitle || activeConfig.programs.length === 0) return null;
 
-  const wines = activeConfig.wines;
+  const programs = activeConfig.programs;
   const features = activeConfig.features;
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -57,7 +57,7 @@ export function WineShowcase({ onNavigate, data }: { onNavigate?: (href: string)
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-h1 text-[#1c1515] mb-4">{activeConfig.mainTitle}</h2>
         </div>
 
-        {/* General Features Grid (Materi Pembelajaran Utama) - Placed nicely at the top */}
+        {/* General Features Grid (Materi Pembelajaran Utama) */}
         {features.length > 0 && (
           <div className="fade-up mb-10 sm:mb-16 md:mb-20">
             <h4 className="font-serif text-xl sm:text-2xl text-[#1c1515] mb-4 sm:mb-8 text-center uppercase tracking-wide">Materi Pembelajaran Utama</h4>
@@ -86,19 +86,19 @@ export function WineShowcase({ onNavigate, data }: { onNavigate?: (href: string)
           </div>
 
           <div className="space-y-6 sm:space-y-10 md:space-y-12">
-            {wines.map((wine, index) => {
+            {programs.map((program, index) => {
               const isEven = index % 2 === 0;
               return (
                 <div
-                  key={wine.id}
+                  key={program.id}
                   className="fade-up bg-white/95 backdrop-blur-sm border border-border rounded-2xl overflow-hidden shadow-premium hover:shadow-gold-soft hover:-translate-y-1 transition-all duration-500"
                 >
                   <div className="grid md:grid-cols-12 items-stretch">
                     {/* Image Container */}
                     <div className={`relative w-full md:col-span-5 overflow-hidden md:min-h-0 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
                       <img
-                        src={getMediaUrl(wine.image)}
-                        alt={wine.name}
+                        src={getMediaUrl(program.image)}
+                        alt={program.name}
                         loading="lazy"
                         className="relative z-10 w-full h-auto object-cover object-center hover:scale-105 transition-transform duration-700 md:absolute md:inset-0 md:h-full"
                       />
@@ -109,13 +109,13 @@ export function WineShowcase({ onNavigate, data }: { onNavigate?: (href: string)
                       {/* Name */}
                       <div className="mb-4">
                         <h3 className="font-serif text-2xl md:text-3xl text-neutral-900 font-bold mb-1">
-                          {wine.name}
+                          {program.name}
                         </h3>
                       </div>
 
                       {/* Description */}
                       <p className="text-neutral-600 text-sm md:text-base leading-relaxed mb-6">
-                        {wine.description}
+                        {program.description}
                       </p>
 
                       {/* CTA */}
@@ -130,7 +130,7 @@ export function WineShowcase({ onNavigate, data }: { onNavigate?: (href: string)
                             }
                           }}
                           className="bg-[#1c1515] text-white hover:bg-gold-500 transition-all duration-300 px-6 py-2.5 text-xs font-medium tracking-wide rounded-sm cursor-pointer border border-[#1c1515] hover:border-gold-500 shadow-sm w-fit flex items-center gap-2 group"
-                          aria-label={`Pelajari program ${wine.name}`}
+                          aria-label={`Pelajari program ${program.name}`}
                         >
                           Pelajari Program
                           <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -143,8 +143,6 @@ export function WineShowcase({ onNavigate, data }: { onNavigate?: (href: string)
             })}
           </div>
         </div>
-
-
 
       </div>
     </section>

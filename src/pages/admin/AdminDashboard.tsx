@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { AdminLayout } from './components/AdminLayout';
-import { HeroEditor } from './editors/HeroEditor';
-import { AboutEditor } from './editors/AboutEditor';
-import { EventsEditor } from './editors/EventsEditor';
-import { ResearchEditor } from './editors/ResearchEditor';
-import { NewsEditor } from './editors/NewsEditor';
-import { GalleryEditor } from './editors/GalleryEditor';
-import { MessagesInbox } from './editors/MessagesInbox';
-import { FooterEditor } from './editors/FooterEditor';
-import { ContactEditor } from './editors/ContactEditor';
+import { EditorHero } from './editors/EditorHero';
+import { EditorTentang } from './editors/EditorTentang';
+import { EditorKegiatan } from './editors/EditorKegiatan';
+import { EditorRiset } from './editors/EditorRiset';
+import { EditorBerita } from './editors/EditorBerita';
+import { EditorGaleri } from './editors/EditorGaleri';
+import { KotakPesan } from './editors/KotakPesan';
+import { EditorFooter } from './editors/EditorFooter';
+import { EditorKontak } from './editors/EditorKontak';
+import { EditorPencapaian } from './editors/EditorPencapaian';
 import { verifyToken, logout, getMessages } from './lib/adminApi';
 import { LayoutDashboard, MessageSquare, AlertCircle } from 'lucide-react';
 
@@ -22,7 +23,8 @@ type AdminSection =
   | 'gallery'
   | 'messages'
   | 'footer'
-  | 'contact';
+  | 'contact'
+  | 'achievements';
 
 export function AdminDashboard() {
   const [section, setSection] = useState<AdminSection>('dashboard');
@@ -76,15 +78,16 @@ export function AdminDashboard() {
 
   const renderEditor = () => {
     switch (section) {
-      case 'hero': return <HeroEditor setIsDirty={setIsDirty} />;
-      case 'about': return <AboutEditor setIsDirty={setIsDirty} />;
-      case 'events': return <EventsEditor setIsDirty={setIsDirty} />;
-      case 'research': return <ResearchEditor setIsDirty={setIsDirty} />;
-      case 'news': return <NewsEditor setIsDirty={setIsDirty} />;
-      case 'gallery': return <GalleryEditor setIsDirty={setIsDirty} />;
-      case 'messages': return <MessagesInbox />;
-      case 'footer': return <FooterEditor setIsDirty={setIsDirty} />;
-      case 'contact': return <ContactEditor setIsDirty={setIsDirty} />;
+      case 'hero': return <EditorHero setIsDirty={setIsDirty} />;
+      case 'about': return <EditorTentang setIsDirty={setIsDirty} />;
+      case 'events': return <EditorKegiatan setIsDirty={setIsDirty} />;
+      case 'research': return <EditorRiset setIsDirty={setIsDirty} />;
+      case 'news': return <EditorBerita setIsDirty={setIsDirty} />;
+      case 'gallery': return <EditorGaleri setIsDirty={setIsDirty} />;
+      case 'messages': return <KotakPesan />;
+      case 'footer': return <EditorFooter setIsDirty={setIsDirty} />;
+      case 'contact': return <EditorKontak setIsDirty={setIsDirty} />;
+      case 'achievements': return <EditorPencapaian setIsDirty={setIsDirty} />;
       default: return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div>

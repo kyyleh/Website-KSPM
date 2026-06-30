@@ -7,7 +7,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Home, BookOpen, Newspaper, Users, Mail, Activity, TrendingUp, Menu, X, ChevronDown, Camera,
 };
 
-export function Navigation({ currentPage, onNavigate }: { currentPage?: 'home' | 'about' | 'events' | 'research' | 'register' | 'gallery'; onNavigate?: (href: string) => void }) {
+export function Navigasi({ currentPage, onNavigate }: { currentPage?: 'home' | 'about' | 'events' | 'research' | 'register' | 'gallery'; onNavigate?: (href: string) => void }) {
   // Null check: if config is empty, render nothing
   if (!navigationConfig.brandName) return null;
 

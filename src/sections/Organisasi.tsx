@@ -58,7 +58,7 @@ const OrgMemberCard = ({
   );
 };
 
-export function Organization({ data }: { data?: typeof organizationConfig }) {
+export function Organisasi({ data }: { data?: typeof organizationConfig }) {
   const activeConfig = data || organizationConfig;
 
   if (!activeConfig.structure) return null;

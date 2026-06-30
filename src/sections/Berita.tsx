@@ -3,7 +3,7 @@ import { Calendar, Search, X } from 'lucide-react';
 import { newsConfig as staticNewsConfig } from '../config';
 import { getMediaUrl } from '../lib/strapi';
 
-export function News({ data }: { data?: typeof staticNewsConfig }) {
+export function Berita({ data }: { data?: typeof staticNewsConfig }) {
   const newsConfig = data || staticNewsConfig;
   // Null check: if config is empty, render nothing
   if (!newsConfig.mainTitle) return null;

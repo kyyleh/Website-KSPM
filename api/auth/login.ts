@@ -31,7 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const token = createToken({ id: 998, email: 'KSPM' });
       res.setHeader(
         'Set-Cookie',
-        `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400`
+        `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict`
       );
       return res.status(200).json({
         success: true,
@@ -44,7 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const token = createToken({ id: 999, email: 'Admin' });
       res.setHeader(
         'Set-Cookie',
-        `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400`
+        `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict`
       );
       return res.status(200).json({
         success: true,
@@ -75,7 +75,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const token = createToken({ id: admin.id, email: admin.email });
     res.setHeader(
       'Set-Cookie',
-      `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400`
+      `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict`
     );
 
     return res.status(200).json({

@@ -1,7 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { getMediaUrl } from '../lib/strapi';
 
-export function ResearchHeader({ data }: { data?: any }) {
+interface HeaderHalamanProps {
+  title: string;
+  description: string;
+  image: string;
+  id?: string;
+}
+
+export function HeaderHalaman({ title, description, image, id }: HeaderHalamanProps) {
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,13 +29,9 @@ export function ResearchHeader({ data }: { data?: any }) {
     return () => observer.disconnect();
   }, []);
 
-  const title = data?.researchHeaderTitle || "Riset KSPM";
-  const description = data?.researchHeaderDescription || "Kami membimbing dan memfasilitasi mahasiswa dalam riset analisis fundamental dan teknikal saham, publikasi ringkasan pasar modal mingguan, serta program edukasi terpadu untuk membentuk kebiasaan investasi yang sehat.";
-  const image = data?.researchHeaderImage || "/images/research-equity.jpg";
-
   return (
     <section 
-      id="research"
+      id={id}
       ref={headerRef}
       className="pt-28 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 lg:pb-20 relative overflow-hidden bg-gradient-to-b from-[#f0ede6] via-white to-[#f0ede6] border-b border-border"
     >
@@ -55,7 +58,7 @@ export function ResearchHeader({ data }: { data?: any }) {
           <div className="relative aspect-[4/3] w-full overflow-hidden">
             <img
               src={getMediaUrl(image)}
-              alt="KSPM FEB UIKA Riset"
+              alt={title}
               className="w-full h-full object-cover"
             />
           </div>

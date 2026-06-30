@@ -76,7 +76,7 @@ export async function getMappedAbout(): Promise<any | null> {
   if (!aboutData) return null;
 
   return {
-    aboutConfig: aboutData.museum || aboutData.aboutConfig || aboutData,
+    aboutConfig: aboutData.sejarah || aboutData.museum || aboutData.aboutConfig || aboutData,
     orgConfig: aboutData.organization || aboutData.orgConfig || undefined,
   };
 }
@@ -86,7 +86,12 @@ export async function getMappedActivities(): Promise<any | null> {
 }
 
 export async function getMappedResearch(): Promise<any | null> {
-  return fetchContent('research');
+  const data = await fetchContent<any>('research');
+  if (!data) return null;
+  return {
+    ...data,
+    programs: data.programs || data.wines || [],
+  };
 }
 
 export async function getMappedContact(): Promise<any | null> {
