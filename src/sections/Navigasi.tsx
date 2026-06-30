@@ -78,26 +78,26 @@ export function Navigasi({ currentPage, onNavigate }: { currentPage?: 'home' | '
         {/* Logo */}
         <button
           onClick={() => scrollToSection('#hero')}
-          className="flex items-center gap-3 group"
+          className="flex items-center gap-2 sm:gap-3 group"
           aria-label={navigationConfig.brandName}
         >
           {navigationConfig.brandLogo ? (
             <img 
               src={navigationConfig.brandLogo} 
               alt={`${navigationConfig.brandName} Logo`} 
-              className="h-12 sm:h-16 w-auto transition-transform duration-300 group-hover:scale-110" 
+              className="h-10 lg:h-12 xl:h-16 w-auto transition-transform duration-300 group-hover:scale-110" 
             />
           ) : (
             <TrendingUp className="w-8 h-8 text-gold-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />
           )}
           <div className="flex flex-col text-left">
-            <span className="font-serif text-2xl sm:text-3xl text-neutral-900 tracking-wide">{navigationConfig.brandName}</span>
-            <span className="text-[9px] sm:text-xs text-gold-gradient tracking-wider sm:tracking-widest uppercase mt-0.5">{navigationConfig.tagline}</span>
+            <span className="font-serif text-xl sm:text-2xl lg:text-xl xl:text-3xl text-neutral-900 tracking-wide">{navigationConfig.brandName}</span>
+            <span className="text-[8px] sm:text-xs lg:text-[9px] xl:text-xs text-gold-gradient tracking-wider xl:tracking-widest uppercase mt-0.5">{navigationConfig.tagline}</span>
           </div>
         </button>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8" role="menubar">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-8" role="menubar">
           {navLinks.map((link) => {
             return (
               <div
@@ -109,7 +109,7 @@ export function Navigasi({ currentPage, onNavigate }: { currentPage?: 'home' | '
               >
                 <button
                   onClick={() => scrollToSection(link.href)}
-                  className={`flex items-center gap-1 text-sm transition-colors duration-300 py-2 ${
+                  className={`flex items-center gap-1 text-xs xl:text-sm transition-colors duration-300 py-2 ${
                     (link.name === 'Tentang Kami' && currentPage === 'about') ||
                     (link.name === 'Beranda' && currentPage === 'home') ||
                     (link.name === 'Kegiatan' && currentPage === 'events') ||
@@ -178,7 +178,7 @@ export function Navigasi({ currentPage, onNavigate }: { currentPage?: 'home' | '
         {navigationConfig.ctaButtonText && (
           <button
             onClick={() => scrollToSection('#register')}
-            className="hidden lg:block btn-primary rounded-lg"
+            className="hidden lg:block btn-primary rounded-lg px-3 py-1.5 text-xs xl:px-8 xl:py-3 xl:text-sm"
             aria-label={navigationConfig.ctaButtonText}
           >
             {navigationConfig.ctaButtonText}

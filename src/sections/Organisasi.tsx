@@ -36,25 +36,25 @@ const OrgMemberCard = ({
       </div>
 
       {/* Content Container */}
-      <div className="p-5 flex flex-col justify-between flex-grow w-full border-t border-border">
+      <div className="p-3 sm:p-5 flex flex-col justify-between flex-grow w-full border-t border-border">
         <div>
           {/* Category / Position label */}
-          <span className="font-script text-gold-600 text-[10px] uppercase tracking-wider font-bold block mb-1">
+          <span className="font-script text-gold-600 text-[9px] sm:text-[10px] uppercase tracking-wider font-bold block mb-1">
             {category === "DEPARTEMEN" && node.department ? node.department : category}
           </span>
           {/* Name */}
-          <h4 className="font-sans text-sm sm:text-base md:text-lg text-primary font-bold mt-1 leading-snug group-hover:text-gold-600 transition-colors duration-300">
+          <h4 className="font-sans text-xs sm:text-base md:text-lg text-primary font-bold mt-1 leading-snug group-hover:text-gold-600 transition-colors duration-300">
             {node.name}
           </h4>
           {node.role && (
-            <p className="text-[10px] text-neutral-500 font-semibold mt-1 uppercase tracking-wider">
+            <p className="text-[9px] sm:text-[10px] text-neutral-500 font-semibold mt-1 uppercase tracking-wider">
               {node.role}
             </p>
           )}
         </div>
         {/* Detail CTA */}
-        <div className="flex justify-end mt-4">
-          <span className="text-gold-600 text-[10px] md:text-xs font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-300">
+        <div className="flex justify-end mt-3 sm:mt-4">
+          <span className="text-gold-600 text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-300">
             Detail →
           </span>
         </div>
@@ -257,7 +257,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
           {scList.length > 0 && (
             <div className="fade-up flex flex-wrap gap-4 sm:gap-6 lg:gap-8 justify-center max-w-4xl mx-auto">
               {scList.map((member) => (
-                <div key={member.node.name} className="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] max-w-sm">
+                <div key={member.node.name} className="w-[calc(50%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] max-w-sm">
                   <OrgMemberCard
                     node={member.node}
                     category={member.category}
@@ -283,7 +283,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
           {sekBend.length > 0 && (
             <div className="fade-up flex flex-wrap gap-4 sm:gap-6 lg:gap-8 justify-center max-w-2xl mx-auto">
               {sekBend.map((member, idx) => (
-                <div key={idx} className="w-full sm:w-[calc(50%-12px)] max-w-sm">
+                <div key={idx} className="w-[calc(50%-8px)] sm:w-[calc(50%-12px)] max-w-sm">
                   <OrgMemberCard
                     node={member.node}
                     category={member.category}
@@ -303,7 +303,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
                   const deptMembers = getDepartmentMembers(member.node.department || member.node.name);
                   
                   return (
-                    <div key={idx} className="flex flex-col gap-4 w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-24px)] max-w-sm">
+                    <div key={idx} className="flex flex-col gap-4 w-[calc(50%-8px)] sm:w-[calc(50%-12px)] lg:w-[calc(25%-24px)] max-w-sm">
                       {/* Coordinator / Head */}
                       <OrgMemberCard
                         node={member.node}
@@ -313,11 +313,11 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
                       
                       {/* Department Members (with smaller circular photos) */}
                       {deptMembers.length > 0 && (
-                        <div className="bg-neutral-50 border border-border rounded-2xl p-4 shadow-sm">
-                          <h5 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3 border-b border-border pb-1.5 text-center">
+                        <div className="bg-neutral-50 border border-border rounded-2xl p-2 sm:p-4 shadow-sm">
+                          <h5 className="text-[8px] sm:text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-2 sm:mb-3 border-b border-border pb-1.5 text-center">
                             Anggota Departemen
                           </h5>
-                          <div className="grid grid-cols-3 gap-3 justify-items-center">
+                          <div className="grid grid-cols-3 gap-1.5 sm:gap-3 justify-items-center">
                             {deptMembers.map((subMember, sIdx) => {
                               return (
                                 <button
@@ -325,7 +325,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
                                   onClick={() => setActiveMember({ node: subMember.node, category: "ANGGOTA DEPARTEMEN" })}
                                   className="group flex flex-col items-center text-center cursor-pointer focus:outline-none w-full"
                                 >
-                                  <div className="w-12 h-12 rounded-full overflow-hidden border border-border bg-neutral-100 flex-shrink-0 relative aspect-square shadow-sm group-hover:border-gold-500 group-hover:shadow-md transition-all duration-300">
+                                  <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full overflow-hidden border border-border bg-neutral-100 flex-shrink-0 relative aspect-square shadow-sm group-hover:border-gold-500 group-hover:shadow-md transition-all duration-300">
                                     {subMember.node.image ? (
                                       <img
                                         src={getMediaUrl(subMember.node.image)}
@@ -334,11 +334,11 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
                                       />
                                     ) : (
                                       <div className="w-full h-full bg-secondary/5 flex items-center justify-center">
-                                        <span className="text-[10px] font-bold text-primary">K</span>
+                                        <span className="text-[8px] sm:text-[10px] font-bold text-primary">K</span>
                                       </div>
                                     )}
                                   </div>
-                                  <span className="text-[9px] font-bold text-neutral-800 mt-1.5 line-clamp-1 group-hover:text-gold-600 transition-colors w-full">
+                                  <span className="text-[8px] sm:text-[9px] font-bold text-neutral-800 mt-1 sm:mt-1.5 line-clamp-1 group-hover:text-gold-600 transition-colors w-full">
                                     {subMember.node.name.split(' ')[0]}
                                   </span>
                                 </button>
@@ -360,7 +360,7 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
               <div className="w-24 h-px bg-neutral-200 mx-auto" />
               <div className="fade-up flex flex-wrap gap-4 sm:gap-6 lg:gap-8 justify-center">
                 {otherMembers.map((member, idx) => (
-                  <div key={idx} className="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] max-w-sm">
+                  <div key={idx} className="w-[calc(50%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] max-w-sm">
                     <OrgMemberCard
                       node={member.node}
                       category={member.category}

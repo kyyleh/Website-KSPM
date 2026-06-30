@@ -85,58 +85,56 @@ export function RisetPublikasi({ onNavigate, data }: { onNavigate?: (href: strin
             <h3 className="font-serif text-2xl md:text-3xl text-neutral-900 font-semibold uppercase tracking-wide">Detail Program KSPM</h3>
           </div>
 
-          <div className="space-y-6 sm:space-y-10 md:space-y-12">
-            {programs.map((program, index) => {
-              const isEven = index % 2 === 0;
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+            {programs.map((program) => {
               return (
                 <div
                   key={program.id}
-                  className="fade-up bg-white/95 backdrop-blur-sm border border-border rounded-2xl overflow-hidden shadow-premium hover:shadow-gold-soft hover:-translate-y-1 transition-all duration-500"
+                  className="fade-up bg-white/95 backdrop-blur-sm border border-border rounded-2xl overflow-hidden shadow-premium hover:shadow-gold-soft hover:-translate-y-1 transition-all duration-500 flex flex-col h-full"
                 >
-                  <div className="grid md:grid-cols-12 items-stretch">
-                    {/* Image Container */}
-                    <div className={`relative w-full md:col-span-5 overflow-hidden md:min-h-0 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
-                      <img
-                        src={getMediaUrl(program.image)}
-                        alt={program.name}
-                        loading="lazy"
-                        className="relative z-10 w-full h-auto object-cover object-center hover:scale-105 transition-transform duration-700 md:absolute md:inset-0 md:h-full"
-                      />
-                    </div>
+                  {/* Image Container */}
+                  <div className="relative w-full aspect-[4/3] sm:aspect-video overflow-hidden bg-neutral-100 flex-shrink-0">
+                    <img
+                      src={getMediaUrl(program.image)}
+                      alt={program.name}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
 
-                    {/* Content Container */}
-                    <div className={`p-4 sm:p-6 md:p-8 lg:p-10 md:col-span-7 flex flex-col justify-center ${isEven ? 'md:order-2' : 'md:order-1'}`}>
+                  {/* Content Container */}
+                  <div className="p-3 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-between flex-grow">
+                    <div>
                       {/* Name */}
-                      <div className="mb-4">
-                        <h3 className="font-serif text-2xl md:text-3xl text-neutral-900 font-bold mb-1">
-                          {program.name}
-                        </h3>
-                      </div>
+                      <h3 className="font-serif text-sm sm:text-lg md:text-xl lg:text-2xl text-neutral-900 font-bold mb-1 sm:mb-2 line-clamp-1">
+                        {program.name}
+                      </h3>
 
                       {/* Description */}
-                      <p className="text-neutral-600 text-sm md:text-base leading-relaxed mb-6">
+                      <p className="text-neutral-600 text-[10px] sm:text-xs md:text-sm leading-relaxed mb-4 line-clamp-3 sm:line-clamp-none">
                         {program.description}
                       </p>
-
-                      {/* CTA */}
-                      {navigationConfig.ctaButtonText && (
-                        <button
-                          onClick={() => {
-                            if (onNavigate) {
-                              onNavigate('#contact');
-                            } else {
-                              const element = document.querySelector('#contact');
-                              if (element) element.scrollIntoView({ behavior: 'smooth' });
-                            }
-                          }}
-                          className="bg-[#1c1515] text-white hover:bg-gold-500 transition-all duration-300 px-6 py-2.5 text-xs font-medium tracking-wide rounded-sm cursor-pointer border border-[#1c1515] hover:border-gold-500 shadow-sm w-fit flex items-center gap-2 group"
-                          aria-label={`Pelajari program ${program.name}`}
-                        >
-                          Pelajari Program
-                          <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                        </button>
-                      )}
                     </div>
+
+                    {/* CTA */}
+                    {navigationConfig.ctaButtonText && (
+                      <button
+                        onClick={() => {
+                          if (onNavigate) {
+                            onNavigate('#contact');
+                          } else {
+                            const element = document.querySelector('#contact');
+                            if (element) element.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        }}
+                        className="bg-[#1c1515] text-white hover:bg-gold-500 transition-all duration-300 px-3 py-1.5 sm:px-5 sm:py-2.5 text-[9px] sm:text-[10px] md:text-xs font-medium tracking-wide rounded-sm cursor-pointer border border-[#1c1515] hover:border-gold-500 shadow-sm w-fit flex items-center gap-1.5 group mt-auto"
+                        aria-label={`Pelajari program ${program.name}`}
+                      >
+                        <span>Pelajari</span>
+                        <span className="hidden xs:inline">Program</span>
+                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      </button>
+                    )}
                   </div>
                 </div>
               );
