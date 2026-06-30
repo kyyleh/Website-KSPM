@@ -451,6 +451,7 @@ export interface OrgNode {
   role: string;
   image?: string;
   children?: OrgNode[];
+  department?: string;
 }
 
 export interface OrganizationConfig {
@@ -513,7 +514,8 @@ export const organizationConfig: OrganizationConfig = {
                     children: [
                       { name: "Budi Santoso", role: "Anggota Media" },
                       { name: "Rian Aditama", role: "Anggota Media" },
-                      { name: "Nadia Safitri", role: "Anggota Media" }
+                      { name: "Nadia Safitri", role: "Anggota Media" },
+                      { name: "sdnsjvn", role: "Staff Media", image: "https://res.cloudinary.com/doqg9io96/image/upload/v1782514052/kspm/g4suzhnbp5b2ujuzz8mv.png" }
                     ]
                   },
                   {

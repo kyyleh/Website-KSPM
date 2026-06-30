@@ -13,6 +13,7 @@ interface OrgMember {
   role: string;
   category: string;
   image?: string;
+  department?: string;
 }
 
 const ORG_CATEGORY_LABELS: Record<string, string> = {
@@ -40,6 +41,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
       role: m.role || '',
       category: m.category || 'DEPARTEMEN',
       image: m.image || '',
+      department: m.department || '',
     }));
   }
 
@@ -110,6 +112,7 @@ function flattenOrgStructure(structure: any): OrgMember[] {
               role: childNode.role || '',
               category: 'ANGGOTA DEPARTEMEN',
               image: childNode.image || '',
+              department: node.name,
             });
           });
         }
@@ -145,7 +148,8 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
     name: '',
     role: '',
     category: 'DEPARTEMEN',
-    image: ''
+    image: '',
+    department: ''
   });
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     general: true,
@@ -253,21 +257,24 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
     setIsDirty?.(true);
     setData((prev) => ({ ...prev, organization: { ...prev.organization, [field]: value } }));
   };
-
   const handleOpenAddMember = () => {
     setMemberForm({
       id: `member-${Date.now()}`,
       name: '',
       role: '',
       category: 'DEPARTEMEN',
-      image: ''
+      image: '',
+      department: ''
     });
     setEditingMemberIndex(null);
     setShowAddEditMemberModal(true);
   };
 
   const handleOpenEditMember = (index: number) => {
-    setMemberForm({ ...data.organization.structure[index] });
+    setMemberForm({
+      department: '',
+      ...data.organization.structure[index]
+    });
     setEditingMemberIndex(index);
     setShowAddEditMemberModal(true);
   };
@@ -638,8 +645,7 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
                   placeholder="Misal: Leader, Riset, Administrasi..."
                   className="w-full px-2.5 py-1.5 bg-[#faf9f5] border border-[#d2cbbe] rounded text-[#1c1515] text-xs focus:outline-none"
                 />
-              </div>
-              <div>
+              </div>              <div>
                 <label className="font-script text-[10px] text-neutral-500 block mb-1">Kategori Jabatan</label>
                 <select
                   value={memberForm.category}
@@ -655,6 +661,23 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
                   <option value="ANGGOTA DEPARTEMEN">Anggota Divisi / Departemen</option>
                 </select>
               </div>
+              {memberForm.category === 'ANGGOTA DEPARTEMEN' && (
+                <div>
+                  <label className="font-script text-[10px] text-neutral-500 block mb-1">Departemen / Divisi</label>
+                  <select
+                    value={memberForm.department || ''}
+                    onChange={(e) => setMemberForm({ ...memberForm, department: e.target.value })}
+                    className="w-full px-2.5 py-1.5 bg-[#faf9f5] border border-[#d2cbbe] rounded text-[#1c1515] text-xs focus:outline-none"
+                  >
+                    <option value="">-- Pilih Departemen --</option>
+                    <option value="Dept. Research">Dept. Research</option>
+                    <option value="Dept. Media">Dept. Media</option>
+                    <option value="Dept. HR & Program">Dept. HR & Program</option>
+                    <option value="Dept. Finance">Dept. Finance</option>
+                  </select>
+                </div>
+              )}
+
               <div>
                 <ImageUploader
                   value={memberForm.image || ''}

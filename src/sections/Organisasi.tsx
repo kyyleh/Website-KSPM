@@ -93,13 +93,13 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
   }, [activeMember]);
 
   let members: { node: OrgNode; category: string }[] = [];
-
   if (Array.isArray(activeConfig.structure)) {
     members = activeConfig.structure.map((m: any) => ({
       node: {
         name: m.name,
         role: m.role || '',
-        image: m.image
+        image: m.image,
+        department: m.department || '',
       },
       category: m.category
     }));
@@ -118,7 +118,10 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
       if (deptNode.children) {
         deptNode.children.forEach(child => {
           deptMembersNodes.push({
-            node: child,
+            node: {
+              ...child,
+              department: deptNode.name,
+            },
             category: "ANGGOTA DEPARTEMEN"
           });
         });
@@ -171,8 +174,14 @@ export function Organisasi({ data }: { data?: typeof organizationConfig }) {
     return members.filter(m => {
       const isAnggota = m.category.toUpperCase() === "ANGGOTA" || m.category.toUpperCase() === "ANGGOTA DEPARTEMEN";
       if (!isAnggota) return false;
+
+      // If department is explicitly defined, match it
+      if (m.node.department) {
+        return m.node.department.toLowerCase() === deptName.toLowerCase();
+      }
+
+      // Fallback to role-based keyword matching
       const roleLower = (m.node.role || '').toLowerCase();
-      
       if (keyword === 'hr') {
         return roleLower.includes('hr') || roleLower.includes('sdm') || roleLower.includes('program');
       }
