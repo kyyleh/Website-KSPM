@@ -170,13 +170,11 @@ function App() {
       targetPath = window.location.pathname === '/' ? '/' : '/beranda';
     }
 
-    // Update URL in address bar
+    // Update URL in address bar (path only, without hash)
     const currentPath = window.location.pathname;
-    const currentHash = window.location.hash;
-    const targetWithHash = targetPath + (href.startsWith('#') && href !== '#hero' ? href : '');
 
-    if (currentPath !== targetPath || currentHash !== (href.startsWith('#') && href !== '#hero' ? href : '')) {
-      window.history.pushState(null, '', targetWithHash);
+    if (currentPath !== targetPath) {
+      window.history.pushState(null, '', targetPath);
     }
 
     setCurrentPage(targetPage);
