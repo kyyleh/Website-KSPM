@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Save, Plus, Trash2, Loader2, ExternalLink, ArrowUp, ArrowDown, Pencil } from 'lucide-react';
+import { SaveStatusModal } from '../components/SaveStatusModal';
 import { getContent, saveContent } from '../lib/adminApi';
 import { sejarahConfig, organizationConfig } from '../../../config';
 import { getMediaUrl } from '../../../lib/strapi';
@@ -152,6 +153,15 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
     image: '',
     department: ''
   });
+  const [saveStatus, setSaveStatus] = useState<{
+    isOpen: boolean;
+    status: 'success' | 'error' | null;
+    message: string;
+  }>({
+    isOpen: false,
+    status: null,
+    message: '',
+  });
   const [activeTab, setActiveTab] = useState<'general' | 'timeline' | 'tabs' | 'organization'>('general');
 
   // Confirm Modal state
@@ -200,9 +210,17 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
       };
       await saveContent('about', payload);
       setIsDirty?.(false);
-      toast.success('Berhasil disimpan! Perubahan sudah tayang di website.');
+      setSaveStatus({
+        isOpen: true,
+        status: 'success',
+        message: 'Perubahan data Tentang Kami telah berhasil disimpan dan sudah tayang di website.',
+      });
     } catch (err: any) {
-      toast.error(err.message || 'Gagal menyimpan data.');
+      setSaveStatus({
+        isOpen: true,
+        status: 'error',
+        message: err.message || 'Gagal menyimpan data.',
+      });
     } finally {
       setSaving(false);
     }
@@ -727,6 +745,12 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
         title={confirmModal.title}
         message={confirmModal.message}
         variant="danger"
+      />
+      <SaveStatusModal
+        isOpen={saveStatus.isOpen}
+        status={saveStatus.status}
+        message={saveStatus.message}
+        onClose={() => setSaveStatus(prev => ({ ...prev, isOpen: false }))}
       />
     </div>
   );

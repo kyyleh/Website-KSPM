@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Save, Plus, Trash2, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
+import { SaveStatusModal } from '../components/SaveStatusModal';
 import { getContent, saveContent } from '../lib/adminApi';
 import { kegiatanCarouselConfig, type KegiatanCarouselConfig, type SlideKegiatan } from '../../../config';
 import { ImageUploader } from '../components/ImageUploader';
@@ -13,6 +14,15 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
   const [showAddSlideModal, setShowAddSlideModal] = useState(false);
   const [newSlide, setNewSlide] = useState<SlideKegiatan>({ title: '', description: '' });
   const [expandedSlide, setExpandedSlide] = useState<number | null>(0);
+  const [saveStatus, setSaveStatus] = useState<{
+    isOpen: boolean;
+    status: 'success' | 'error' | null;
+    message: string;
+  }>({
+    isOpen: false,
+    status: null,
+    message: '',
+  });
 
   // Confirm Modal state
   const [confirmModal, setConfirmModal] = useState<{
@@ -58,9 +68,17 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
     try {
       await saveContent('events', data);
       setIsDirty?.(false);
-      toast.success('Kegiatan berhasil disimpan!');
+      setSaveStatus({
+        isOpen: true,
+        status: 'success',
+        message: 'Perubahan data Kegiatan telah berhasil disimpan dan sudah tayang di website.',
+      });
     } catch (err: any) {
-      toast.error(err.message || 'Gagal menyimpan data.');
+      setSaveStatus({
+        isOpen: true,
+        status: 'error',
+        message: err.message || 'Gagal menyimpan data.',
+      });
     } finally {
       setSaving(false);
     }
@@ -279,6 +297,12 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
         title={confirmModal.title}
         message={confirmModal.message}
         variant="danger"
+      />
+      <SaveStatusModal
+        isOpen={saveStatus.isOpen}
+        status={saveStatus.status}
+        message={saveStatus.message}
+        onClose={() => setSaveStatus(prev => ({ ...prev, isOpen: false }))}
       />
     </div>
   );
