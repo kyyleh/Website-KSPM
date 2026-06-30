@@ -75,7 +75,7 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
 
   const handleConfirmAddSlide = () => {
     if (!newSlide.title) {
-      alert('Judul slide harus diisi!');
+      alert('Judul kegiatan harus diisi!');
       return;
     }
     setIsDirty?.(true);
@@ -87,8 +87,8 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
   const removeSlide = (index: number) => {
     setConfirmModal({
       isOpen: true,
-      title: 'Hapus Slide Kegiatan',
-      message: 'Apakah Anda yakin ingin menghapus slide kegiatan ini?',
+      title: 'Hapus Kegiatan',
+      message: 'Apakah Anda yakin ingin menghapus kegiatan ini?',
       onConfirm: () => {
         setIsDirty?.(true);
         setData((prev) => ({ ...prev, slides: prev.slides.filter((_, i) => i !== index) }));
@@ -122,7 +122,7 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#eae6dd] pb-4">
         <div>
           <h2 className="text-xl font-bold text-[#1c1515]">Kegiatan / Events</h2>
-          <p className="text-xs text-neutral-500 mt-0.5">Kelola slide kegiatan carousel</p>
+          <p className="text-xs text-neutral-500 mt-0.5">Kelola daftar kegiatan carousel</p>
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <button onClick={handleSave} disabled={saving} className="flex-1 sm:flex-none flex justify-center items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-[#dcae44] to-[#b88c2b] text-white font-bold text-xs rounded-lg hover:brightness-105 transition-all disabled:opacity-60 shadow-[0_2px_8px_rgba(195,147,49,0.1)]">
@@ -167,7 +167,7 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
           <div className="bg-white border border-[#eae6dd] rounded-xl p-4 space-y-3 shadow-sm">
             <div className="flex items-center justify-between border-b border-[#eae6dd]/40 pb-2">
               <h3 className="font-script text-[10px] text-[#a67e2a] font-bold tracking-[0.12em]">
-                Daftar Slide ({data.slides.length})
+                Daftar Kegiatan ({data.slides.length})
               </h3>
                <button
                 onClick={() => {
@@ -176,7 +176,7 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
                 }}
                 className="flex items-center gap-1 px-2.5 py-1 text-[10px] bg-[#faf9f5] border border-[#d2cbbe] rounded hover:bg-neutral-100 text-[#1c1515] font-semibold transition-colors"
               >
-                <Plus size={12} /> Tambah Slide
+                <Plus size={12} /> Tambah Kegiatan
               </button>
             </div>
 
@@ -209,11 +209,11 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
                   {expandedSlide === i && (
                     <div className="p-3 space-y-3 border-t border-[#eae6dd] bg-white">
                       <div>
-                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Judul Slide</label>
+                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Judul Kegiatan</label>
                         <input type="text" value={slide.title} onChange={(e) => updateSlide(i, 'title', e.target.value)} className="w-full text-xs bg-[#faf9f5] border border-[#d2cbbe] px-2 py-1 rounded focus:outline-none" />
                       </div>
                       <div>
-                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Deskripsi Slide</label>
+                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Deskripsi Kegiatan</label>
                         <textarea value={slide.description} onChange={(e) => updateSlide(i, 'description', e.target.value)} rows={2} className="w-full text-xs bg-[#faf9f5] border border-[#d2cbbe] px-2 py-1 rounded resize-none focus:outline-none" />
                       </div>
                     </div>
@@ -226,7 +226,7 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
       {showAddSlideModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="w-full max-w-md bg-white border border-[#eae6dd] rounded-xl p-4 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-base font-bold text-[#1c1515]">Tambah Slide Kegiatan</h3>
+            <h3 className="text-base font-bold text-[#1c1515]">Tambah Kegiatan</h3>
             
             <div className="space-y-3">
               <div>
