@@ -150,37 +150,22 @@ export function EditorGaleri({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
             className="bg-white border border-[#eae6dd] rounded-xl p-3 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
           >
             <div className="space-y-3">
-              <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-[#faf9f5] border border-[#eae6dd]">
-                {item.src ? (
-                  <img
-                    src={item.src}
-                    alt={item.alt}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center text-neutral-400">
-                    <ImageIcon size={24} className="stroke-1 mb-1" />
-                    <span className="text-[10px]">Belum ada gambar</span>
-                  </div>
-                )}
+              <div className="flex justify-center relative pb-1">
+                <ImageUploader
+                  value={item.src}
+                  onChange={(url) => updateItem(index, 'src', url)}
+                />
                 <button
                   type="button"
                   onClick={() => removeItem(index)}
-                  className="absolute top-1.5 right-1.5 p-1 bg-white/90 backdrop-blur-sm text-red-500 hover:text-red-700 rounded shadow-sm transition-colors"
-                  title="Hapus foto"
+                  className="absolute top-0 right-0 p-1.5 bg-[#faf9f5] hover:bg-red-50 text-neutral-400 hover:text-red-600 rounded-lg border border-[#eae6dd] transition-colors"
+                  title="Hapus foto dari galeri"
                 >
-                  <Trash2 size={13} />
+                  <Trash2 size={14} />
                 </button>
               </div>
 
               <div className="space-y-2 pb-1.5">
-                <div>
-                  <label className="font-script text-[9px] text-[#a67e2a] font-bold block mb-0.5">Gambar</label>
-                  <ImageUploader
-                    value={item.src}
-                    onChange={(url) => updateItem(index, 'src', url)}
-                  />
-                </div>
 
                 <div>
                   <label className="font-script text-[9px] text-[#a67e2a] font-bold block mb-0.5">Judul Foto</label>
