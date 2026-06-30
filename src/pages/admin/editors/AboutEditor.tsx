@@ -370,16 +370,7 @@ export function AboutEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
                 </div>
 
                 <h3 className="text-xs font-bold text-[#a67e2a] uppercase tracking-wider pt-2">Detail Profil & Sejarah</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-600 mb-1" title="Teks kecil di atas judul utama">Teks Skrip (Kecil) <span className="text-neutral-400 text-xs font-normal cursor-help">❔</span></label>
-                    <input type="text" value={data.museum.scriptText} onChange={(e) => updateMuseum('scriptText', e.target.value)} className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-600 mb-1" title="Sub-judul">Sub-Judul <span className="text-neutral-400 text-xs font-normal cursor-help">❔</span></label>
-                    <input type="text" value={data.museum.subtitle} onChange={(e) => updateMuseum('subtitle', e.target.value)} className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all" />
-                  </div>
-                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-neutral-600 mb-1" title="Judul utama sesi ini">Judul Utama <span className="text-neutral-400 text-xs font-normal cursor-help">❔</span></label>
                   <input type="text" value={data.museum.mainTitle} onChange={(e) => updateMuseum('mainTitle', e.target.value)} className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] focus:outline-none focus:ring-2 focus:ring-[#a67e2a]/10 focus:border-[#a67e2a] transition-all" />

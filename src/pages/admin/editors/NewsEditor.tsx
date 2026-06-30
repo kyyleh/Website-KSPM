@@ -88,19 +88,9 @@ export function NewsEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
       {/* Section Info / Header */}
       <div className="bg-white border border-[#eae6dd] rounded-2xl p-6 space-y-4 shadow-sm">
         <h2 className="text-[#a67e2a] font-bold text-sm uppercase tracking-wider">Judul & Teks Section</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-neutral-500 text-xs mb-1">Teks Skrip (Kecil)</label>
-            <input type="text" value={data.scriptText || ''} onChange={e => { setIsDirty?.(true); setData({ ...data, scriptText: e.target.value }); }} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-          </div>
-          <div>
-            <label className="block text-neutral-500 text-xs mb-1">Subjudul</label>
-            <input type="text" value={data.subtitle || ''} onChange={e => { setIsDirty?.(true); setData({ ...data, subtitle: e.target.value }); }} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-          </div>
-          <div>
-            <label className="block text-neutral-500 text-xs mb-1">Judul Utama</label>
-            <input type="text" value={data.mainTitle || ''} onChange={e => { setIsDirty?.(true); setData({ ...data, mainTitle: e.target.value }); }} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
-          </div>
+        <div>
+          <label className="block text-neutral-500 text-xs mb-1">Judul Utama</label>
+          <input type="text" value={data.mainTitle || ''} onChange={e => { setIsDirty?.(true); setData({ ...data, mainTitle: e.target.value }); }} className="w-full bg-[#faf9f5] border border-[#d2cbbe] rounded-lg px-3 py-2 text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>

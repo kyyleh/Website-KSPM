@@ -351,8 +351,6 @@ export interface MuseumQuote {
 }
 
 export interface MuseumConfig {
-  scriptText: string;
-  subtitle: string;
   mainTitle: string;
   introText: string;
   timeline: TimelineEvent[];
@@ -371,8 +369,6 @@ export interface MuseumConfig {
 }
 
 export const museumConfig: MuseumConfig = {
-  scriptText: "PROFIL & SEJARAH",
-  subtitle: "OUR JOURNEY",
   mainTitle: "Sejarah KSPM FEB UIKA",
   introText: "Kelompok Studi Pasar Modal (KSPM) FEB UIKA Bogor adalah wadah edukasi untuk mendalami dunia investasi dan pasar modal secara akademis maupun praktis.",
   aboutHeaderTitle: "Tentang Kami",
@@ -588,8 +584,6 @@ export interface StoryTimelineItem {
 }
 
 export interface NewsConfig {
-  scriptText: string;
-  subtitle: string;
   mainTitle: string;
   viewAllText: string;
   viewAllUrl?: string;
@@ -610,8 +604,6 @@ export interface NewsConfig {
 }
 
 export const newsConfig: NewsConfig = {
-  scriptText: "Terbaru",
-  subtitle: "ARTIKEL & BERITA",
   mainTitle: "Update Terkini",
   viewAllText: "Lihat Semua",
   readMoreText: "Baca Selengkapnya",
