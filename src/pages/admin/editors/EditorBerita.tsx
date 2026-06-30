@@ -175,52 +175,56 @@ export function EditorBerita({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
 
                 {/* Collapsible Content */}
                 {isExpanded && (
-                  <div className="p-3 space-y-3 bg-[#faf9f5]/50 border-t border-[#eae6dd]/40">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div>
-                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Judul Artikel</label>
-                        <input type="text" value={article.title || ''} onChange={e => updateArticle(i, 'title', e.target.value)} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]" />
+                  <div className="p-3 bg-[#faf9f5]/50 border-t border-[#eae6dd]/40">
+                    <div className="flex flex-col md:flex-row gap-4">
+                      <div className="flex-1 space-y-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div>
+                            <label className="font-script text-[9px] text-neutral-500 block mb-1">Judul Artikel</label>
+                            <input type="text" value={article.title || ''} onChange={e => updateArticle(i, 'title', e.target.value)} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]" />
+                          </div>
+                          <div>
+                            <label className="font-script text-[9px] text-neutral-500 block mb-1">Kategori</label>
+                            <input
+                              type="text"
+                              list={`news-categories-${i}`}
+                              value={article.category || ''}
+                              onChange={e => updateArticle(i, 'category', e.target.value)}
+                              placeholder="Pilih atau ketik kategori..."
+                              className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]"
+                            />
+                            <datalist id={`news-categories-${i}`}>
+                              <option value="Market Analysis">Analisis Pasar (Market Analysis)</option>
+                              <option value="Regulation">Regulasi (Regulation)</option>
+                              <option value="Education">Edukasi (Education)</option>
+                              <option value="Video Review">Ulasan Video (Video Review)</option>
+                              <option value="Pengumuman">Pengumuman</option>
+                              <option value="Kegiatan">Kegiatan</option>
+                            </datalist>
+                          </div>
+                        </div>
+                        <div>
+                          <label className="font-script text-[9px] text-neutral-500 block mb-1">Ringkasan (Excerpt)</label>
+                          <textarea value={article.excerpt || ''} onChange={e => updateArticle(i, 'excerpt', e.target.value)} rows={2} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a] resize-none" />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div>
+                            <label className="font-script text-[9px] text-neutral-500 block mb-1">Tanggal</label>
+                            <input type="text" value={article.date || ''} onChange={e => updateArticle(i, 'date', e.target.value)} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]" />
+                          </div>
+                          <div>
+                            <label className="font-script text-[9px] text-neutral-500 block mb-1">Link URL</label>
+                            <input type="text" value={article.url || ''} onChange={e => updateArticle(i, 'url', e.target.value)} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]" />
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Kategori</label>
-                        <input
-                          type="text"
-                          list={`news-categories-${i}`}
-                          value={article.category || ''}
-                          onChange={e => updateArticle(i, 'category', e.target.value)}
-                          placeholder="Pilih atau ketik kategori..."
-                          className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]"
+                      <div className="w-full md:w-auto md:shrink-0 flex justify-start md:justify-end items-start pt-5">
+                        <ImageUploader
+                          label="Gambar Pendukung"
+                          value={article.image || ''}
+                          onChange={(url) => updateArticle(i, 'image', url)}
                         />
-                        <datalist id={`news-categories-${i}`}>
-                          <option value="Market Analysis">Analisis Pasar (Market Analysis)</option>
-                          <option value="Regulation">Regulasi (Regulation)</option>
-                          <option value="Education">Edukasi (Education)</option>
-                          <option value="Video Review">Ulasan Video (Video Review)</option>
-                          <option value="Pengumuman">Pengumuman</option>
-                          <option value="Kegiatan">Kegiatan</option>
-                        </datalist>
                       </div>
-                    </div>
-                    <div>
-                      <label className="font-script text-[9px] text-neutral-500 block mb-1">Ringkasan (Excerpt)</label>
-                      <textarea value={article.excerpt || ''} onChange={e => updateArticle(i, 'excerpt', e.target.value)} rows={2} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a] resize-none" />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-end">
-                      <div>
-                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Tanggal</label>
-                        <input type="text" value={article.date || ''} onChange={e => updateArticle(i, 'date', e.target.value)} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]" />
-                      </div>
-                      <div>
-                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Link URL</label>
-                        <input type="text" value={article.url || ''} onChange={e => updateArticle(i, 'url', e.target.value)} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]" />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="font-script text-[9px] text-neutral-500 block mb-1">Gambar Pendukung</label>
-                      <ImageUploader
-                        value={article.image || ''}
-                        onChange={(url) => updateArticle(i, 'image', url)}
-                      />
                     </div>
                   </div>
                 )}

@@ -204,23 +204,25 @@ export function EditorRiset({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
 
                 {/* Collapsible Content */}
                 {isExpanded && (
-                  <div className="p-3 space-y-3 bg-[#faf9f5]/50 border-t border-[#eae6dd]/40">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-end">
-                      <div>
-                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Nama Program</label>
-                        <input type="text" value={program.name || ''} onChange={e => updateProgram(i, 'name', e.target.value)} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]" />
+                  <div className="p-3 bg-[#faf9f5]/50 border-t border-[#eae6dd]/40">
+                    <div className="flex flex-col md:flex-row gap-4">
+                      <div className="flex-1 space-y-3">
+                        <div>
+                          <label className="font-script text-[9px] text-neutral-500 block mb-1">Nama Program</label>
+                          <input type="text" value={program.name || ''} onChange={e => updateProgram(i, 'name', e.target.value)} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a]" />
+                        </div>
+                        <div>
+                          <label className="font-script text-[9px] text-neutral-500 block mb-1">Deskripsi</label>
+                          <textarea value={program.description || ''} onChange={e => updateProgram(i, 'description', e.target.value)} rows={3} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a] resize-none" />
+                        </div>
                       </div>
-                      <div>
-                        <label className="font-script text-[9px] text-neutral-500 block mb-1">Gambar Program</label>
+                      <div className="w-full md:w-auto md:shrink-0 flex justify-start md:justify-end">
                         <ImageUploader
+                          label="Gambar Program"
                           value={program.image || ''}
                           onChange={(url) => updateProgram(i, 'image', url)}
                         />
                       </div>
-                    </div>
-                    <div>
-                      <label className="font-script text-[9px] text-neutral-500 block mb-1">Deskripsi</label>
-                      <textarea value={program.description || ''} onChange={e => updateProgram(i, 'description', e.target.value)} rows={2} className="w-full text-xs bg-white border border-[#d2cbbe] rounded px-2 py-1 text-[#1c1515] focus:outline-none focus:border-[#a67e2a] resize-none" />
                     </div>
                   </div>
                 )}
