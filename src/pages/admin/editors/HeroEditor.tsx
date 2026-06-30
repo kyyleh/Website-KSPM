@@ -321,26 +321,6 @@ export function HeroEditor({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-600 mb-2">Teks Tombol Aksi</label>
-                    <input
-                      type="text"
-                      value={heroData.ctaButtonText || ''}
-                      onChange={(e) => updateHeroField('ctaButtonText', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-600 mb-2">Tujuan Link Tombol</label>
-                    <input
-                      type="text"
-                      value={heroData.ctaTarget || ''}
-                      onChange={(e) => updateHeroField('ctaTarget', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-[#faf9f5] border border-[#d2cbbe] rounded-xl text-[#1c1515] text-sm focus:outline-none focus:ring-1 focus:ring-[#a67e2a]"
-                    />
-                  </div>
-                </div>
               </div>
 
               {/* Background photo */}
