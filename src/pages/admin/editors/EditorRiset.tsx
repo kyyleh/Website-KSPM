@@ -270,4 +270,3 @@ export function EditorRiset({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
     </div>
   );
 }
-}

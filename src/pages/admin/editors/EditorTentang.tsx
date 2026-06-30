@@ -677,5 +677,4 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
       )}
     </div>
   );
-};
 }

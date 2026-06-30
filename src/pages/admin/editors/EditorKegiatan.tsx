@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save, Plus, Trash2, Loader2, Code, Eye, GripVertical, ChevronDown, ChevronUp } from 'lucide-react';
+import { Save, Plus, Trash2, Loader2, Code, Eye, ChevronDown, ChevronUp } from 'lucide-react';
 import { getContent, saveContent } from '../lib/adminApi';
 import { kegiatanCarouselConfig, type KegiatanCarouselConfig, type SlideKegiatan } from '../../../config';
 import { ImageUploader } from '../components/ImageUploader';
