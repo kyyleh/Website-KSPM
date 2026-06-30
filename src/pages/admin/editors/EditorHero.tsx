@@ -10,7 +10,6 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
   const [activeTab, setActiveTab] = useState<'hero' | 'testimonials'>('hero');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [showJson, setShowJson] = useState(false);
 
   // Confirm Modal state
   const [confirmModal, setConfirmModal] = useState<{
@@ -208,7 +207,7 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
 
       <div className="flex gap-2 border-b border-[#eae6dd] pb-px">
         <button
-          onClick={() => { setActiveTab('hero'); setShowJson(false); }}
+          onClick={() => setActiveTab('hero')}
           className={`px-3 py-1.5 text-xs font-semibold border-b-2 transition-all ${
             activeTab === 'hero'
               ? 'border-[#a67e2a] text-[#a67e2a]'
@@ -218,7 +217,7 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
           Header Beranda
         </button>
         <button
-          onClick={() => { setActiveTab('testimonials'); setShowJson(false); }}
+          onClick={() => setActiveTab('testimonials')}
           className={`px-3 py-1.5 text-xs font-semibold border-b-2 transition-all ${
             activeTab === 'testimonials'
               ? 'border-[#a67e2a] text-[#a67e2a]'
@@ -229,12 +228,7 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
         </button>
       </div>
 
-      {showJson ? (
-        <pre className="bg-[#faf9f5] border border-[#eae6dd] rounded-xl p-3 text-xs text-[#1c1515] overflow-auto max-h-[500px]">
-          {JSON.stringify({ hero: heroData, testimonials: testimonialsData }, null, 2)}
-        </pre>
-      ) : (
-        <div className="space-y-4">
+      <div className="space-y-4">
           {activeTab === 'hero' && (
             <div className="space-y-4">
               <div className="bg-white border border-[#eae6dd] rounded-xl p-4 space-y-4 shadow-sm">
@@ -452,16 +446,7 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
             </div>
           )}
 
-          <div className="pt-4 border-t border-[#eae6dd] flex justify-center">
-            <button
-              onClick={() => setShowJson(!showJson)}
-              className="text-[10px] text-neutral-400 hover:text-[#a67e2a] transition-colors"
-            >
-              Mode Developer (JSON)
-            </button>
-          </div>
         </div>
-      )}
 
       {showAddStatModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">

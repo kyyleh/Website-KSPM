@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save, Plus, Trash2, Loader2, Code, Eye, ChevronDown, ChevronUp } from 'lucide-react';
+import { Save, Plus, Trash2, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { getContent, saveContent } from '../lib/adminApi';
 import { kegiatanCarouselConfig, type KegiatanCarouselConfig, type SlideKegiatan } from '../../../config';
 import { ImageUploader } from '../components/ImageUploader';
@@ -10,7 +10,6 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
   const [data, setData] = useState<KegiatanCarouselConfig>({ ...kegiatanCarouselConfig });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [showJson, setShowJson] = useState(false);
   const [showAddSlideModal, setShowAddSlideModal] = useState(false);
   const [newSlide, setNewSlide] = useState<SlideKegiatan>({ title: '', description: '' });
   const [expandedSlide, setExpandedSlide] = useState<number | null>(0);
@@ -126,10 +125,6 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
           <p className="text-xs text-neutral-500 mt-0.5">Kelola slide kegiatan carousel</p>
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <button onClick={() => setShowJson(!showJson)} className="flex-1 sm:flex-none flex justify-center items-center gap-1.5 px-3 py-1.5 text-xs bg-white border border-[#d2cbbe] rounded-lg hover:bg-[#faf9f5] transition-colors text-[#1c1515] font-semibold">
-            {showJson ? <Eye size={14} /> : <Code size={14} />}
-            {showJson ? 'Form' : 'JSON'}
-          </button>
           <button onClick={handleSave} disabled={saving} className="flex-1 sm:flex-none flex justify-center items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-[#dcae44] to-[#b88c2b] text-white font-bold text-xs rounded-lg hover:brightness-105 transition-all disabled:opacity-60 shadow-[0_2px_8px_rgba(195,147,49,0.1)]">
             {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
             Simpan
@@ -137,12 +132,7 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
         </div>
       </div>
 
-      {showJson ? (
-        <pre className="bg-[#faf9f5] border border-[#eae6dd] rounded-xl p-3 text-xs text-[#1c1515] overflow-auto max-h-[500px]">
-          {JSON.stringify(data, null, 2)}
-        </pre>
-      ) : (
-        <div className="space-y-3.5">
+      <div className="space-y-3.5">
           {/* Section meta */}
           <div className="bg-white border border-[#eae6dd] rounded-xl p-4 space-y-3 shadow-sm">
             <h3 className="font-script text-[10px] text-[#a67e2a] font-bold tracking-[0.12em]">Header Halaman</h3>
@@ -232,7 +222,6 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
             </div>
           </div>
         </div>
-      )}
       {showAddSlideModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="w-full max-w-md bg-white border border-[#eae6dd] rounded-xl p-4 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">

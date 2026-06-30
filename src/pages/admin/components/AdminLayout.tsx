@@ -204,10 +204,7 @@ export function AdminLayout({
               {sidebarGroups.flatMap((g) => g.items).find((i) => i.id === activeSection)?.label || 'Dashboard'}
             </h2>
           </div>
-
-          <div className="flex items-center gap-2 text-xs text-neutral-500">
-            <span className="hidden sm:inline">KSPM Content Manager</span>
-          </div>
+          {/* Removed KSPM Content Manager text */}
         </header>
 
         {/* Content area */}

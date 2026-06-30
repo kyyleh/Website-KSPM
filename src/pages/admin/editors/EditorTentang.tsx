@@ -136,7 +136,6 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [showJson, setShowJson] = useState(false);
   const [showAddTimelineModal, setShowAddTimelineModal] = useState(false);
   const [newTimeline, setNewTimeline] = useState({ year: '', event: '' });
   const [showAddEditMemberModal, setShowAddEditMemberModal] = useState(false);
@@ -364,12 +363,7 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
         </div>
       </div>
 
-      {showJson ? (
-        <pre className="bg-[#faf9f5] border border-[#eae6dd] rounded-xl p-3 text-xs text-[#1c1515] overflow-auto max-h-[500px]">
-          {JSON.stringify(data, null, 2)}
-        </pre>
-      ) : (
-        <div className="space-y-3.5">
+      <div className="space-y-3.5">
           {/* General / Sejarah Info */}
           <div className="bg-white border border-[#eae6dd] rounded-xl px-4 py-1.5 shadow-sm">
             <SectionHeader title="Informasi Umum & Header" sectionKey="general" />
@@ -570,16 +564,7 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
             )}
           </div>
 
-          <div className="pt-4 border-t border-[#eae6dd] flex justify-center">
-            <button
-              onClick={() => setShowJson(!showJson)}
-              className="text-[10px] text-neutral-400 hover:text-[#a67e2a] transition-colors"
-            >
-              Mode Developer (JSON)
-            </button>
-          </div>
         </div>
-      )}
       {showAddTimelineModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="w-full max-w-md bg-white border border-[#eae6dd] rounded-xl p-4 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
