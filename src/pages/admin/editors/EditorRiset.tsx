@@ -115,7 +115,7 @@ export function EditorRiset({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
   };
 
   return (
-    <div className="max-w-4xl space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="w-full space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#eae6dd] pb-4">
         <div>
