@@ -129,6 +129,18 @@
     text-transform: uppercase;
     letter-spacing: 0.12em;
   }
+
+  /* Admin theme typography override to improve form label and heading readability */
+  .admin-theme-main .font-script {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    letter-spacing: 0.04em !important;
+  }
+  
+  .admin-theme-main label.font-script {
+    font-size: 11px !important;
+    color: #4a4545 !important;
+    font-weight: 600 !important;
+  }
 }
 
 @layer components {

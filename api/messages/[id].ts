@@ -5,7 +5,7 @@ import type { ResultSetHeader } from 'mysql2/promise';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return;
-  setCors(res);
+  setCors(req, res);
 
   // Require authentication for all operations
   const auth = requireAuth(req, res);

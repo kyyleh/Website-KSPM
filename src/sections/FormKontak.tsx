@@ -88,53 +88,16 @@ export function FormKontak({ data }: { data?: typeof contactFormConfig }) {
     setIsSubmitting(true);
 
     try {
-      // First try to submit to Strapi backend
-      try {
-        await submitContactForm({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: `Tanggal: ${formData.visitDate || 'Tidak ada'}, Kategori: ${formData.visitors}. Pesan: ${formData.message}`,
-          category: 'contact',
-        });
-        setStatus('success');
-        setFormData({ name: '', email: '', phone: '', visitDate: '', visitors: 'Mahasiswa UIKA', message: '' });
-        setErrors({});
-        setIsSubmitting(false);
-        setTimeout(() => setStatus('idle'), 5000);
-        return;
-      } catch (err) {
-        console.warn("Strapi submission failed, falling back to Web3Forms:", err);
-      }
-
-      // Fallback to Web3Forms API
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          access_key: "7f955c73-43be-4994-bad1-8e3afcf9f610",
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          visitDate: formData.visitDate || 'Tidak ada',
-          visitors: formData.visitors,
-          message: formData.message,
-          subject: `Pesan Kemitraan/Kolaborasi KSPM - ${formData.name}`,
-          from_name: "KSPM FEB UIKA Bogor"
-        })
+      await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: `Tanggal: ${formData.visitDate || 'Tidak ada'}, Kategori: ${formData.visitors}. Pesan: ${formData.message}`,
+        category: 'contact',
       });
-
-      const result = await response.json();
-      if (result.success) {
-        setStatus('success');
-        setFormData({ name: '', email: '', phone: '', visitDate: '', visitors: 'Mahasiswa UIKA', message: '' });
-        setErrors({});
-      } else {
-        setStatus('error');
-      }
+      setStatus('success');
+      setFormData({ name: '', email: '', phone: '', visitDate: '', visitors: 'Mahasiswa UIKA', message: '' });
+      setErrors({});
     } catch (error) {
       console.error("Form submission error:", error);
       setStatus('error');

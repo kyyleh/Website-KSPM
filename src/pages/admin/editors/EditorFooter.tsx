@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getContent, saveContent } from '../lib/adminApi';
 import { footerConfig } from '../../../config';
 import { Save, Plus, Trash2, Loader2 } from 'lucide-react';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 
 export function EditorFooter({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
@@ -9,6 +10,19 @@ export function EditorFooter({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
   const [saving, setSaving] = useState(false);
   const [showAddSocialModal, setShowAddSocialModal] = useState(false);
   const [newSocial, setNewSocial] = useState({ icon: 'Instagram', label: '', href: '' });
+
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
 
   useEffect(() => {
     (async () => {
@@ -65,11 +79,15 @@ export function EditorFooter({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
   };
 
   const removeSocialLink = (index: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus tautan sosial ini?")) {
-      return;
-    }
-    setIsDirty?.(true);
-    setData({ ...data, socialLinks: data.socialLinks.filter((_: any, i: number) => i !== index) });
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Tautan Sosial',
+      message: 'Apakah Anda yakin ingin menghapus tautan sosial ini?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        setData({ ...data, socialLinks: data.socialLinks.filter((_: any, i: number) => i !== index) });
+      }
+    });
   };
 
   return (
@@ -227,6 +245,14 @@ export function EditorFooter({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
           </div>
         </div>
       )}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="danger"
+      />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Save, Plus, Trash2, Loader2, Code, Eye, ChevronDown, ChevronUp } from '
 import { getContent, saveContent } from '../lib/adminApi';
 import { kegiatanCarouselConfig, type KegiatanCarouselConfig, type SlideKegiatan } from '../../../config';
 import { ImageUploader } from '../components/ImageUploader';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 
 export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
@@ -13,6 +14,19 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
   const [showAddSlideModal, setShowAddSlideModal] = useState(false);
   const [newSlide, setNewSlide] = useState<SlideKegiatan>({ title: '', description: '' });
   const [expandedSlide, setExpandedSlide] = useState<number | null>(0);
+
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
 
   useEffect(() => {
     (async () => {
@@ -31,6 +45,10 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
         toast.error('Gagal memuat data Kegiatan dari server.');
         setData(kegiatanCarouselConfig);
       } finally {
+        setData(prev => ({
+          ...prev,
+          slides: prev.slides || []
+        }));
         setLoading(false);
       }
     })();
@@ -68,12 +86,16 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
   };
 
   const removeSlide = (index: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus slide kegiatan ini?")) {
-      return;
-    }
-    setIsDirty?.(true);
-    setData((prev) => ({ ...prev, slides: prev.slides.filter((_, i) => i !== index) }));
-    setExpandedSlide(null);
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Slide Kegiatan',
+      message: 'Apakah Anda yakin ingin menghapus slide kegiatan ini?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        setData((prev) => ({ ...prev, slides: prev.slides.filter((_, i) => i !== index) }));
+        setExpandedSlide(null);
+      }
+    });
   };
 
   const moveSlide = (index: number, direction: 'up' | 'down') => {
@@ -259,6 +281,15 @@ export function EditorKegiatan({ setIsDirty }: { setIsDirty?: (dirty: boolean) =
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="danger"
+      />
     </div>
   );
 }

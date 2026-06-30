@@ -5,10 +5,20 @@ import type { ResultSetHeader } from 'mysql2/promise';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return;
-  setCors(res);
+  setCors(req, res);
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const expectedToken = process.env.ADMIN_SETUP_TOKEN || 'setup-token-required-in-env';
+  const reqToken = req.query.token;
+
+  if (!reqToken || reqToken !== expectedToken) {
+    return res.status(403).json({
+      success: false,
+      error: 'Forbidden. Setup token is required and must match ADMIN_SETUP_TOKEN.',
+    });
   }
 
   try {

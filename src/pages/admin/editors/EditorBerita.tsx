@@ -3,6 +3,7 @@ import { getContent, saveContent } from '../lib/adminApi';
 import { newsConfig } from '../../../config';
 import { Save, Plus, Trash2, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { ImageUploader } from '../components/ImageUploader';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 
 export function EditorBerita({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
@@ -11,6 +12,19 @@ export function EditorBerita({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
   const [showAddArticleModal, setShowAddArticleModal] = useState(false);
   const [newArticle, setNewArticle] = useState({ title: '', category: 'Market Analysis', excerpt: '', date: '', image: '', url: '' });
   const [expandedArticle, setExpandedArticle] = useState<number | null>(0);
+
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
 
   useEffect(() => {
     (async () => {
@@ -67,12 +81,16 @@ export function EditorBerita({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
   };
 
   const removeArticle = (index: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus artikel ini?")) {
-      return;
-    }
-    setIsDirty?.(true);
-    setData({ ...data, articles: data.articles.filter((_: any, i: number) => i !== index) });
-    setExpandedArticle(null);
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Artikel',
+      message: 'Apakah Anda yakin ingin menghapus artikel berita ini?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        setData({ ...data, articles: data.articles.filter((_: any, i: number) => i !== index) });
+        setExpandedArticle(null);
+      }
+    });
   };
 
   return (
@@ -308,6 +326,15 @@ export function EditorBerita({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="danger"
+      />
     </div>
   );
 }

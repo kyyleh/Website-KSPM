@@ -3,12 +3,26 @@ import { getContent, saveContent } from '../lib/adminApi';
 import { galleryConfig, type GalleryItem } from '../../../config';
 import { Save, Plus, Trash2, Loader2, Image as ImageIcon } from 'lucide-react';
 import { ImageUploader } from '../components/ImageUploader';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 
 export function EditorGaleri({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
   const [items, setItems] = useState<GalleryItem[] | null>(null);
   const [saving, setSaving] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
   const [newItem, setNewItem] = useState({
     title: '',
     description: '',
@@ -82,11 +96,15 @@ export function EditorGaleri({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
 
   const removeItem = (index: number) => {
     if (!items) return;
-    if (!window.confirm('Apakah Anda yakin ingin menghapus foto ini dari galeri?')) {
-      return;
-    }
-    setIsDirty?.(true);
-    setItems(items.filter((_, i) => i !== index));
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Foto Galeri',
+      message: 'Apakah Anda yakin ingin menghapus foto ini dari galeri?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        setItems(items.filter((_, i) => i !== index));
+      }
+    });
   };
 
   if (!items) {
@@ -284,6 +302,14 @@ export function EditorGaleri({ setIsDirty }: { setIsDirty?: (dirty: boolean) => 
           </div>
         </div>
       )}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="danger"
+      />
     </div>
   );
 }

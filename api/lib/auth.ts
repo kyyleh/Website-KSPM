@@ -10,10 +10,29 @@ export interface TokenPayload {
 }
 
 /**
- * Hash a password using SHA-256
+ * Hash a password using scrypt (Node's built-in secure KDF)
  */
 export function hashPassword(password: string): string {
-  return crypto.createHash('sha256').update(password).digest('hex');
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+  return `$scrypt$${salt}$${hash}`;
+}
+
+/**
+ * Verify a password against a hash (supports both scrypt and legacy SHA-256 fallback)
+ */
+export function verifyPassword(password: string, storedHash: string): boolean {
+  if (storedHash.startsWith('$scrypt$')) {
+    const parts = storedHash.split('$');
+    const salt = parts[2];
+    const hash = parts[3];
+    const calculatedHash = crypto.scryptSync(password, salt, 64).toString('hex');
+    return crypto.timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(calculatedHash, 'hex'));
+  }
+
+  // Legacy fallback: SHA-256
+  const legacyHash = crypto.createHash('sha256').update(password).digest('hex');
+  return legacyHash === storedHash;
 }
 
 /**
@@ -116,17 +135,21 @@ export function requireAuth(
 /**
  * Set CORS headers on the response
  */
-export function setCors(res: VercelResponse): void {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+export function setCors(req: VercelRequest, res: VercelResponse): void {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cookie');
 }
 
 /**
  * Handle OPTIONS preflight and return true if handled
  */
 export function handlePreflight(req: VercelRequest, res: VercelResponse): boolean {
-  setCors(res);
+  setCors(req, res);
   if (req.method === 'OPTIONS') {
     res.status(204).end();
     return true;

@@ -46,18 +46,38 @@ interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
-const sidebarItems: SidebarItem[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-  { id: 'hero', label: 'Beranda (Hero)', icon: <Home size={20} /> },
-  { id: 'about', label: 'Tentang Kami', icon: <Users size={20} /> },
-  { id: 'events', label: 'Kegiatan', icon: <Calendar size={20} /> },
-  { id: 'research', label: 'Riset', icon: <FlaskConical size={20} /> },
-  { id: 'news', label: 'Berita', icon: <Newspaper size={20} /> },
-  { id: 'achievements', label: 'Pencapaian', icon: <Award size={20} /> },
-  { id: 'gallery', label: 'Galeri Foto', icon: <Camera size={20} /> },
-  { id: 'messages', label: 'Pesan Masuk', icon: <Mail size={20} /> },
-  { id: 'contact', label: 'Kontak', icon: <Phone size={20} /> },
-  { id: 'footer', label: 'Footer', icon: <PanelBottom size={20} /> },
+interface SidebarGroup {
+  title: string;
+  items: SidebarItem[];
+}
+
+const sidebarGroups: SidebarGroup[] = [
+  {
+    title: 'Utama',
+    items: [
+      { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
+      { id: 'messages', label: 'Pesan Masuk', icon: <Mail size={18} /> },
+    ],
+  },
+  {
+    title: 'Konten Halaman',
+    items: [
+      { id: 'hero', label: 'Beranda (Hero)', icon: <Home size={18} /> },
+      { id: 'about', label: 'Tentang Kami', icon: <Users size={18} /> },
+      { id: 'events', label: 'Kegiatan', icon: <Calendar size={18} /> },
+      { id: 'research', label: 'Riset', icon: <FlaskConical size={18} /> },
+      { id: 'news', label: 'Berita', icon: <Newspaper size={18} /> },
+      { id: 'achievements', label: 'Pencapaian', icon: <Award size={18} /> },
+      { id: 'gallery', label: 'Galeri Foto', icon: <Camera size={18} /> },
+    ],
+  },
+  {
+    title: 'Pengaturan Global',
+    items: [
+      { id: 'contact', label: 'Kontak', icon: <Phone size={18} /> },
+      { id: 'footer', label: 'Footer', icon: <PanelBottom size={18} /> },
+    ],
+  },
 ];
 
 export function AdminLayout({
@@ -105,38 +125,47 @@ export function AdminLayout({
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-5 px-3 space-y-1.5 custom-scrollbar bg-white">
-          {sidebarItems.map((item) => {
-            const isActive = activeSection === item.id;
-            const badge = item.id === 'messages' ? unreadCount : 0;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  onSectionChange(item.id);
-                  setSidebarOpen(false);
-                }}
-                className={`
-                  w-full flex items-center gap-3 px-4 py-3 lg:px-3 lg:py-2.5 rounded-xl text-[14px] lg:text-[13px] font-medium transition-all duration-300 group border
-                  ${isActive
-                    ? 'bg-[#c9922a]/10 text-[#c9922a] border-[#c9922a]/20 shadow-[0_2px_8px_rgba(201,146,42,0.08)]'
-                    : 'text-[#4a4545] hover:text-[#c9922a] hover:bg-[#faf9f5] border-transparent'
-                  }
-                `}
-              >
-                <span className={isActive ? 'text-[#c9922a]' : 'text-[#7a7575] group-hover:text-[#c9922a] transition-colors'}>
-                  {item.icon}
-                </span>
-                <span className="flex-1 text-left">{item.label}</span>
-                {badge > 0 && (
-                  <span className="px-2 py-0.5 text-[10px] font-bold bg-red-500 text-white rounded-full">
-                    {badge}
-                  </span>
-                )}
-                {isActive && <ChevronRight size={14} className="text-[#c9922a]/50" />}
-              </button>
-            );
-          })}
+        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-4 custom-scrollbar bg-white">
+          {sidebarGroups.map((group) => (
+            <div key={group.title} className="space-y-1">
+              <h3 className="px-3 text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-1.5 font-sans">
+                {group.title}
+              </h3>
+              <div className="space-y-1">
+                {group.items.map((item) => {
+                  const isActive = activeSection === item.id;
+                  const badge = item.id === 'messages' ? unreadCount : 0;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        onSectionChange(item.id);
+                        setSidebarOpen(false);
+                      }}
+                      className={`
+                        w-full flex items-center gap-3 px-4 py-2.5 lg:px-3 lg:py-2 rounded-xl text-[14px] lg:text-[13px] font-medium transition-all duration-300 group border
+                        ${isActive
+                          ? 'bg-[#966917]/10 text-[#966917] border-[#966917]/20 shadow-[0_2px_8px_rgba(150,105,23,0.08)]'
+                          : 'text-[#4a4545] hover:text-[#966917] hover:bg-[#faf9f5] border-transparent'
+                        }
+                      `}
+                    >
+                      <span className={isActive ? 'text-[#966917]' : 'text-[#7a7575] group-hover:text-[#966917] transition-colors'}>
+                        {item.icon}
+                      </span>
+                      <span className="flex-1 text-left">{item.label}</span>
+                      {badge > 0 && (
+                        <span className="px-2 py-0.5 text-[10px] font-bold bg-red-500 text-white rounded-full">
+                          {badge}
+                        </span>
+                      )}
+                      {isActive && <ChevronRight size={14} className="text-[#966917]/50" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         {/* User + Logout */}
@@ -172,9 +201,10 @@ export function AdminLayout({
           </button>
           <div className="flex-1">
             <h2 className="text-sm font-semibold capitalize text-[#1c1515]">
-              {sidebarItems.find((i) => i.id === activeSection)?.label || 'Dashboard'}
+              {sidebarGroups.flatMap((g) => g.items).find((i) => i.id === activeSection)?.label || 'Dashboard'}
             </h2>
           </div>
+
           <div className="flex items-center gap-2 text-xs text-neutral-500">
             <span className="hidden sm:inline">KSPM Content Manager</span>
           </div>

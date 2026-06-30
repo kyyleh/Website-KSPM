@@ -12,7 +12,7 @@ interface ContentRow extends RowDataPacket {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return;
-  setCors(res);
+  setCors(req, res);
 
   const { section } = req.query;
   const sectionKey = Array.isArray(section) ? section[0] : section;

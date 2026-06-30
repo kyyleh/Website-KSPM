@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query } from '../lib/db.js';
-import { hashPassword, createToken, handlePreflight, setCors } from '../lib/auth.js';
+import { verifyPassword, createToken, handlePreflight, setCors } from '../lib/auth.js';
 import type { RowDataPacket } from 'mysql2/promise';
 
 interface AdminRow extends RowDataPacket {
@@ -12,7 +12,7 @@ interface AdminRow extends RowDataPacket {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return;
-  setCors(res);
+  setCors(req, res);
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -24,33 +24,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!email || !password) {
       return res.status(400).json({ error: 'User ID dan password harus diisi.' });
-    }
-
-    // Hardcoded credentials check
-    if (email === 'KSPM' && password === 'UIKA') {
-      const token = createToken({ id: 998, email: 'KSPM' });
-      res.setHeader(
-        'Set-Cookie',
-        `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict`
-      );
-      return res.status(200).json({
-        success: true,
-        token,
-        admin: { id: 998, email: 'KSPM', name: 'Admin KSPM' },
-      });
-    }
-
-    if (email === 'Admin' && password === 'Asep') {
-      const token = createToken({ id: 999, email: 'Admin' });
-      res.setHeader(
-        'Set-Cookie',
-        `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict`
-      );
-      return res.status(200).json({
-        success: true,
-        token,
-        admin: { id: 999, email: 'Admin', name: 'Admin Asep' },
-      });
     }
 
     // Look up admin by email (User ID)
@@ -65,9 +38,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const admin = rows[0];
 
-    // Verify password
-    const hashedInput = hashPassword(password);
-    if (hashedInput !== admin.password) {
+    // Verify password (supports both secure scrypt and legacy SHA-256 fallback)
+    if (!verifyPassword(password, admin.password)) {
       return res.status(401).json({ error: 'User ID atau password tidak valid.' });
     }
 
@@ -75,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const token = createToken({ id: admin.id, email: admin.email });
     res.setHeader(
       'Set-Cookie',
-      `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict`
+      `kspm_admin_token=${token}; Path=/; HttpOnly; SameSite=Strict; Secure`
     );
 
     return res.status(200).json({

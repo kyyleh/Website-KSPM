@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getContent, saveContent } from '../lib/adminApi';
 import { achievementsConfig } from '../../../config';
 import { Save, Loader2, Plus, Trash2, ArrowUp, ArrowDown, ChevronDown, ChevronUp } from 'lucide-react';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 
 export function EditorPencapaian({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
@@ -10,6 +11,19 @@ export function EditorPencapaian({ setIsDirty }: { setIsDirty?: (dirty: boolean)
   const [showAddModal, setShowAddModal] = useState(false);
   const [newItem, setNewItem] = useState({ value: '', label: '', description: '', icon: 'Users' });
   const [expandedItem, setExpandedItem] = useState<number | null>(0);
+
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
 
   useEffect(() => {
     (async () => {
@@ -72,12 +86,16 @@ export function EditorPencapaian({ setIsDirty }: { setIsDirty?: (dirty: boolean)
   };
 
   const removeItem = (index: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus pencapaian ini?")) {
-      return;
-    }
-    setIsDirty?.(true);
-    setData({ ...data, items: data.items.filter((_: any, i: number) => i !== index) });
-    setExpandedItem(null);
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Pencapaian',
+      message: 'Apakah Anda yakin ingin menghapus pencapaian ini?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        setData({ ...data, items: data.items.filter((_: any, i: number) => i !== index) });
+        setExpandedItem(null);
+      }
+    });
   };
 
   const moveItem = (index: number, direction: 'up' | 'down') => {
@@ -307,6 +325,14 @@ export function EditorPencapaian({ setIsDirty }: { setIsDirty?: (dirty: boolean)
           </div>
         </div>
       )}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="danger"
+      />
     </div>
   );
 }

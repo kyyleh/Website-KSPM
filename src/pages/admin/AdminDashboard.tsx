@@ -12,6 +12,7 @@ import { EditorKontak } from './editors/EditorKontak';
 import { EditorPencapaian } from './editors/EditorPencapaian';
 import { verifyToken, logout, getMessages } from './lib/adminApi';
 import { LayoutDashboard, MessageSquare, AlertCircle } from 'lucide-react';
+import { ConfirmModal } from './components/ConfirmModal';
 
 type AdminSection =
   | 'dashboard'
@@ -32,6 +33,19 @@ export function AdminDashboard() {
   const [stats, setStats] = useState({ totalMessages: 0, unreadMessages: 0 });
   const [loading, setLoading] = useState(true);
   const [isDirty, setIsDirty] = useState(false);
+
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
 
   useEffect(() => {
     (async () => {
@@ -57,9 +71,17 @@ export function AdminDashboard() {
 
   const handleLogout = () => {
     if (isDirty) {
-      if (!window.confirm("Anda memiliki perubahan yang belum disimpan. Yakin ingin keluar (logout)?")) {
-        return;
-      }
+      setConfirmModal({
+        isOpen: true,
+        title: 'Keluar (Logout)',
+        message: 'Anda memiliki perubahan yang belum disimpan. Yakin ingin keluar (logout)?',
+        onConfirm: () => {
+          logout();
+          window.location.hash = '';
+          window.location.reload();
+        }
+      });
+      return;
     }
     logout();
     window.location.hash = '';
@@ -68,9 +90,16 @@ export function AdminDashboard() {
 
   const handleSectionChange = (newSection: AdminSection) => {
     if (isDirty) {
-      if (!window.confirm("Anda memiliki perubahan yang belum disimpan. Yakin ingin pindah halaman?")) {
-        return;
-      }
+      setConfirmModal({
+        isOpen: true,
+        title: 'Pindah Halaman',
+        message: 'Anda memiliki perubahan yang belum disimpan. Yakin ingin pindah halaman?',
+        onConfirm: () => {
+          setIsDirty(false);
+          setSection(newSection);
+        }
+      });
+      return;
     }
     setIsDirty(false);
     setSection(newSection);
@@ -167,14 +196,25 @@ export function AdminDashboard() {
   }
 
   return (
-    <AdminLayout
-      activeSection={section}
-      onSectionChange={(s) => handleSectionChange(s as AdminSection)}
-      adminName={adminName}
-      onLogout={handleLogout}
-      unreadCount={stats.unreadMessages}
-    >
-      {renderEditor()}
-    </AdminLayout>
+    <>
+      <AdminLayout
+        activeSection={section}
+        onSectionChange={(s) => handleSectionChange(s as AdminSection)}
+        adminName={adminName}
+        onLogout={handleLogout}
+        unreadCount={stats.unreadMessages}
+      >
+        {renderEditor()}
+      </AdminLayout>
+
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="warning"
+      />
+    </>
   );
 }

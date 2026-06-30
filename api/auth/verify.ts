@@ -3,7 +3,7 @@ import { getAuthFromRequest, handlePreflight, setCors } from '../lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return;
-  setCors(res);
+  setCors(req, res);
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });

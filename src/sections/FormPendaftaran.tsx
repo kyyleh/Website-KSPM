@@ -97,50 +97,14 @@ export function FormPendaftaran({ onNavigate }: { onNavigate?: (href: string) =>
     setStatus('submitting');
     
     try {
-      // First try to submit to Strapi backend
-      try {
-        await submitContactForm({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: `[Pendaftaran Anggota Baru]\nNIM: ${formData.nim}\nFakultas: ${formData.faculty}\nProdi/Jurusan: ${formData.major}\nSemester: ${formData.semester}\nAlasan Bergabung: ${formData.reason}\nKeahlian/Minat: ${formData.skills}`,
-          category: 'registration',
-        });
-        setStatus('success');
-        return;
-      } catch (err) {
-        console.warn("Strapi/Backend submission failed, falling back to Web3Forms:", err);
-      }
-
-      // Fallback to Web3Forms
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          access_key: "7f955c73-43be-4994-bad1-8e3afcf9f610",
-          name: formData.name,
-          nim: formData.nim,
-          faculty: formData.faculty,
-          major: formData.major,
-          semester: formData.semester,
-          phone: formData.phone,
-          email: formData.email,
-          reason: formData.reason,
-          skills: formData.skills,
-          subject: `Pendaftaran Anggota Baru KSPM - ${formData.name}`,
-          from_name: "KSPM FEB UIKA Bogor"
-        })
+      await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: `[Pendaftaran Anggota Baru]\nNIM: ${formData.nim}\nFakultas: ${formData.faculty}\nProdi/Jurusan: ${formData.major}\nSemester: ${formData.semester}\nAlasan Bergabung: ${formData.reason}\nKeahlian/Minat: ${formData.skills}`,
+        category: 'registration',
       });
-
-      const result = await response.json();
-      if (result.success) {
-        setStatus('success');
-      } else {
-        setStatus('error');
-      }
+      setStatus('success');
     } catch (error) {
       console.error("Registration submission error:", error);
       setStatus('error');

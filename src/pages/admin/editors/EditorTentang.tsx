@@ -4,6 +4,7 @@ import { getContent, saveContent } from '../lib/adminApi';
 import { sejarahConfig, organizationConfig } from '../../../config';
 import { getMediaUrl } from '../../../lib/strapi';
 import { ImageUploader } from '../components/ImageUploader';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 
 interface OrgMember {
@@ -154,6 +155,19 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
     organization: false,
   });
 
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
+
   useEffect(() => {
     (async () => {
       try {
@@ -276,10 +290,16 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
   };
 
   const handleDeleteMember = (index: number) => {
-    if (!confirm('Hapus pengurus ini?')) return;
-    setIsDirty?.(true);
-    const updatedStructure = (data.organization.structure as any).filter((_: any, i: number) => i !== index);
-    updateOrg('structure', updatedStructure);
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Pengurus',
+      message: 'Apakah Anda yakin ingin menghapus pengurus ini dari struktur organisasi?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        const updatedStructure = (data.organization.structure as any).filter((_: any, i: number) => i !== index);
+        updateOrg('structure', updatedStructure);
+      }
+    });
   };
 
   const handleMoveMember = (index: number, direction: 'up' | 'down') => {
@@ -675,6 +695,14 @@ export function EditorTentang({ setIsDirty }: { setIsDirty?: (dirty: boolean) =>
           </div>
         </div>
       )}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="danger"
+      />
     </div>
   );
 }

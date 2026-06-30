@@ -22,11 +22,19 @@ function getPool(): Pool {
   }
   return pool;
 }
+let mockQueryFn: ((sql: string, params?: unknown[]) => Promise<any>) | null = null;
+
+export function setMockQuery(fn: typeof mockQueryFn) {
+  mockQueryFn = fn;
+}
 
 export async function query<T extends RowDataPacket[] | ResultSetHeader | OkPacket>(
   sql: string,
   params?: unknown[],
 ): Promise<T> {
+  if (mockQueryFn) {
+    return mockQueryFn(sql, params) as Promise<T>;
+  }
   const db = getPool();
   const [rows] = await db.execute<T>(sql, params as any);
   return rows;

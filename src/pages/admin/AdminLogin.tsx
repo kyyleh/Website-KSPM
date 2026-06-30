@@ -75,7 +75,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
 
           {/* Error */}
           {error && (
-            <div className="mb-5 flex items-start gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+            <div role="alert" className="mb-5 flex items-start gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
               <AlertCircle size={18} className="text-red-600 shrink-0 mt-0.5" />
               <p className="text-sm text-red-600">{error}</p>
             </div>
@@ -115,6 +115,8 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
+                  title={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-[#a67e2a] transition-colors p-1"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}

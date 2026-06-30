@@ -3,6 +3,7 @@ import { Save, Plus, Trash2, Loader2, ExternalLink, ChevronDown, ChevronUp } fro
 import { getContent, saveContent } from '../lib/adminApi';
 import { heroConfig, newsConfig } from '../../../config';
 import { ImageUploader } from '../components/ImageUploader';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 
 export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
@@ -10,6 +11,19 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showJson, setShowJson] = useState(false);
+
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
 
   // States for Hero Section
   const [heroData, setHeroData] = useState<any>(null);
@@ -110,9 +124,15 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
   };
 
   const removeHeroStat = (index: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus statistik ini?")) return;
-    setIsDirty?.(true);
-    setHeroData({ ...heroData, stats: heroData.stats.filter((_: any, i: number) => i !== index) });
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Statistik',
+      message: 'Apakah Anda yakin ingin menghapus statistik ini dari beranda?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        setHeroData({ ...heroData, stats: heroData.stats.filter((_: any, i: number) => i !== index) });
+      }
+    });
   };
 
   const updateTestimonialField = (key: string, value: any) => {
@@ -143,13 +163,19 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
   };
 
   const removeTestimonial = (index: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus testimoni ini?")) return;
-    setIsDirty?.(true);
-    setTestimonialsData({
-      ...testimonialsData,
-      testimonials: testimonialsData.testimonials.filter((_: any, i: number) => i !== index),
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Testimoni',
+      message: 'Apakah Anda yakin ingin menghapus testimoni ini?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        setTestimonialsData({
+          ...testimonialsData,
+          testimonials: testimonialsData.testimonials.filter((_: any, i: number) => i !== index),
+        });
+        setExpandedTestimonial(null);
+      }
     });
-    setExpandedTestimonial(null);
   };
 
   return (
@@ -565,6 +591,15 @@ export function EditorHero({ setIsDirty }: { setIsDirty?: (dirty: boolean) => vo
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="danger"
+      />
     </div>
   );
 }

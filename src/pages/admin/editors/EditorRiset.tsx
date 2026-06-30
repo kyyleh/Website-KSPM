@@ -3,6 +3,7 @@ import { getContent, saveContent } from '../lib/adminApi';
 import { risetPublikasiConfig } from '../../../config';
 import { Save, Plus, Trash2, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { ImageUploader } from '../components/ImageUploader';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 
 export function EditorRiset({ setIsDirty }: { setIsDirty?: (dirty: boolean) => void }) {
@@ -13,6 +14,19 @@ export function EditorRiset({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
     name: '', image: '', description: ''
   });
   const [expandedProgram, setExpandedProgram] = useState<number | null>(0);
+
+  // Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
 
   useEffect(() => {
     (async () => {
@@ -88,12 +102,16 @@ export function EditorRiset({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
   };
 
   const removeProgram = (index: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus program riset ini?")) {
-      return;
-    }
-    setIsDirty?.(true);
-    setData({ ...data, programs: data.programs.filter((_: any, i: number) => i !== index) });
-    setExpandedProgram(null);
+    setConfirmModal({
+      isOpen: true,
+      title: 'Hapus Program Riset',
+      message: 'Apakah Anda yakin ingin menghapus program riset ini?',
+      onConfirm: () => {
+        setIsDirty?.(true);
+        setData({ ...data, programs: data.programs.filter((_: any, i: number) => i !== index) });
+        setExpandedProgram(null);
+      }
+    });
   };
 
   return (
@@ -267,6 +285,14 @@ export function EditorRiset({ setIsDirty }: { setIsDirty?: (dirty: boolean) => v
           </div>
         </div>
       )}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        variant="danger"
+      />
     </div>
   );
 }

@@ -16,7 +16,7 @@ interface MessageRow extends RowDataPacket {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return;
-  setCors(res);
+  setCors(req, res);
 
   try {
     // ----- POST: public (contact form submission) -----
@@ -41,14 +41,88 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(400).json({ error: 'Invalid email format.' });
       }
 
-      await query<ResultSetHeader>(
-        'INSERT INTO messages (name, email, phone, message, category) VALUES (?, ?, ?, ?, ?)',
-        [name, email, phone || null, message, category || 'contact'],
-      );
+      let dbSuccess = false;
+      let emailSuccess = false;
+      let dbError: any = null;
 
-      return res.status(201).json({
-        success: true,
-        message: 'Message submitted successfully.',
+      // 1. Try DB insert
+      try {
+        await query<ResultSetHeader>(
+          'INSERT INTO messages (name, email, phone, message, category) VALUES (?, ?, ?, ?, ?)',
+          [name, email, phone || null, message, category || 'contact'],
+        );
+        dbSuccess = true;
+      } catch (err) {
+        dbError = err;
+        console.error('Database message insertion failed:', err);
+      }
+
+      // 2. Try Web3Forms notification (or fallback)
+      const web3Key = process.env.WEB3FORMS_ACCESS_KEY;
+      if (web3Key) {
+        try {
+          const subject = category === 'registration'
+            ? `Pendaftaran Anggota Baru KSPM - ${name}`
+            : `Pesan Kemitraan/Kolaborasi KSPM - ${name}`;
+
+          const web3Body: Record<string, string> = {
+            access_key: web3Key,
+            name,
+            email,
+            phone: phone || 'Tidak ada',
+            message,
+            subject,
+            from_name: 'KSPM FEB UIKA Bogor',
+          };
+
+          const web3Res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify(web3Body),
+          });
+
+          if (web3Res.ok) {
+            const web3Result = await web3Res.json();
+            if (web3Result.success) {
+              emailSuccess = true;
+            } else {
+              console.warn('Web3Forms API returned failure:', web3Result);
+            }
+          } else {
+            console.warn('Web3Forms request failed with status:', web3Res.status);
+          }
+        } catch (emailErr) {
+          console.error('Web3Forms dispatch error:', emailErr);
+        }
+      } else {
+        console.warn('WEB3FORMS_ACCESS_KEY is not defined in environment variables.');
+      }
+
+      // 3. Determine response status
+      if (dbSuccess) {
+        return res.status(201).json({
+          success: true,
+          message: 'Message submitted successfully.',
+          email_notified: emailSuccess,
+        });
+      }
+
+      if (emailSuccess) {
+        return res.status(200).json({
+          success: true,
+          message: 'Message submitted successfully (via email fallback).',
+          db_error: dbError instanceof Error ? dbError.message : String(dbError),
+        });
+      }
+
+      // Both failed
+      return res.status(500).json({
+        success: false,
+        error: 'Failed to submit message to both database and email service.',
+        db_details: dbError instanceof Error ? dbError.message : String(dbError),
       });
     }
 
