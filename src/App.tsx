@@ -33,12 +33,25 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { isLoggedIn, verifyToken } from './pages/admin/lib/adminApi';
 import { Toaster } from 'sonner';
 
+const getPageStateFromPath = (path: string): 'home' | 'about' | 'events' | 'research' | 'register' | 'gallery' => {
+  if (path === '/tentang-kami') return 'about';
+  if (path === '/kegiatan') return 'events';
+  if (path === '/riset') return 'research';
+  if (path === '/galeri') return 'gallery';
+  if (path === '/pendaftaran') return 'register';
+  return 'home'; // default for '/' or '/beranda'
+};
+
 function App() {
 
-  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'events' | 'research' | 'register' | 'gallery'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'events' | 'research' | 'register' | 'gallery'>(() => {
+    return getPageStateFromPath(window.location.pathname);
+  });
 
   // Admin state
-  const [isAdminRoute, setIsAdminRoute] = useState(false);
+  const [isAdminRoute, setIsAdminRoute] = useState(() => {
+    return window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin');
+  });
   const [isAdminAuthed, setIsAdminAuthed] = useState(false);
   const [adminChecking, setAdminChecking] = useState(true);
 
@@ -60,11 +73,28 @@ function App() {
   const [galleryData, setGalleryData] = useState<any>(undefined);
   const [achievementsData, setAchievementsData] = useState<any>(undefined);
 
-  // Check if we're on the /admin route
+  // Routing effect
   useEffect(() => {
     const checkRoute = () => {
-      const isAdmin = window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin');
+      const path = window.location.pathname;
+      const isAdmin = path === '/admin' || path.startsWith('/admin');
       setIsAdminRoute(isAdmin);
+
+      if (!isAdmin) {
+        const page = getPageStateFromPath(path);
+        setCurrentPage(page);
+
+        // Handle scrolling to hash if present in URL
+        const hash = window.location.hash;
+        if (hash) {
+          setTimeout(() => {
+            const element = document.querySelector(hash);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 200);
+        }
+      }
     };
     checkRoute();
     window.addEventListener('popstate', checkRoute);
@@ -117,35 +147,47 @@ function App() {
       }
     };
 
+    let targetPage: 'home' | 'about' | 'events' | 'research' | 'register' | 'gallery' = 'home';
+    let targetPath = '/beranda';
+
     if (href === '#about' || href === '#philosophy' || href === '#history' || href === '#organization') {
-      setCurrentPage('about');
-      setTimeout(() => scrollToTarget(href), 100);
+      targetPage = 'about';
+      targetPath = '/tentang-kami';
     } else if (href === '#events') {
-      setCurrentPage('events');
-      setTimeout(() => scrollToTarget(href), 100);
+      targetPage = 'events';
+      targetPath = '/kegiatan';
     } else if (href === '#research') {
-      setCurrentPage('research');
-      setTimeout(() => scrollToTarget(href), 100);
+      targetPage = 'research';
+      targetPath = '/riset';
     } else if (href === '#gallery') {
-      setCurrentPage('gallery');
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+      targetPage = 'gallery';
+      targetPath = '/galeri';
     } else if (href === '#register') {
-      setCurrentPage('register');
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+      targetPage = 'register';
+      targetPath = '/pendaftaran';
     } else {
-      setCurrentPage('home');
-      setTimeout(() => {
-        if (href === '#hero' || href === '#') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          scrollToTarget(href);
-        }
-      }, 100);
+      targetPage = 'home';
+      targetPath = window.location.pathname === '/' ? '/' : '/beranda';
     }
+
+    // Update URL in address bar
+    const currentPath = window.location.pathname;
+    const currentHash = window.location.hash;
+    const targetWithHash = targetPath + (href.startsWith('#') && href !== '#hero' ? href : '');
+
+    if (currentPath !== targetPath || currentHash !== (href.startsWith('#') && href !== '#hero' ? href : '')) {
+      window.history.pushState(null, '', targetWithHash);
+    }
+
+    setCurrentPage(targetPage);
+
+    setTimeout(() => {
+      if (href === '#hero' || href === '#' || href === targetPath) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        scrollToTarget(href);
+      }
+    }, 100);
   }, []);
 
   // ── Admin Panel Rendering ──
